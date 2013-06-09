@@ -74,7 +74,31 @@ g.beginFill( 'white' );
 g.drawRect( 0, 0, thickness, height );
 
 STAGE.addChild( right );
+
+
+    // container
+
+var container = new createjs.Container();
+
+container.x = startingX;
+container.y = startingY;
+
+STAGE.addChild( container );
+
+
+    // object properties
+this.startingX = startingX;
+this.startingY = startingY;
+this.squaresWidth = squaresWidth;
+this.squaresHeight = squaresHeight;
+this.width = width;
+this.height = height;
+this.container = container;
 };
+
+
+
+
 
 
 window.Grid = Grid;

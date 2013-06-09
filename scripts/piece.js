@@ -4,36 +4,90 @@
 
 (function(window)
 {
-function Piece()
+function Piece( gridObject )
 {
     // this is set by the derived classes
-this.shape = null;
+this.shapes = null;
+this.gridObject = gridObject;
 }
 
 
 
 Piece.prototype.moveLeft = function()
 {
-this.shape.x -= Square.size;
+var shapes = this.shapes;
+var square;
+var i;
+
+    // check if not at the limit
+for (i = 0 ; i < shapes.length ; i++)
+    {
+    square = shapes[ i ];
+
+    if ( square.getX() <= 0 )
+        {
+        return;
+        }
+    }
+
+
+    // move 1 square to the left
+for (i = 0 ; i < shapes.length ; i++)
+    {
+    shapes[ i ].moveLeft();
+    }
 };
 
 
 
 Piece.prototype.moveRight = function()
 {
-this.shape.x += Square.size;
+var shapes = this.shapes;
+var square;
+var i;
+
+    // check if not at the limit
+for (i = 0 ; i < shapes.length ; i++)
+    {
+    square = shapes[ i ];
+
+        // its centered at top left
+    if ( square.getX() + Square.size >= this.gridObject.width )
+        {
+        return;
+        }
+    }
+
+
+    // move 1 square to the left
+for (i = 0 ; i < shapes.length ; i++)
+    {
+    shapes[ i ].moveRight();
+    }
 };
+
+
+Piece.prototype.moveBottom = function()
+{
+var shapes = this.shapes;
+
+for ( var i = 0 ; i < shapes.length ; i++ )
+    {
+    shapes[ i ].moveBottom();
+    }
+};
+
 
 
 Piece.prototype.rotateLeft = function()
 {
-this.shape.rotation += 90;
+    // in derived class
 };
 
 
 Piece.prototype.rotateRight = function()
 {
-this.shape.rotation -= 90;
+    // in derived class
 };
 
 

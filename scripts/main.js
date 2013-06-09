@@ -153,9 +153,9 @@ function startGame()
 var startingX = 50;
 var startingY = 50;
 
-new Grid( startingX, startingY, 20, 30 );
+var grid = new Grid( startingX, startingY, 20, 30 );
 
-var piece = new IPiece( startingX, startingY ); //HERE pass the grid element, to center the piece in the grid
+var piece = new IPiece( grid );
 
 ACTIVE_PIECE = piece;
 
@@ -206,11 +206,7 @@ if ( DELAY_COUNT >= DELAY )
     {
     DELAY_COUNT = 0;
 
-    for ( var i = 0 ; i < ALL_PIECES.length ; i++ )
-        {
-            // each piece falls its size each time
-        ALL_PIECES[ i ].shape.y += Square.size;
-        }
+    ACTIVE_PIECE.moveBottom();
     }
 
 STAGE.update();

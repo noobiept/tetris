@@ -20,6 +20,38 @@ this.shape = shape;
 }
 
 
+Square.prototype.getX = function()
+{
+return this.shape.x;
+};
+
+
+Square.prototype.getY = function()
+{
+return this.shape.y;
+};
+
+
+Square.prototype.moveLeft = function()
+{
+this.shape.x -= Square.size;
+};
+
+
+Square.prototype.moveRight = function()
+{
+this.shape.x += Square.size;
+};
+
+
+Square.prototype.moveBottom = function()
+{
+this.shape.y += Square.size;
+};
+
+
+
+
 Square.size = 10;
 
 window.Square = Square;
