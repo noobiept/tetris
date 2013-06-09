@@ -2,6 +2,9 @@
 {
 function IPiece( x, y )
 {
+    // inherit from Piece (base class)
+Piece.call( this );
+
 var container = new createjs.Container();
 
 container.x = x;
@@ -23,6 +26,9 @@ this.shape = container;
 
 STAGE.addChild( container );
 }
+
+    // inherit the member functions
+INHERIT_PROTOTYPE( IPiece, Piece );
 
 
 window.IPiece = IPiece;
