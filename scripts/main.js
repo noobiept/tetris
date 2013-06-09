@@ -8,9 +8,25 @@
     - game ends when a piece reaches the top
 
 
+    Movement:
+
+        = left arrow  : move left
+        - right arrow : move right
+        - down arrow  : soft drop
+        - space       : hard drop
+        - a           : rotate left
+        - d           : rotate right
+
+
+
     reference:
 
         - http://en.wikipedia.org/wiki/Tetris
+
+
+    to doo:
+
+        - have the active piece move only one step when key is pressed, but if key is being pressed after a certain time, then it moves faster (as I have now, the key being held)
  */
 
 
@@ -32,12 +48,9 @@ var ACTIVE_PIECE;
 // keys being pressed/held
 var KEYS_HELD = {
     leftArrow  : false,     // move left
-    rightArrow : false,     // move right
-    downArrow  : false,     // soft drop
-    space      : false,     // hard drop
-    a          : false,     // rotate left
-    d          : false      // rotate right
+    rightArrow : false      // move right
     };
+
 
 
 window.onload = function()
@@ -81,26 +94,6 @@ switch( event.keyCode )
 
         KEYS_HELD.rightArrow = true;
         return false;
-
-    case EVENT_KEY.downArrow:
-
-        KEYS_HELD.downArrow = true;
-        return false;
-
-    case EVENT_KEY.space:
-
-        KEYS_HELD.space = true;
-        return false;
-
-    case EVENT_KEY.a:
-
-        KEYS_HELD.a = true;
-        return false;
-
-    case EVENT_KEY.d:
-
-        KEYS_HELD.d = true;
-        return false;
     }
 
 return true;
@@ -129,22 +122,22 @@ switch( event.keyCode )
 
     case EVENT_KEY.downArrow:
 
-        KEYS_HELD.downArrow = false;
+        ACTIVE_PIECE.softDrop();
         return false;
 
     case EVENT_KEY.space:
 
-        KEYS_HELD.space = false;
+        ACTIVE_PIECE.hardDrop();
         return false;
 
     case EVENT_KEY.a:
 
-        KEYS_HELD.a = false;
+        ACTIVE_PIECE.rotateLeft();
         return false;
 
     case EVENT_KEY.d:
 
-        KEYS_HELD.d = false;
+        ACTIVE_PIECE.rotateRight();
         return false;
     }
 
@@ -157,7 +150,12 @@ return true;
 
 function startGame()
 {
-var piece = new IPiece( 100, 100 );
+var startingX = 50;
+var startingY = 50;
+
+new Grid( startingX, startingY, 20, 30 );
+
+var piece = new IPiece( startingX, startingY ); //HERE pass the grid element, to center the piece in the grid
 
 ACTIVE_PIECE = piece;
 
@@ -232,25 +230,5 @@ if ( KEYS_HELD.leftArrow )
 else if ( KEYS_HELD.rightArrow )
     {
     ACTIVE_PIECE.moveRight();
-    }
-
-else if ( KEYS_HELD.downArrow )
-    {
-
-    }
-
-else if ( KEYS_HELD.space )
-    {
-
-    }
-
-else if ( KEYS_HELD.a )
-    {
-
-    }
-
-else if ( KEYS_HELD.d )
-    {
-
     }
 }
