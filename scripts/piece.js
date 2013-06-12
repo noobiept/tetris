@@ -78,16 +78,63 @@ for ( var i = 0 ; i < shapes.length ; i++ )
 };
 
 
+var TEMP = 1;
 
 Piece.prototype.rotateLeft = function()
 {
-    // in derived class
-};
+TEMP *= -1;
 
+    // square3 is the center piece, so rotate the others around that
+var center = this.shapes[ 2 ];
+
+var others = [ this.shapes[ 0 ], this.shapes[ 1 ], this.shapes[ 3 ] ];
+
+    // relative to the center
+var relativeX;
+var relativeY;
+
+var shape;
+
+for (var i = 0 ; i < others.length ; i++)
+    {
+    shape = others[ i ];
+
+    relativeX = center.getX() - shape.getX();
+    relativeY = center.getY() - shape.getY();
+
+    shape.shape.x = relativeY * TEMP + center.getX();
+    shape.shape.y = relativeX * TEMP + center.getY();
+    }
+
+
+
+};
 
 Piece.prototype.rotateRight = function()
 {
-    // in derived class
+    // square3 is the center piece, so rotate the others around that
+var center = this.shapes[ 2 ];
+
+var others = [ this.shapes[ 0 ], this.shapes[ 1 ], this.shapes[ 3 ] ];
+
+    // relative to the center
+var relativeX;
+var relativeY;
+
+var shape;
+
+for (var i = 0 ; i < others.length ; i++)
+    {
+    shape = others[ i ];
+
+    relativeX = center.getX() - shape.getX();
+    relativeY = center.getY() - shape.getY();
+
+    shape.shape.x = (relativeY * TEMP + center.getX()) ;
+    shape.shape.y = (relativeX * TEMP + center.getY());
+    }
+
+TEMP *= -1;
 };
 
 

@@ -155,7 +155,9 @@ var startingY = 50;
 
 var grid = new Grid( startingX, startingY, 20, 30 );
 
-var piece = new IPiece( grid );
+//var piece = new IPiece( grid );
+//var piece = new SPiece( grid );
+var piece = new TPiece( grid );
 
 ACTIVE_PIECE = piece;
 
@@ -206,7 +208,7 @@ if ( DELAY_COUNT >= DELAY )
     {
     DELAY_COUNT = 0;
 
-    ACTIVE_PIECE.moveBottom();
+//    ACTIVE_PIECE.moveBottom();
     }
 
 STAGE.update();

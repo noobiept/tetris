@@ -1,25 +1,22 @@
 (function(window)
 {
-function IPiece( gridObject )
+function SPiece( gridObject )
 {
     // inherit from Piece (base class)
 Piece.call( this, gridObject );
 
 var container = gridObject.container;
 
-    // center the element
+    // center the element in the grid
 var centerX = parseInt( gridObject.squaresWidth / 2, 10 ) * Square.size;
 
-var color = 'red';
+var color = 'green';
 
-//var square3 = new Square( centerX, 0, color );
 var square3 = new Square( centerX, 0, 'blue' );
 
-
-var square2 = new Square( centerX - Square.size, 0, color );
-var square1 = new Square( centerX - 2 * Square.size, 0, color );
+var square2 = new Square( centerX, Square.size, color );
+var square1 = new Square( centerX - Square.size, Square.size, color );
 var square4 = new Square( centerX + Square.size, 0, color );
-
 
 this.shapes = [ square1, square2, square3, square4 ];
 this.gridObject = gridObject;
@@ -30,11 +27,11 @@ container.addChild( square3.shape );
 container.addChild( square4.shape );
 }
 
+
     // inherit the member functions
-INHERIT_PROTOTYPE( IPiece, Piece );
+INHERIT_PROTOTYPE( SPiece, Piece );
 
 
-
-window.IPiece = IPiece;
+window.SPiece = SPiece;
 
 }(window));
