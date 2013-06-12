@@ -2,29 +2,39 @@
 {
 function SPiece( gridObject )
 {
+    // relative to the center element (pivot)
+    // rotate right, go 0, 1, 2, 3, ...
+    // rotate left, go 0, 3, 2, 1, ...
+this.possible_rotations = [
+        [
+            { x: Square.size, y: 0 },   // position of the other squares, relative to the pivot square (add from that)
+            { x: 0, y: Square.size },
+            { x: -Square.size, y: Square.size }
+        ],
+        [
+            { x: -Square.size, y: -Square.size },
+            { x: -Square.size, y: 0 },
+            { x: 0, y: Square.size }
+        ],
+        [
+            { x: -Square.size, y: 0 },
+            { x: 0, y: -Square.size },
+            { x: Square.size, y: -Square.size }
+        ],
+        [
+            { x: 0, y: -Square.size },
+            { x: Square.size, y: 0 },
+            { x: Square.size, y: Square.size }
+        ]
+    ];
+
+    // the position in the array
+this.current_rotation = 0;
+
+this.color = 'green';
+
     // inherit from Piece (base class)
 Piece.call( this, gridObject );
-
-var container = gridObject.container;
-
-    // center the element in the grid
-var centerX = parseInt( gridObject.squaresWidth / 2, 10 ) * Square.size;
-
-var color = 'green';
-
-var square3 = new Square( centerX, 0, 'blue' );
-
-var square2 = new Square( centerX, Square.size, color );
-var square1 = new Square( centerX - Square.size, Square.size, color );
-var square4 = new Square( centerX + Square.size, 0, color );
-
-this.shapes = [ square1, square2, square3, square4 ];
-this.gridObject = gridObject;
-
-container.addChild( square1.shape );
-container.addChild( square2.shape );
-container.addChild( square3.shape );
-container.addChild( square4.shape );
 }
 
 

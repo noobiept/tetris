@@ -4,25 +4,65 @@
 
 (function(window)
 {
+/*
+    Derived classes need to implement:
+
+        this.color = 'a_color';
+        this.possible_rotations = [
+                [
+                    { x: ..., y: ... },
+                    { x: ..., y: ... },
+                    { x: ..., y: ... }
+                ],
+
+                (...)
+            ];
+
+        this.current_position = 0;
+ */
+
 function Piece( gridObject )
 {
-    // this is set by the derived classes
-this.shapes = null;
-this.gridObject = gridObject;
+var container = gridObject.container;
+
+    // center the element in the grid
+var centerX = parseInt( gridObject.squaresWidth / 2, 10 ) * Square.size;
+
+
+var color = this.color;
+
+var pivot = new Square( centerX, 0, 'blue' ); //HERE test only
+
+var square1 = new Square( centerX, 0, color );  // the positions will be updated later
+var square2 = new Square( centerX, 0, color );
+var square3 = new Square( centerX, 0, color );
+
+this.all_squares = [ square1, square2, square3, pivot ];
+this.pivot_square = pivot;
+this.other_squares = [ square1, square2, square3 ];
+this.grid_object = gridObject;
+
+    // this will position the squares in the right position
+this.rotate();
+
+container.addChild( square1.shape );
+container.addChild( square2.shape );
+container.addChild( square3.shape );
+container.addChild( pivot.shape );
 }
 
 
 
 Piece.prototype.moveLeft = function()
 {
-var shapes = this.shapes;
+var squares = this.all_squares;
 var square;
 var i;
 
     // check if not at the limit
-for (i = 0 ; i < shapes.length ; i++)
+for (i = 0 ; i < squares.length ; i++)
     {
-    square = shapes[ i ];
+    square = squares[ i ];
 
     if ( square.getX() <= 0 )
         {
@@ -32,9 +72,9 @@ for (i = 0 ; i < shapes.length ; i++)
 
 
     // move 1 square to the left
-for (i = 0 ; i < shapes.length ; i++)
+for (i = 0 ; i < squares.length ; i++)
     {
-    shapes[ i ].moveLeft();
+    squares[ i ].moveLeft();
     }
 };
 
@@ -42,17 +82,17 @@ for (i = 0 ; i < shapes.length ; i++)
 
 Piece.prototype.moveRight = function()
 {
-var shapes = this.shapes;
+var squares = this.all_squares;
 var square;
 var i;
 
     // check if not at the limit
-for (i = 0 ; i < shapes.length ; i++)
+for (i = 0 ; i < squares.length ; i++)
     {
-    square = shapes[ i ];
+    square = squares[ i ];
 
         // its centered at top left
-    if ( square.getX() + Square.size >= this.gridObject.width )
+    if ( square.getX() + Square.size >= this.grid_object.width )
         {
         return;
         }
@@ -60,81 +100,74 @@ for (i = 0 ; i < shapes.length ; i++)
 
 
     // move 1 square to the left
-for (i = 0 ; i < shapes.length ; i++)
+for (i = 0 ; i < squares.length ; i++)
     {
-    shapes[ i ].moveRight();
+    squares[ i ].moveRight();
     }
 };
 
 
 Piece.prototype.moveBottom = function()
 {
-var shapes = this.shapes;
+var squares = this.all_squares;
 
-for ( var i = 0 ; i < shapes.length ; i++ )
+for ( var i = 0 ; i < squares.length ; i++ )
     {
-    shapes[ i ].moveBottom();
+    squares[ i ].moveBottom();
     }
 };
 
 
-var TEMP = 1;
+
+Piece.prototype.rotate = function()
+{
+var rotation = this.possible_rotations[ this.current_rotation ];
+var square;
+var position;
+
+var center = this.pivot_square;
+
+var others = this.other_squares;
+
+var centerX = center.getX();
+var centerY = center.getY();
+
+for (var i = 0 ; i < others.length ; i++)
+    {
+    square = others[ i ];
+    position = rotation[ i ];
+
+    square.shape.x = centerX + position.x;
+    square.shape.y = centerY + position.y;
+    }
+};
+
+
 
 Piece.prototype.rotateLeft = function()
 {
-TEMP *= -1;
+this.current_rotation--;
 
-    // square3 is the center piece, so rotate the others around that
-var center = this.shapes[ 2 ];
-
-var others = [ this.shapes[ 0 ], this.shapes[ 1 ], this.shapes[ 3 ] ];
-
-    // relative to the center
-var relativeX;
-var relativeY;
-
-var shape;
-
-for (var i = 0 ; i < others.length ; i++)
+if ( this.current_rotation < 0 )
     {
-    shape = others[ i ];
-
-    relativeX = center.getX() - shape.getX();
-    relativeY = center.getY() - shape.getY();
-
-    shape.shape.x = relativeY * TEMP + center.getX();
-    shape.shape.y = relativeX * TEMP + center.getY();
+    this.current_rotation = 3;
     }
 
-
-
+this.rotate();
 };
+
+
 
 Piece.prototype.rotateRight = function()
 {
-    // square3 is the center piece, so rotate the others around that
-var center = this.shapes[ 2 ];
+this.current_rotation++;
 
-var others = [ this.shapes[ 0 ], this.shapes[ 1 ], this.shapes[ 3 ] ];
-
-    // relative to the center
-var relativeX;
-var relativeY;
-
-var shape;
-
-for (var i = 0 ; i < others.length ; i++)
+if ( this.current_rotation > 3 )
     {
-    shape = others[ i ];
-
-    relativeX = center.getX() - shape.getX();
-    relativeY = center.getY() - shape.getY();
-
-    shape.shape.x = (relativeY * TEMP + center.getX()) ;
-    shape.shape.y = (relativeX * TEMP + center.getY());
+    this.current_rotation = 0;
     }
 
-TEMP *= -1;
+this.rotate();
 };
 
 
