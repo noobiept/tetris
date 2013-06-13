@@ -124,15 +124,33 @@ Piece.prototype.rotate = function()
 var rotation = this.possible_rotations[ this.current_rotation ];
 var square;
 var position;
-
-var center = this.pivot_square;
+var i;
 
 var others = this.other_squares;
 
+var center = this.pivot_square;
 var centerX = center.getX();
 var centerY = center.getY();
 
-for (var i = 0 ; i < others.length ; i++)
+
+    // check if you can rotate (if its within the grid's limits)
+for (i = 0 ; i < others.length ; i++)
+    {
+    square = others[ i ];
+    position = rotation[ i ];
+
+    var nextX = centerX + position.x;
+    var nextY = centerY + position.y;
+
+
+    if ( !this.grid_object.isWithin( nextX, nextY ) )
+        {
+        return false;
+        }
+    }
+
+    // apply the rotation (change the squares position)
+for (i = 0 ; i < others.length ; i++)
     {
     square = others[ i ];
     position = rotation[ i ];
@@ -140,12 +158,17 @@ for (var i = 0 ; i < others.length ; i++)
     square.shape.x = centerX + position.x;
     square.shape.y = centerY + position.y;
     }
+
+
+return true;
 };
 
 
 
 Piece.prototype.rotateLeft = function()
 {
+var tempCurrentRotation = this.current_rotation;
+
 this.current_rotation--;
 
 if ( this.current_rotation < 0 )
@@ -153,13 +176,19 @@ if ( this.current_rotation < 0 )
     this.current_rotation = 3;
     }
 
-this.rotate();
+    // if rotating wasn't possible, we stay in the current rotation
+if ( !this.rotate() )
+    {
+    this.current_rotation = tempCurrentRotation;
+    }
 };
 
 
 
 Piece.prototype.rotateRight = function()
 {
+var tempCurrentRotation = this.current_rotation;
+
 this.current_rotation++;
 
 if ( this.current_rotation > 3 )
@@ -167,7 +196,11 @@ if ( this.current_rotation > 3 )
     this.current_rotation = 0;
     }
 
-this.rotate();
+    // if rotating wasn't possible, we stay in the current rotation
+if ( !this.rotate() )
+    {
+    this.current_rotation = tempCurrentRotation;
+    }
 };
 
 

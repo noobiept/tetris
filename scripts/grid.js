@@ -97,6 +97,27 @@ this.container = container;
 };
 
 
+/*
+    Check if a position of a square is within the grid (only checks the left/right grid limit)
+ */
+
+Grid.prototype.isWithin = function( x, y )
+{
+var leftLimit = this.startingX;
+var rightLimit = leftLimit + this.width;
+
+var globalPosition = this.container.localToGlobal( x, y );
+
+x = globalPosition.x;
+
+
+if ( x < leftLimit || x + Square.size > rightLimit )
+    {
+    return false;
+    }
+
+return true;
+};
 
 
 
