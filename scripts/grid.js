@@ -8,6 +8,8 @@
 function Grid( startingX, startingY, squaresWidth, squaresHeight )
 {
 this.draw( startingX, startingY, squaresWidth, squaresHeight );
+
+this.stack = new Stack();
 }
 
 
@@ -117,6 +119,43 @@ if ( x < leftLimit || x + Square.size > rightLimit )
     }
 
 return true;
+};
+
+
+Grid.prototype.hitBottom = function( x, y )
+{
+var globalPosition = this.container.localToGlobal( x, y );
+
+
+if ( globalPosition.y >= this.startingY + this.height )
+    {
+    return true;
+    }
+
+return false;
+};
+
+
+/*
+    Checks if a square x/y position collides with a stacked square on the grid
+ */
+
+Grid.prototype.collision = function( x, y )
+{
+var stackSquares = this.stack.all_squares;
+var square;
+
+for (var i = 0 ; i < stackSquares.length ; i++)
+    {
+    square = stackSquares[ i ];
+
+    if ( checkCollision( x, y, square.getX(), square.getY() ) )
+        {
+        return true;
+        }
+    }
+
+return false;
 };
 
 

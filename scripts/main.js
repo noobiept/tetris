@@ -38,11 +38,12 @@ var STAGE;
     // other stuff
 var CANVAS;
 
-var ALL_PIECES = [];
-
 
     // current active piece on the map (falling)
 var ACTIVE_PIECE;
+
+
+var GRID;
 
 
 // keys being pressed/held
@@ -153,16 +154,21 @@ function startGame()
 var startingX = 50;
 var startingY = 50;
 
-var grid = new Grid( startingX, startingY, 20, 30 );
+GRID = new Grid( startingX, startingY, 20, 30 );
 
-//var piece = new IPiece( grid );
-//var piece = new SPiece( grid );
-var piece = new TPiece( grid );
+newPiece();
+}
+
+
+function newPiece()
+{
+//var piece = new IPiece( GRID );
+//var piece = new SPiece( GRID );
+var piece = new TPiece( GRID );
 
 ACTIVE_PIECE = piece;
-
-ALL_PIECES.push( piece );
 }
+
 
 
 
@@ -204,11 +210,13 @@ DELAY_COUNT++;
 
 movement_tick();
 
+GRID.stack.checkCollision();
+
 if ( DELAY_COUNT >= DELAY )
     {
     DELAY_COUNT = 0;
 
-//    ACTIVE_PIECE.moveBottom();
+    ACTIVE_PIECE.moveBottom();
     }
 
 STAGE.update();

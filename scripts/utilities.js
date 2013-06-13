@@ -72,24 +72,25 @@ var EVENT_KEY = {
 
 
 
+/*
+    All elements are squares, so have width/height of Square.size
+ */
 
-
-function checkCollision( oneX, oneY, oneWidth, oneHeight, twoX, twoY, twoWidth, twoHeight )
+function checkCollision( oneX, oneY, twoX, twoY )
 {
-    // calculate the position of the corners of the object (as a rectangle)
-    // the position origin of the objects is in the center
-var oneLeft = oneX - oneWidth / 2;
-var oneRight = oneX + oneWidth / 2;
-var oneTop = oneY - oneHeight / 2;
-var oneBottom = oneY + oneHeight / 2;
+    // squares have the origin in top-left
+var oneLeft = oneX;
+var oneRight = oneX + Square.size;
+var oneTop = oneY;
+var oneBottom = oneY + Square.size;
 
-var twoLeft = twoX - twoWidth / 2;
-var twoRight = twoX + twoWidth / 2;
-var twoTop = twoY - twoHeight / 2;
-var twoBottom = twoY + twoHeight / 2;
+var twoLeft = twoX;
+var twoRight = twoX + Square.size;
+var twoTop = twoY;
+var twoBottom = twoY + Square.size;
 
 
-if ( oneRight >= twoLeft && oneLeft <= twoRight && oneTop <= twoBottom && oneBottom >= twoTop )
+if ( oneRight > twoLeft && oneLeft < twoRight && oneTop < twoBottom && oneBottom > twoTop )
     {
     return true;
     }

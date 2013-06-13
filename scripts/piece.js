@@ -59,12 +59,20 @@ var squares = this.all_squares;
 var square;
 var i;
 
-    // check if not at the limit
+
+    // check if we can move the piece
 for (i = 0 ; i < squares.length ; i++)
     {
     square = squares[ i ];
 
+        // check if not at the grid's limit
     if ( square.getX() <= 0 )
+        {
+        return;
+        }
+
+        // check if it doesn't collide with the stacked squares
+    if ( this.grid_object.collision( square.getX() - Square.size, square.getY() ) )
         {
         return;
         }
@@ -86,13 +94,20 @@ var squares = this.all_squares;
 var square;
 var i;
 
-    // check if not at the limit
+    // check if we can move the piece
 for (i = 0 ; i < squares.length ; i++)
     {
     square = squares[ i ];
 
         // its centered at top left
+        // check if not at the grid's limit
     if ( square.getX() + Square.size >= this.grid_object.width )
+        {
+        return;
+        }
+
+        // check if it doesn't collide with the stacked squares
+    if ( this.grid_object.collision( square.getX() + Square.size, square.getY() ) )
         {
         return;
         }
