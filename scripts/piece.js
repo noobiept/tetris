@@ -219,15 +219,33 @@ if ( !this.rotate() )
 };
 
 
+/*
+    Increases the speed that the pieces falls down
+ */
+
 Piece.prototype.softDrop = function()
 {
+DELAY_STEP = 5;
+};
 
+/*
+    Back to normal speed
+ */
+
+Piece.prototype.stopSoftDrop = function()
+{
+DELAY_STEP = 1;
 };
 
 
 Piece.prototype.hardDrop = function()
 {
+this.moveBottom();
 
+while( GRID.stack.checkCollision() === false )
+    {
+    this.moveBottom();
+    }
 };
 
 

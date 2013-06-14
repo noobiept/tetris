@@ -52,7 +52,7 @@ this.shape.y += Square.size;
 
 
 
-Square.size = 10;
+Square.size = 20;
 
 window.Square = Square;
 

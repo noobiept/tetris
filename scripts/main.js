@@ -27,6 +27,7 @@
     to doo:
 
         - have the active piece move only one step when key is pressed, but if key is being pressed after a certain time, then it moves faster (as I have now, the key being held)
+        - adjust the canvas width/height according to the grid's dimensions (to fit)
  */
 
 
@@ -57,7 +58,7 @@ var KEYS_HELD = {
 window.onload = function()
 {
 var canvasWidth = 800;
-var canvasHeight = 400;
+var canvasHeight = 650;
 
 CANVAS = document.querySelector( '#mainCanvas' );
 
@@ -95,6 +96,11 @@ switch( event.keyCode )
 
         KEYS_HELD.rightArrow = true;
         return false;
+
+    case EVENT_KEY.downArrow:
+
+        ACTIVE_PIECE.softDrop();
+        return false;
     }
 
 return true;
@@ -123,7 +129,7 @@ switch( event.keyCode )
 
     case EVENT_KEY.downArrow:
 
-        ACTIVE_PIECE.softDrop();
+        ACTIVE_PIECE.stopSoftDrop();
         return false;
 
     case EVENT_KEY.space:
@@ -152,7 +158,7 @@ return true;
 function startGame()
 {
 var startingX = 50;
-var startingY = 50;
+var startingY = 10;
 
 GRID = new Grid( startingX, startingY, 20, 30 );
 
@@ -162,9 +168,11 @@ newPiece();
 
 function newPiece()
 {
-//var piece = new IPiece( GRID );
-//var piece = new SPiece( GRID );
-var piece = new TPiece( GRID );
+var possiblePieces = [ IPiece, SPiece, TPiece ];
+
+var choose = getRandomInt( 0, possiblePieces.length - 1 );
+
+var piece = new possiblePieces[ choose ]( GRID );
 
 ACTIVE_PIECE = piece;
 }
@@ -201,11 +209,12 @@ createjs.Ticker.setPaused( false );
 
 var DELAY = 5;
 var DELAY_COUNT = 0;
+var DELAY_STEP = 1;
 
 
 function tick()
 {
-DELAY_COUNT++;
+DELAY_COUNT += DELAY_STEP;
 
 
 movement_tick();

@@ -42,7 +42,7 @@ for (var i = 0 ; i < pieceSquares.length ; i++)
             this.add( ACTIVE_PIECE );
 
             newPiece();
-            return;
+            return true;
             }
         }
 
@@ -53,9 +53,11 @@ for (var i = 0 ; i < pieceSquares.length ; i++)
         this.add( ACTIVE_PIECE );
 
         newPiece();
-        return;
+        return true;
         }
     }
+
+return false;
 };
 
 
