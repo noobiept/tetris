@@ -21,13 +21,10 @@
         this.current_position = 0;
  */
 
-function Piece( gridObject )
+function Piece( gridObject, column, line )
 {
 var container = gridObject.container;
 
-    // center the element in the grid
-var column = parseInt( gridObject.numberOfColumns / 2, 10 );
-var line = 0;
 
 var centerX = parseInt( gridObject.numberOfColumns / 2, 10 ) * Square.size;
 
@@ -191,20 +188,22 @@ Piece.prototype.moveBottom = function()
 var squares = this.all_squares;
 var grid = this.grid_object;
 
-
-
-if ( this.line + 1 >= grid.numberOfLines )
-    {
-    newPiece();
-    return false;
-    }
-
 var square;
 var stackSquare;
+
 
 for (var i = 0 ; i < squares.length ; i++)
     {
     square = squares[ i ];
+
+        // check if reached bottom of the grid
+    if ( square.line + 1 >= grid.numberOfLines )
+        {
+        newPiece();
+        return false;
+        }
+
+        // check if it has other squares below (and therefore, can't go down anymore)
     stackSquare = grid.grid_array[ square.column ][ square.line + 1 ];
 
     if ( stackSquare && stackSquare.pieceObject !== this )
@@ -214,7 +213,7 @@ for (var i = 0 ; i < squares.length ; i++)
         }
     }
 
-
+    // if everything is ok, move 1 line down
 this.setPosition( this.column, this.line + 1 );
 
 return true;
@@ -247,7 +246,7 @@ for (i = 0 ; i < others.length ; i++)
 
 
         // check if its within the grid
-    if ( nextColumn < 0 || nextColumn >= grid.numberOfColumns )
+    if ( nextColumn < 0 || nextColumn >= grid.numberOfColumns || nextLine >= grid.numberOfLines )
         {
         return false;
         }

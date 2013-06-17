@@ -28,8 +28,6 @@
 
         - adjust the canvas width/height according to the grid's dimensions (to fit)
         - clear a line when its formed an horizontal line
-        - end game when it reaches the top of the grid
-        - when rotating the piece, check collision with the bottom of the grid as well (its getting off the grid)
  */
 
 
@@ -159,6 +157,8 @@ return true;
 
 function startGame()
 {
+clearCanvas();
+
 var startingX = 50;
 var startingY = 10;
 
@@ -166,6 +166,13 @@ GRID = new Grid( startingX, startingY, 20, 30 );
 
 newPiece();
 }
+
+
+function clearCanvas()
+{
+STAGE.removeAllChildren();
+}
+
 
 
 function newPiece()
@@ -176,17 +183,37 @@ function newPiece()
 //
 //var piece = new possiblePieces[ choose ]( GRID );
 
+var type = IPiece;
 
-var piece = new IPiece( GRID );
+var rotation = type.POSSIBLE_ROTATIONS[ 0 ];
 
-ACTIVE_PIECE = piece;
 
+        // center the element in the grid
+var pivotColumn = parseInt( GRID.numberOfColumns / 2, 10 );
+var pivotLine = 0;
+var gridSquare;
+var column, line;
+
+    // check if the piece will collide with an existing square in the stack (if so, its game over, the stack has reached the top)
+for (var i = 0 ; i < rotation.length ; i++)
+    {
+    column = pivotColumn + rotation[ i ].column;
+    line = pivotLine + rotation[ i ].line;
+
+    gridSquare = GRID.grid_array[ column ][ line ];
+
+    if ( gridSquare )
+        {
+        startGame();
+        return;
+        }
+    }
+
+
+ACTIVE_PIECE = new IPiece( GRID, pivotColumn, pivotLine );
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)
 DELAY_COUNT = 0;
-
-    // check if piece collides with stack (if so, its game over, since its colliding as a new piece spawns)
-//HERE
 }
 
 
