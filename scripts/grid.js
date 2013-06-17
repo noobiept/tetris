@@ -2,14 +2,25 @@
 {
 /*
     startingX/Y is in pixels
-    squaresWidth/height is in number of squares
  */
 
-function Grid( startingX, startingY, squaresWidth, squaresHeight )
+function Grid( startingX, startingY, numberOfColumns, numberOfLines )
 {
-this.draw( startingX, startingY, squaresWidth, squaresHeight );
+this.draw( startingX, startingY, numberOfColumns, numberOfLines );
 
-this.stack = new Stack();
+
+    // tells which squares of the grid are occupied
+this.grid_array = [];
+
+for (var i = 0 ; i < numberOfColumns ; i++)
+    {
+    this.grid_array[ i ] = [];
+
+    for (var k = 0 ; k < numberOfLines ; k++)
+        {
+        this.grid_array[ i ][ k ] = null;
+        }
+    }
 }
 
 
@@ -17,10 +28,10 @@ this.stack = new Stack();
     Draw the grid lines
  */
 
-Grid.prototype.draw = function( startingX, startingY, squaresWidth, squaresHeight )
+Grid.prototype.draw = function( startingX, startingY, numberOfColumns, numberOfLines )
 {
-var width = squaresWidth * Square.size;
-var height = squaresHeight * Square.size;
+var width = numberOfColumns * Square.size;
+var height = numberOfLines * Square.size;
 
 var thickness = 5;
 
@@ -91,74 +102,41 @@ STAGE.addChild( container );
     // object properties
 this.startingX = startingX;
 this.startingY = startingY;
-this.squaresWidth = squaresWidth;
-this.squaresHeight = squaresHeight;
+this.numberOfColumns = numberOfColumns;
+this.numberOfLines = numberOfLines;
 this.width = width;
 this.height = height;
 this.container = container;
 };
 
 
-/*
-    Check if a position of a square is within the grid (only checks the left/right grid limit)
- */
-
-Grid.prototype.isWithin = function( x, y )
+Grid.prototype.clearPiece = function( pieceObject )
 {
-var leftLimit = this.startingX;
-var rightLimit = leftLimit + this.width;
-
-var globalPosition = this.container.localToGlobal( x, y );
-
-x = globalPosition.x;
-
-
-if ( x < leftLimit || x + Square.size > rightLimit )
-    {
-    return false;
-    }
-
-return true;
-};
-
-
-Grid.prototype.hitBottom = function( x, y )
-{
-var globalPosition = this.container.localToGlobal( x, y );
-
-
-if ( globalPosition.y >= this.startingY + this.height )
-    {
-    return true;
-    }
-
-return false;
-};
-
-
-/*
-    Checks if a square x/y position collides with a stacked square on the grid
- */
-
-Grid.prototype.collision = function( x, y )
-{
-var stackSquares = this.stack.all_squares;
+var all = pieceObject.all_squares;
 var square;
 
-for (var i = 0 ; i < stackSquares.length ; i++)
+for (var i = 0 ; i < all.length ; i++)
     {
-    square = stackSquares[ i ];
+    square = all[ i ];
 
-    if ( checkCollision( x, y, square.getX(), square.getY() ) )
-        {
-        return true;
-        }
+    this.grid_array[ square.column ][ square.line ] = null;
     }
-
-return false;
 };
 
 
+
+Grid.prototype.addPiece = function( pieceObject )
+{
+var all = pieceObject.all_squares;
+var square;
+
+for (var i = 0 ; i < all.length ; i++)
+    {
+    square = all[ i ];
+
+    this.grid_array[ square.column ][ square.line ] = square;
+    }
+};
 
 
 window.Grid = Grid;

@@ -26,8 +26,10 @@
 
     to doo:
 
-        - have the active piece move only one step when key is pressed, but if key is being pressed after a certain time, then it moves faster (as I have now, the key being held)
         - adjust the canvas width/height according to the grid's dimensions (to fit)
+        - clear a line when its formed an horizontal line
+        - end game when it reaches the top of the grid
+        - when rotating the piece, check collision with the bottom of the grid as well (its getting off the grid)
  */
 
 
@@ -168,13 +170,23 @@ newPiece();
 
 function newPiece()
 {
-var possiblePieces = [ IPiece, SPiece, TPiece ];
+//var possiblePieces = [ IPiece, SPiece, TPiece ];
+//
+//var choose = getRandomInt( 0, possiblePieces.length - 1 );
+//
+//var piece = new possiblePieces[ choose ]( GRID );
 
-var choose = getRandomInt( 0, possiblePieces.length - 1 );
 
-var piece = new possiblePieces[ choose ]( GRID );
+var piece = new IPiece( GRID );
 
 ACTIVE_PIECE = piece;
+
+
+    // reset the counter that deals with the movement of the active piece (since we added a new one)
+DELAY_COUNT = 0;
+
+    // check if piece collides with stack (if so, its game over, since its colliding as a new piece spawns)
+//HERE
 }
 
 
@@ -207,7 +219,7 @@ createjs.Ticker.setPaused( false );
 
 
 
-var DELAY = 5;
+var DELAY = 10;
 var DELAY_COUNT = 0;
 var DELAY_STEP = 1;
 
@@ -219,7 +231,7 @@ DELAY_COUNT += DELAY_STEP;
 
 movement_tick();
 
-GRID.stack.checkCollision();
+
 
 if ( DELAY_COUNT >= DELAY )
     {

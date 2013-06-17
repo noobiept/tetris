@@ -1,6 +1,6 @@
 (function(window)
 {
-function Square( x, y, color )
+function Square( pieceObject, x, y, color )
 {
     // width/height
 var size = Square.size;
@@ -17,6 +17,7 @@ g.drawRoundRect( 0, 0, size, size, 2 );
 
 
 this.shape = shape;
+this.pieceObject = pieceObject;
 }
 
 

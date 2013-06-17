@@ -26,35 +26,100 @@ function Piece( gridObject )
 var container = gridObject.container;
 
     // center the element in the grid
-var centerX = parseInt( gridObject.squaresWidth / 2, 10 ) * Square.size;
+var column = parseInt( gridObject.numberOfColumns / 2, 10 );
+var line = 0;
+
+var centerX = parseInt( gridObject.numberOfColumns / 2, 10 ) * Square.size;
 
 
 var color = this.color;
 
-var pivot = new Square( centerX, 0, 'blue' ); //HERE test only
+var pivot = new Square( this, centerX, 0, 'blue' ); //HERE test only
 
-var square1 = new Square( centerX, 0, color );  // the positions will be updated later
-var square2 = new Square( centerX, 0, color );
-var square3 = new Square( centerX, 0, color );
+var square1 = new Square( this, centerX, 0, color );  // the positions will be updated later
+var square2 = new Square( this, centerX, 0, color );
+var square3 = new Square( this, centerX, 0, color );
 
 this.all_squares = [ square1, square2, square3, pivot ];
 this.pivot_square = pivot;
 this.other_squares = [ square1, square2, square3 ];
 this.grid_object = gridObject;
 
-    // this will position the squares in the right position
-this.rotate();
 
 container.addChild( square1.shape );
 container.addChild( square2.shape );
 container.addChild( square3.shape );
 container.addChild( pivot.shape );
+
+
+this.setPosition( column, line, false );
 }
+
+
+/**
+    Positions the piece in the grid
+
+    The position values is in square size (not x/y) and 0-based
+
+    clearPreviousPosition to clear the grid before changing the position, not needed when adding a piece for the first time, but has to be done when moving (default is true)
+
+    @param {number} pivotColumn
+    @param {number} pivotLine
+    @param {Boolean} [clearPreviousPosition=true]
+ */
+
+Piece.prototype.setPosition = function( pivotColumn, pivotLine, clearPreviousPosition )
+{
+var grid = this.grid_object;
+
+if ( clearPreviousPosition !== false )
+    {
+        // clear the current position on the grid
+    grid.clearPiece( this );
+    }
+
+var pivot = this.pivot_square;
+
+this.column = pivotColumn;
+this.line = pivotLine;
+
+    // the column/line of the piece is the same as the pivot, so set to both
+pivot.column = pivotColumn;
+pivot.line = pivotLine;
+
+var pivotX = pivotColumn * Square.size;
+var pivotY = pivotLine * Square.size;
+
+pivot.shape.x = pivotX;
+pivot.shape.y = pivotY;
+
+
+var currentRotations = this.possible_rotations[ this.current_rotation ];
+var other_squares = this.other_squares;
+
+var other;
+var rotation;
+
+for (var i = 0 ; i < currentRotations.length ; i++)
+    {
+    other = other_squares[ i ];
+    rotation = currentRotations[ i ];
+
+    other.shape.x = pivotX + rotation.column * Square.size;
+    other.shape.y = pivotY + rotation.line * Square.size;
+
+    other.column = pivotColumn + rotation.column;
+    other.line = pivotLine + rotation.line;
+    }
+
+this.grid_object.addPiece( this );
+};
 
 
 
 Piece.prototype.moveLeft = function()
 {
+var grid = this.grid_object;
 var squares = this.all_squares;
 var square;
 var i;
@@ -66,13 +131,15 @@ for (i = 0 ; i < squares.length ; i++)
     square = squares[ i ];
 
         // check if not at the grid's limit
-    if ( square.getX() <= 0 )
+    if ( square.column - 1 < 0 )
         {
         return;
         }
 
         // check if it doesn't collide with the stacked squares
-    if ( this.grid_object.collision( square.getX() - Square.size, square.getY() ) )
+    var nextSquare = grid.grid_array[ square.column - 1 ][ square.line ];
+
+    if ( nextSquare && nextSquare.pieceObject !== this )
         {
         return;
         }
@@ -80,16 +147,14 @@ for (i = 0 ; i < squares.length ; i++)
 
 
     // move 1 square to the left
-for (i = 0 ; i < squares.length ; i++)
-    {
-    squares[ i ].moveLeft();
-    }
+this.setPosition( this.column - 1, this.line );
 };
 
 
 
 Piece.prototype.moveRight = function()
 {
+var grid = this.grid_object;
 var squares = this.all_squares;
 var square;
 var i;
@@ -99,81 +164,104 @@ for (i = 0 ; i < squares.length ; i++)
     {
     square = squares[ i ];
 
-        // its centered at top left
         // check if not at the grid's limit
-    if ( square.getX() + Square.size >= this.grid_object.width )
+    if ( square.column + 1 >= grid.numberOfColumns )
         {
         return;
         }
+
 
         // check if it doesn't collide with the stacked squares
-    if ( this.grid_object.collision( square.getX() + Square.size, square.getY() ) )
+    var nextSquare = grid.grid_array[ square.column + 1 ][ square.line ];
+
+    if ( nextSquare && nextSquare.pieceObject !== this )
         {
         return;
         }
     }
 
 
-    // move 1 square to the left
-for (i = 0 ; i < squares.length ; i++)
-    {
-    squares[ i ].moveRight();
-    }
+    // move 1 square to the right
+this.setPosition( this.column + 1, this.line );
 };
 
 
 Piece.prototype.moveBottom = function()
 {
 var squares = this.all_squares;
+var grid = this.grid_object;
 
-for ( var i = 0 ; i < squares.length ; i++ )
+
+
+if ( this.line + 1 >= grid.numberOfLines )
     {
-    squares[ i ].moveBottom();
+    newPiece();
+    return false;
     }
+
+var square;
+var stackSquare;
+
+for (var i = 0 ; i < squares.length ; i++)
+    {
+    square = squares[ i ];
+    stackSquare = grid.grid_array[ square.column ][ square.line + 1 ];
+
+    if ( stackSquare && stackSquare.pieceObject !== this )
+        {
+        newPiece();
+        return false;
+        }
+    }
+
+
+this.setPosition( this.column, this.line + 1 );
+
+return true;
 };
 
 
 
 Piece.prototype.rotate = function()
 {
+var grid = this.grid_object;
 var rotation = this.possible_rotations[ this.current_rotation ];
+
+var pivot = this.pivot_square;
+var others = this.other_squares;
+
 var square;
 var position;
 var i;
-
-var others = this.other_squares;
-
-var center = this.pivot_square;
-var centerX = center.getX();
-var centerY = center.getY();
 
 
     // check if you can rotate (if its within the grid's limits)
 for (i = 0 ; i < others.length ; i++)
     {
     square = others[ i ];
+
     position = rotation[ i ];
 
-    var nextX = centerX + position.x;
-    var nextY = centerY + position.y;
+    var nextColumn = pivot.column + position.column;
+    var nextLine = pivot.line + position.line;
 
 
-    if ( !this.grid_object.isWithin( nextX, nextY ) )
+        // check if its within the grid
+    if ( nextColumn < 0 || nextColumn >= grid.numberOfColumns )
+        {
+        return false;
+        }
+
+        // check if its not taken that spot
+    if ( grid.grid_array[ nextColumn ][ nextLine ] )
         {
         return false;
         }
     }
 
+
     // apply the rotation (change the squares position)
-for (i = 0 ; i < others.length ; i++)
-    {
-    square = others[ i ];
-    position = rotation[ i ];
-
-    square.shape.x = centerX + position.x;
-    square.shape.y = centerY + position.y;
-    }
-
+this.setPosition( pivot.column, pivot.line );
 
 return true;
 };
@@ -240,11 +328,9 @@ DELAY_STEP = 1;
 
 Piece.prototype.hardDrop = function()
 {
-this.moveBottom();
-
-while( GRID.stack.checkCollision() === false )
+while ( this.moveBottom() )
     {
-    this.moveBottom();
+        // empty
     }
 };
 
