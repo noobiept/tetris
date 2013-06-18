@@ -139,6 +139,44 @@ for (var i = 0 ; i < all.length ; i++)
 };
 
 
+/*
+    Check for any completed line
+ */
+
+Grid.prototype.checkClearedLines = function()
+{
+var line, column;
+var square;
+
+
+    // go through all the lines, starting from the bottom
+for (line = this.numberOfLines - 1 ; line >= 0 ; line--)
+    {
+        // and through all the columns
+    for (column = 0 ; column < this.numberOfColumns ; column++)
+        {
+        square = this.grid_array[ column ][ line ];
+
+            // check if there's a square in each column position
+        if ( !square )
+            {
+            break;
+            }
+        }
+
+        // means the loop passed through all the columns (so, the line contains all the squares filled)
+    if (column == this.numberOfColumns)
+        {
+        this.clearLine( line );
+
+            // since we're removing one line (and everything above goes one line below), we need to check the same line again
+        line += 1;
+        }
+    }
+};
+
+
+
 Grid.prototype.clearLine = function( clearedLine )
 {
 var square;
@@ -175,7 +213,6 @@ for (column = 0 ; column < this.numberOfColumns ; column++)
 
         }
     }
-
 };
 
 

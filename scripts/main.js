@@ -189,6 +189,10 @@ if ( ACTIVE_PIECE )
 
         square.isInStack = true;
         }
+
+
+        // check if any line is cleared (since we're adding a new piece, means the previous one is part of the stack, so the right moment to clear the lines)
+    GRID.checkClearedLines();
     }
 
 //var possiblePieces = [ IPiece, SPiece, TPiece ];
