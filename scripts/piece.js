@@ -183,6 +183,7 @@ this.setPosition( this.column + 1, this.line );
 };
 
 
+
 Piece.prototype.moveBottom = function()
 {
 var squares = this.all_squares;
@@ -218,6 +219,7 @@ this.setPosition( this.column, this.line + 1 );
 
 return true;
 };
+
 
 
 

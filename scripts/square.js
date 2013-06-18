@@ -16,6 +16,7 @@ g.beginFill( color );
 g.drawRoundRect( 0, 0, size, size, 2 );
 
 
+this.isInStack = false;
 this.shape = shape;
 this.pieceObject = pieceObject;
 }

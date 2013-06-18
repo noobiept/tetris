@@ -139,6 +139,48 @@ for (var i = 0 ; i < all.length ; i++)
 };
 
 
+Grid.prototype.clearLine = function( clearedLine )
+{
+var square;
+var column, line;
+
+for (column = 0 ; column < this.numberOfColumns ; column++)
+    {
+    square = this.grid_array[ column ][ clearedLine ];
+
+        // we should have a complete line in this point?... //HERE
+    if ( square )
+        {
+        this.container.removeChild( square.shape );
+
+        this.grid_array[ column ][ clearedLine ] = null;
+        }
+    }
+
+    // move the stacked squares 1 square below
+for (column = 0 ; column < this.numberOfColumns ; column++)
+    {
+    for (line = clearedLine - 1 ; line >= 0 ; line--)
+        {
+        square = this.grid_array[ column ][ line ];
+
+        if ( square && square.isInStack )
+            {
+            square.shape.y += Square.size;
+
+            this.grid_array[ column ][ line + 1 ] = this.grid_array[ column ][ line ];
+
+            this.grid_array[ column ][ line ] = null;
+            }
+
+        }
+    }
+
+};
+
+
+
+
 window.Grid = Grid;
 
 }(window));

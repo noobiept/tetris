@@ -41,7 +41,7 @@ var CANVAS;
 
 
     // current active piece on the map (falling)
-var ACTIVE_PIECE;
+var ACTIVE_PIECE = null;
 
 
 var GRID;
@@ -177,6 +177,20 @@ STAGE.removeAllChildren();
 
 function newPiece()
 {
+var i;
+var square;
+
+if ( ACTIVE_PIECE )
+    {
+        // the previous active piece now is part of the stack
+    for (i = 0 ; i < ACTIVE_PIECE.all_squares.length ; i++)
+        {
+        square = ACTIVE_PIECE.all_squares[ i ];
+
+        square.isInStack = true;
+        }
+    }
+
 //var possiblePieces = [ IPiece, SPiece, TPiece ];
 //
 //var choose = getRandomInt( 0, possiblePieces.length - 1 );
@@ -195,7 +209,7 @@ var gridSquare;
 var column, line;
 
     // check if the piece will collide with an existing square in the stack (if so, its game over, the stack has reached the top)
-for (var i = 0 ; i < rotation.length ; i++)
+for (i = 0 ; i < rotation.length ; i++)
     {
     column = pivotColumn + rotation[ i ].column;
     line = pivotLine + rotation[ i ].line;
