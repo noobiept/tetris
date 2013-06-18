@@ -232,11 +232,12 @@ var pivot = this.pivot_square;
 var others = this.other_squares;
 
 var square;
+var nextSquare;
 var position;
 var i;
 
 
-    // check if you can rotate (if its within the grid's limits)
+    // check if you can rotate the piece
 for (i = 0 ; i < others.length ; i++)
     {
     square = others[ i ];
@@ -247,14 +248,16 @@ for (i = 0 ; i < others.length ; i++)
     var nextLine = pivot.line + position.line;
 
 
-        // check if its within the grid
+        // check if its within the grid's limits
     if ( nextColumn < 0 || nextColumn >= grid.numberOfColumns || nextLine >= grid.numberOfLines )
         {
         return false;
         }
 
+    nextSquare = grid.grid_array[ nextColumn ][ nextLine ];
+
         // check if its not taken that spot
-    if ( grid.grid_array[ nextColumn ][ nextLine ] )
+    if ( nextSquare && nextSquare.isInStack )
         {
         return false;
         }

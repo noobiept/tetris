@@ -27,7 +27,6 @@
     to doo:
 
         - adjust the canvas width/height according to the grid's dimensions (to fit)
-        - clear a line when its formed an horizontal line
  */
 
 
@@ -195,15 +194,14 @@ if ( ACTIVE_PIECE )
     GRID.checkClearedLines();
     }
 
-//var possiblePieces = [ IPiece, SPiece, TPiece ];
-//
-//var choose = getRandomInt( 0, possiblePieces.length - 1 );
-//
-//var piece = new possiblePieces[ choose ]( GRID );
+var possiblePieces = [ IPiece, SPiece, TPiece ];
 
-var type = IPiece;
+var choose = getRandomInt( 0, possiblePieces.length - 1 );
 
-var rotation = type.POSSIBLE_ROTATIONS[ 0 ];
+var chosenPiece = possiblePieces[ choose ];
+
+
+var rotation = chosenPiece.POSSIBLE_ROTATIONS[ 0 ];
 
 
         // center the element in the grid
@@ -228,7 +226,7 @@ for (i = 0 ; i < rotation.length ; i++)
     }
 
 
-ACTIVE_PIECE = new IPiece( GRID, pivotColumn, pivotLine );
+ACTIVE_PIECE = new chosenPiece( GRID, pivotColumn, pivotLine );
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)
 DELAY_COUNT = 0;

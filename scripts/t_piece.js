@@ -1,40 +1,43 @@
 (function(window)
 {
-function TPiece( gridObject )
+function TPiece( gridObject, column, line )
 {
-this.possible_rotations = [
-        [
-            { x: -Square.size, y: 0 },
-            { x: Square.size, y: 0 },
-            { x: 0, y: Square.size }
-        ],
-        [
-            { x: 0, y: -Square.size },
-            { x: 0, y: Square.size },
-            { x: -Square.size, y: 0 }
-        ],
-        [
-            { x: -Square.size, y: 0 },
-            { x: Square.size, y: 0 },
-            { x: 0, y: -Square.size }
-        ],
-        [
-            { x: 0, y: -Square.size },
-            { x: 0, y: Square.size },
-            { x: Square.size, y: 0 }
-        ]
-    ];
+this.possible_rotations = TPiece.POSSIBLE_ROTATIONS;
 
 this.current_rotation = 0;
 
 this.color = 'purple';
 
     // inherit from Piece (base class)
-Piece.call( this, gridObject );
+Piece.call( this, gridObject, column, line );
 }
 
     // inherit the member functions
 INHERIT_PROTOTYPE( TPiece, Piece );
+
+
+TPiece.POSSIBLE_ROTATIONS = [
+        [
+            { column: -1, line: 0 },
+            { column: 1, line: 0 },
+            { column: 0, line: 1 }
+        ],
+        [
+            { column: 0, line: -1 },
+            { column: 0, line: 1 },
+            { column: -1, line: 0 }
+        ],
+        [
+            { column: -1, line: 0 },
+            { column: 1, line: 0 },
+            { column: 0, line: -1 }
+        ],
+        [
+            { column: 0, line: -1 },
+            { column: 0, line: 1 },
+            { column: 1, line: 0 }
+        ]
+    ];
 
 
 window.TPiece = TPiece;
