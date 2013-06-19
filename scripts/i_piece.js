@@ -7,7 +7,9 @@ this.possible_rotations = IPiece.POSSIBLE_ROTATIONS;
 
 this.current_rotation = 0;
 
-this.color = 'red';
+    // red
+this.color = 'rgb(255, 0, 0)';
+this.pivot_color = 'rgba(255, 0, 0, 0.8)';
 
     // inherit from Piece (base class)
 Piece.call( this, gridObject, column, line );

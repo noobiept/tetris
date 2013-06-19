@@ -186,7 +186,7 @@ for (column = 0 ; column < this.numberOfColumns ; column++)
     {
     square = this.grid_array[ column ][ clearedLine ];
 
-        // we should have a complete line in this point?... //HERE
+        // we should have a complete line in this point?...
     if ( square )
         {
         this.container.removeChild( square.shape );

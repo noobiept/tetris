@@ -27,6 +27,7 @@
     to doo:
 
         - adjust the canvas width/height according to the grid's dimensions (to fit)
+        - you can rotate when a piece is added, and it overlaps the top of the grid (doesnt affect the game though)
  */
 
 
@@ -194,7 +195,7 @@ if ( ACTIVE_PIECE )
     GRID.checkClearedLines();
     }
 
-var possiblePieces = [ IPiece, SPiece, TPiece ];
+var possiblePieces = [ IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece ];
 
 var choose = getRandomInt( 0, possiblePieces.length - 1 );
 

@@ -31,8 +31,8 @@ var centerX = parseInt( gridObject.numberOfColumns / 2, 10 ) * Square.size;
 
 var color = this.color;
 
-var pivot = new Square( this, centerX, 0, 'blue' ); //HERE test only
-
+var pivot = new Square( this, centerX, 0, this.pivot_color );
+    
 var square1 = new Square( this, centerX, 0, color );  // the positions will be updated later
 var square2 = new Square( this, centerX, 0, color );
 var square3 = new Square( this, centerX, 0, color );

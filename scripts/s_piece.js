@@ -10,7 +10,9 @@ this.possible_rotations = SPiece.POSSIBLE_ROTATIONS;
     // the position in the array
 this.current_rotation = 0;
 
-this.color = 'green';
+    // green
+this.color = 'rgb(0, 128, 0)';
+this.pivot_color = 'rgba(0, 128, 0, 0.8)';
 
     // inherit from Piece (base class)
 Piece.call( this, gridObject, column, line );
