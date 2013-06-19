@@ -1,10 +1,26 @@
 body
     {
     background-color: black;
+    color: white;
+    text-align: center;
     }
 
 
 #mainCanvas
     {
     position: absolute;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+
+#MainMenu, #Options, #Help
+    {
+    position: absolute;
+    display: none;
+    }
+
+.button
+    {
+    cursor: pointer;
     }

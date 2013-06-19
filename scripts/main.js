@@ -28,6 +28,17 @@
 
         - adjust the canvas width/height according to the grid's dimensions (to fit)
         - you can rotate when a piece is added, and it overlaps the top of the grid (doesnt affect the game though)
+        - increase the speed after a certain number of lines cleared
+        - add game menu:
+            - show the number of cleared lines so far and current level
+            - way to return to main menu
+            - pause/resume the game
+        - add a menu with:
+            - start game
+            - options:
+                - change the grid's dimensions
+                - change the initial speed of the pieces (map level?..)
+            - help (the keyboard shortcuts..)
  */
 
 
@@ -70,9 +81,10 @@ centerCanvas();
 STAGE = new createjs.Stage( CANVAS );
 
 createjs.Ticker.setInterval( 50 );
-createjs.Ticker.addListener( tick );
 
-startGame();
+
+MainMenu.init();
+MainMenu.open();
 };
 
 
@@ -153,85 +165,14 @@ return true;
 
 
 
-
-
-function startGame()
-{
-clearCanvas();
-
-var startingX = 50;
-var startingY = 10;
-
-GRID = new Grid( startingX, startingY, 20, 30 );
-
-newPiece();
-}
-
-
 function clearCanvas()
 {
+MainMenu.clear();
+
+createjs.Ticker.removeAllEventListeners( 'tick' );
 STAGE.removeAllChildren();
 }
 
-
-
-function newPiece()
-{
-var i;
-var square;
-
-if ( ACTIVE_PIECE )
-    {
-        // the previous active piece now is part of the stack
-    for (i = 0 ; i < ACTIVE_PIECE.all_squares.length ; i++)
-        {
-        square = ACTIVE_PIECE.all_squares[ i ];
-
-        square.isInStack = true;
-        }
-
-
-        // check if any line is cleared (since we're adding a new piece, means the previous one is part of the stack, so the right moment to clear the lines)
-    GRID.checkClearedLines();
-    }
-
-var possiblePieces = [ IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece ];
-
-var choose = getRandomInt( 0, possiblePieces.length - 1 );
-
-var chosenPiece = possiblePieces[ choose ];
-
-
-var rotation = chosenPiece.POSSIBLE_ROTATIONS[ 0 ];
-
-
-        // center the element in the grid
-var pivotColumn = parseInt( GRID.numberOfColumns / 2, 10 );
-var pivotLine = 0;
-var gridSquare;
-var column, line;
-
-    // check if the piece will collide with an existing square in the stack (if so, its game over, the stack has reached the top)
-for (i = 0 ; i < rotation.length ; i++)
-    {
-    column = pivotColumn + rotation[ i ].column;
-    line = pivotLine + rotation[ i ].line;
-
-    gridSquare = GRID.grid_array[ column ][ line ];
-
-    if ( gridSquare )
-        {
-        startGame();
-        return;
-        }
-    }
-
-
-ACTIVE_PIECE = new chosenPiece( GRID, pivotColumn, pivotLine );
-
-    // reset the counter that deals with the movement of the active piece (since we added a new one)
-DELAY_COUNT = 0;
-}
 
 
 
@@ -262,44 +203,3 @@ createjs.Ticker.setPaused( false );
 }
 
 
-
-var DELAY = 10;
-var DELAY_COUNT = 0;
-var DELAY_STEP = 1;
-
-
-function tick()
-{
-DELAY_COUNT += DELAY_STEP;
-
-
-movement_tick();
-
-
-
-if ( DELAY_COUNT >= DELAY )
-    {
-    DELAY_COUNT = 0;
-
-    ACTIVE_PIECE.moveBottom();
-    }
-
-STAGE.update();
-}
-
-
-
-
-
-function movement_tick()
-{
-if ( KEYS_HELD.leftArrow )
-    {
-    ACTIVE_PIECE.moveLeft();
-    }
-
-else if ( KEYS_HELD.rightArrow )
-    {
-    ACTIVE_PIECE.moveRight();
-    }
-}

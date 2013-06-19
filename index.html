@@ -9,8 +9,11 @@
     <script type="text/javascript" src="libraries/easeljs-0.6.1.min.js"></script>
 
     <!-- scripts -->
+    <!-- CONCATENATE_START -->
     <script type="text/javascript" src="scripts/utilities.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/main_menu.js"></script>
+    <script type="text/javascript" src="scripts/game.js"></script>
     <script type="text/javascript" src="scripts/grid.js"></script>
     <script type="text/javascript" src="scripts/piece.js"></script>
     <script type="text/javascript" src="scripts/i_piece.js"></script>
@@ -21,6 +24,7 @@
     <script type="text/javascript" src="scripts/j_piece.js"></script>
     <script type="text/javascript" src="scripts/l_piece.js"></script>
     <script type="text/javascript" src="scripts/square.js"></script>
+    <!-- CONCATENATE_END -->
 
 
     <!-- styling -->
@@ -31,6 +35,27 @@
 <body>
 
     <canvas id="mainCanvas"></canvas>
+
+    <div id="MainMenu">
+        <div id="MainMenu-startGame" class="button">Start Game</div>
+        <div id="MainMenu-options" class="button">Options</div>
+        <div id="MainMenu-help" class="button">Help</div>
+    </div>
+
+    <div id="Options">
+        <div id="Options-numberOfColumns">Number Of Columns</div>
+        <div id="Options-numberOfLines">Number Of Lines</div>
+        <div id="Options-startingLevel">Starting Level</div>
+
+        <div id="Options-back" class="button">Back</div>
+    </div>
+
+    <div id="Help">
+        <div id="Help-keyboard"></div>
+
+        <div id="Help-back" class="button">Back</div>
+    </div>
+
 
 </body>
 </html>
