@@ -7,8 +7,8 @@ function MainMenu()
 
     // reference to the html elements
 var MAIN_MENU;
-var OPTIONS;
-var HELP;
+var OPTIONS_MENU;
+var HELP_MENU;
 
 
 var ACTIVE_MENU;
@@ -16,8 +16,8 @@ var ACTIVE_MENU;
 MainMenu.init = function()
 {
 MAIN_MENU = document.querySelector( '#MainMenu' );
-OPTIONS = document.querySelector( '#Options' );
-HELP = document.querySelector( '#Help' );
+OPTIONS_MENU = document.querySelector( '#Options' );
+HELP_MENU = document.querySelector( '#Help' );
 };
 
 
@@ -60,8 +60,96 @@ MainMenu.openOptions = function()
 $( ACTIVE_MENU ).css( 'display', 'none' );
 
 
+    // :: number of columns :: //
 
-var back = OPTIONS.querySelector( '#Options-back' );
+var columns = OPTIONS_MENU.querySelector( '#Options-numberOfColumns' );
+var columnsSpan = columns.querySelector( 'span' );
+
+var numberOfColumns = OPTIONS.numberOfColumns;
+
+columnsSpan.innerText = numberOfColumns;
+
+
+var columnsSlider = columns.querySelector( '#Options-numberOfColumns-slider' );
+
+$( columnsSlider ).slider({
+    min: 10,
+    max: 40,
+    step: 5,
+    value: numberOfColumns,
+    range: 'min',
+    slide: function( event, ui )
+        {
+        columnsSpan.innerText = ui.value;
+
+        OPTIONS.numberOfColumns = parseInt( ui.value, 10 );
+
+        centerElement( OPTIONS_MENU );
+        }
+    });
+
+
+    // :: number of lines :: //
+
+var lines = OPTIONS_MENU.querySelector( '#Options-numberOfLines' );
+var linesSpan = lines.querySelector( 'span' );
+
+var numberOfLines = OPTIONS.numberOfLines;
+
+linesSpan.innerText = numberOfLines;
+
+
+var linesSlider = lines.querySelector( '#Options-numberOfLines-slider' );
+
+$( linesSlider ).slider({
+    min: 10,
+    max: 40,
+    step: 5,
+    value: numberOfLines,
+    range: 'min',
+    slide: function( event, ui )
+        {
+        linesSpan.innerText = ui.value;
+
+        OPTIONS.numberOfLines = parseInt( ui.value, 10 );
+
+        centerElement( OPTIONS_MENU );
+        }
+    });
+
+
+    // :: starting level :: //
+
+
+var level = OPTIONS_MENU.querySelector( '#Options-startingLevel' );
+var levelSpan = level.querySelector( 'span' );
+
+var startingLevel = OPTIONS.startingLevel;
+
+levelSpan.innerText = startingLevel;
+
+
+var levelSlider = level.querySelector( '#Options-startingLevel-slider' );
+
+$( levelSlider ).slider({
+    min: 1,
+    max: 20,
+    step: 1,
+    value: startingLevel,
+    range: 'min',
+    slide: function( event, ui )
+        {
+        levelSpan.innerText = ui.value;
+
+        OPTIONS.startingLevel = parseInt( ui.value, 10 );
+
+        centerElement( OPTIONS_MENU );
+        }
+    });
+
+
+
+var back = OPTIONS_MENU.querySelector( '#Options-back' );
 
 back.onclick = function()
     {
@@ -69,11 +157,11 @@ back.onclick = function()
     };
 
 
-$( OPTIONS ).css( 'display', 'block' );
+$( OPTIONS_MENU ).css( 'display', 'block' );
 
-centerElement( OPTIONS );
+centerElement( OPTIONS_MENU );
 
-ACTIVE_MENU = OPTIONS;
+ACTIVE_MENU = OPTIONS_MENU;
 };
 
 
@@ -83,27 +171,27 @@ $( ACTIVE_MENU ).css( 'display', 'none' );
 
 
 
-var back = HELP.querySelector( '#Help-back' );
+var back = HELP_MENU.querySelector( '#Help-back' );
 
 back.onclick = function()
     {
     MainMenu.open();
     };
 
-$( HELP ).css( 'display', 'block' );
+$( HELP_MENU ).css( 'display', 'block' );
 
-centerElement( HELP );
+centerElement( HELP_MENU );
 
-ACTIVE_MENU = HELP;
+ACTIVE_MENU = HELP_MENU;
 };
 
 
 
 MainMenu.clear = function()
 {
-$( MAIN_MENU ).css( 'display', 'none' );
-$( OPTIONS   ).css( 'display', 'none' );
-$( HELP      ).css( 'display', 'none' );
+$( MAIN_MENU    ).css( 'display', 'none' );
+$( OPTIONS_MENU ).css( 'display', 'none' );
+$( HELP_MENU    ).css( 'display', 'none' );
 };
 
 

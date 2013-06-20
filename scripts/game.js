@@ -5,6 +5,15 @@ function Game()
 
 }
 
+    // number of ticks until the active piece moves down 1 position
+var DELAY = 10;
+var DELAY_COUNT = 0;
+
+    // how much the counter increases per tick
+var DELAY_STEP = 1;
+
+
+
 Game.start = function()
 {
 clearCanvas();
@@ -12,59 +21,17 @@ clearCanvas();
 var startingX = 50;
 var startingY = 10;
 
-GRID = new Grid( startingX, startingY, 20, 30 );
+GRID = new Grid( startingX, startingY, OPTIONS.numberOfColumns, OPTIONS.numberOfLines );
 
-newPiece();
+Game.newPiece();
 
 createjs.Ticker.addListener( Game.tick );
 };
 
 
 
-var DELAY = 10;
-var DELAY_COUNT = 0;
-var DELAY_STEP = 1;
 
-
-Game.tick = function()
-{
-DELAY_COUNT += DELAY_STEP;
-
-
-movement_tick();
-
-
-
-if ( DELAY_COUNT >= DELAY )
-    {
-    DELAY_COUNT = 0;
-
-    ACTIVE_PIECE.moveBottom();
-    }
-
-STAGE.update();
-};
-
-
-
-function movement_tick()
-{
-if ( KEYS_HELD.leftArrow )
-    {
-    ACTIVE_PIECE.moveLeft();
-    }
-
-else if ( KEYS_HELD.rightArrow )
-    {
-    ACTIVE_PIECE.moveRight();
-    }
-}
-
-
-
-
-
-function newPiece()
+Game.newPiece = function()
 {
 var i;
 var square;
@@ -120,11 +87,50 @@ ACTIVE_PIECE = new chosenPiece( GRID, pivotColumn, pivotLine );
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)
 DELAY_COUNT = 0;
+};
+
+
+
+Game.setFallDownSpeed = function( step )    //HERE improve this
+{
+DELAY_STEP = step;
+};
+
+
+
+Game.tick = function()
+{
+DELAY_COUNT += DELAY_STEP;
+
+movement_tick();
+
+
+if ( DELAY_COUNT >= DELAY )
+    {
+    DELAY_COUNT = 0;
+
+    ACTIVE_PIECE.moveBottom();
+    }
+
+STAGE.update();
+};
+
+
+
+function movement_tick()
+{
+if ( KEYS_HELD.leftArrow )
+    {
+    ACTIVE_PIECE.moveLeft();
+    }
+
+else if ( KEYS_HELD.rightArrow )
+    {
+    ACTIVE_PIECE.moveRight();
+    }
 }
 
 
-window.DELAY_STEP = DELAY_STEP; //HERE
-window.newPiece = newPiece; //HERE refactor this
 window.Game = Game;
 
 }(window));

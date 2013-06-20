@@ -200,7 +200,7 @@ for (var i = 0 ; i < squares.length ; i++)
         // check if reached bottom of the grid
     if ( square.line + 1 >= grid.numberOfLines )
         {
-        newPiece();
+        Game.newPiece();
         return false;
         }
 
@@ -209,7 +209,7 @@ for (var i = 0 ; i < squares.length ; i++)
 
     if ( stackSquare && stackSquare.pieceObject !== this )
         {
-        newPiece();
+        Game.newPiece();
         return false;
         }
     }
@@ -317,7 +317,7 @@ if ( !this.rotate() )
 
 Piece.prototype.softDrop = function()
 {
-DELAY_STEP = 5;
+Game.setFallDownSpeed( 5 );
 };
 
 /*
@@ -326,7 +326,7 @@ DELAY_STEP = 5;
 
 Piece.prototype.stopSoftDrop = function()
 {
-DELAY_STEP = 1;
+Game.setFallDownSpeed( 1 );
 };
 
 

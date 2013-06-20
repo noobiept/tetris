@@ -14,13 +14,23 @@ body
     }
 
 
+.button
+    {
+    cursor: pointer;
+    }
+
+
 #MainMenu, #Options, #Help
     {
     position: absolute;
     display: none;
     }
 
-.button
+
+#Options-container > *
     {
-    cursor: pointer;
+    display: inline-block;
+    width: 200px;
+    padding: 0;
+    margin: 20px;
     }

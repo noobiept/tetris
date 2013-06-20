@@ -24,6 +24,16 @@
         - http://en.wikipedia.org/wiki/Tetris
 
 
+    Dependencies:
+
+        - jquery : 2.0
+        - jqueryui : 1.10
+
+            - slider
+            - blitzer theme
+
+        - easeljs : 0.6
+
     to doo:
 
         - adjust the canvas width/height according to the grid's dimensions (to fit)
@@ -62,6 +72,15 @@ var GRID;
 var KEYS_HELD = {
     leftArrow  : false,     // move left
     rightArrow : false      // move right
+    };
+
+
+var OPTIONS = {
+
+    numberOfColumns: 20,
+    numberOfLines: 30,
+    startingLevel: 1
+
     };
 
 

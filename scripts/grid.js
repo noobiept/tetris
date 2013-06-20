@@ -217,7 +217,6 @@ for (column = 0 ; column < this.numberOfColumns ; column++)
 
 
 
-
 window.Grid = Grid;
 
 }(window));

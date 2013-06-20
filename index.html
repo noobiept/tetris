@@ -6,7 +6,10 @@
 
     <!-- libraries -->
     <script type="text/javascript" src="libraries/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript" src="libraries/jquery-ui-1.10.3.custom.min.js"></script>
     <script type="text/javascript" src="libraries/easeljs-0.6.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="libraries/css/blitzer/jquery-ui-1.10.3.custom.min.css" />
 
     <!-- scripts -->
     <!-- CONCATENATE_START -->
@@ -43,9 +46,11 @@
     </div>
 
     <div id="Options">
-        <div id="Options-numberOfColumns">Number Of Columns</div>
-        <div id="Options-numberOfLines">Number Of Lines</div>
-        <div id="Options-startingLevel">Starting Level</div>
+        <div id="Options-container">
+            <div id="Options-numberOfColumns">Number Of Columns: <span></span><div id="Options-numberOfColumns-slider"></div></div>
+            <div id="Options-numberOfLines">Number Of Lines: <span></span><div id="Options-numberOfLines-slider"></div></div>
+            <div id="Options-startingLevel">Starting Level: <span></span><div id="Options-startingLevel-slider"></div></div>
+        </div>
 
         <div id="Options-back" class="button">Back</div>
     </div>
