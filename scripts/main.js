@@ -75,18 +75,12 @@ var KEYS_HELD = {
     };
 
 
-var OPTIONS = {
-
-    numberOfColumns: 20,
-    numberOfLines: 30,
-    startingLevel: 1
-
-    };
-
 
 
 window.onload = function()
 {
+Options.load();
+
 var canvasWidth = 800;
 var canvasHeight = 650;
 
@@ -104,6 +98,12 @@ createjs.Ticker.setInterval( 50 );
 
 MainMenu.init();
 MainMenu.open();
+};
+
+
+window.onunload = function()
+{
+Options.save();
 };
 
 

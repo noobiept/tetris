@@ -20,8 +20,16 @@ clearCanvas();
 
 var startingX = 50;
 var startingY = 10;
+var numberOfColumns = Options.getNumberOfColumns();
+var numberOfLines = Options.getNumberOfLines();
 
-GRID = new Grid( startingX, startingY, OPTIONS.numberOfColumns, OPTIONS.numberOfLines );
+
+    // resize the canvas, according to the grid's dimension
+CANVAS.width = numberOfColumns * Square.size + 2 * startingX;   //HERE needs to add later the game menu..
+CANVAS.height = numberOfLines * Square.size + 2 * startingY;
+
+
+GRID = new Grid( startingX, startingY, numberOfColumns, numberOfLines );
 
 Game.newPiece();
 

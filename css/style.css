@@ -6,6 +6,12 @@ body
     }
 
 
+em
+    {
+    color: antiquewhite;
+    }
+
+
 #mainCanvas
     {
     position: absolute;
@@ -33,4 +39,15 @@ body
     width: 200px;
     padding: 0;
     margin: 20px;
+    }
+
+
+#Help ul
+    {
+    list-style-type: none;
+    }
+
+#Help ul li
+    {
+    text-align: left;
     }

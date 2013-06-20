@@ -65,7 +65,7 @@ $( ACTIVE_MENU ).css( 'display', 'none' );
 var columns = OPTIONS_MENU.querySelector( '#Options-numberOfColumns' );
 var columnsSpan = columns.querySelector( 'span' );
 
-var numberOfColumns = OPTIONS.numberOfColumns;
+var numberOfColumns = Options.getNumberOfColumns();
 
 columnsSpan.innerText = numberOfColumns;
 
@@ -82,7 +82,7 @@ $( columnsSlider ).slider({
         {
         columnsSpan.innerText = ui.value;
 
-        OPTIONS.numberOfColumns = parseInt( ui.value, 10 );
+        Options.setNumberOfColumns( parseInt( ui.value, 10 ) );
 
         centerElement( OPTIONS_MENU );
         }
@@ -94,7 +94,7 @@ $( columnsSlider ).slider({
 var lines = OPTIONS_MENU.querySelector( '#Options-numberOfLines' );
 var linesSpan = lines.querySelector( 'span' );
 
-var numberOfLines = OPTIONS.numberOfLines;
+var numberOfLines = Options.getNumberOfLines();
 
 linesSpan.innerText = numberOfLines;
 
@@ -111,7 +111,7 @@ $( linesSlider ).slider({
         {
         linesSpan.innerText = ui.value;
 
-        OPTIONS.numberOfLines = parseInt( ui.value, 10 );
+        Options.setNumberOfLines( parseInt( ui.value, 10 ) );
 
         centerElement( OPTIONS_MENU );
         }
@@ -124,7 +124,7 @@ $( linesSlider ).slider({
 var level = OPTIONS_MENU.querySelector( '#Options-startingLevel' );
 var levelSpan = level.querySelector( 'span' );
 
-var startingLevel = OPTIONS.startingLevel;
+var startingLevel = Options.getStartingLevel();
 
 levelSpan.innerText = startingLevel;
 
@@ -141,7 +141,7 @@ $( levelSlider ).slider({
         {
         levelSpan.innerText = ui.value;
 
-        OPTIONS.startingLevel = parseInt( ui.value, 10 );
+        Options.setStartingLevel( parseInt( ui.value, 10 ) );
 
         centerElement( OPTIONS_MENU );
         }
