@@ -26,10 +26,16 @@ em
     }
 
 
-#MainMenu, #Options, #Help
+#MainMenu, #Options, #Help, #GameMenu
     {
     position: absolute;
     display: none;
+    }
+
+
+#GameMenu-top, #GameMenu-bottom
+    {
+    position: absolute;
     }
 
 

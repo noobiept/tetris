@@ -12,6 +12,10 @@ var DELAY_COUNT = 0;
     // how much the counter increases per tick
 var DELAY_STEP = 1;
 
+var CURRENT_LEVEL = 1;
+
+
+var GAME_MENU_WIDTH = 200;  // in pixels
 
 
 Game.start = function()
@@ -23,15 +27,18 @@ var startingY = 10;
 var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
+CURRENT_LEVEL = Options.getStartingLevel();
 
     // resize the canvas, according to the grid's dimension
-CANVAS.width = numberOfColumns * Square.size + 2 * startingX;   //HERE needs to add later the game menu..
+CANVAS.width = numberOfColumns * Square.size + 2 * startingX + GAME_MENU_WIDTH;
 CANVAS.height = numberOfLines * Square.size + 2 * startingY;
 
+centerCanvas();
 
 GRID = new Grid( startingX, startingY, numberOfColumns, numberOfLines );
 
 Game.newPiece();
+Game.initGameMenu();
 
 createjs.Ticker.addListener( Game.tick );
 };
@@ -95,6 +102,101 @@ ACTIVE_PIECE = new chosenPiece( GRID, pivotColumn, pivotLine );
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)
 DELAY_COUNT = 0;
+};
+
+
+Game.initGameMenu = function()
+{
+var gameMenu = document.querySelector( '#GameMenu' );
+
+    // :: Current Level :: //
+
+var currentLevel = gameMenu.querySelector( '#GameMenu-currentLevel span' );
+
+currentLevel.innerText = CURRENT_LEVEL;
+
+
+    // :: Pause / Resume :: //
+
+var pauseResume = gameMenu.querySelector( '#GameMenu-pauseResume' );
+
+var isPaused = false;
+
+pauseResume.onclick = function()
+    {
+    if ( isPaused )
+        {
+        isPaused = false;
+        pauseResume.innerText = 'Pause';
+
+        resume();
+        }
+
+    else
+        {
+        isPaused = true;
+        pauseResume.innerText = 'Resume';
+
+        pause();
+        }
+    };
+
+
+    // :: Quit :: //
+
+var quit = gameMenu.querySelector( '#GameMenu-quit' );
+
+quit.onclick = function()
+    {
+    if ( isPaused )
+        {
+        resume();
+        }
+
+    Game.clear();
+
+    MainMenu.open();
+    };
+
+
+    // :: Position Game Menu :: //
+
+var canvasPosition = $( CANVAS ).position();
+
+var gameMenuTop = gameMenu.querySelector( '#GameMenu-top' );
+var gameMenuBottom = gameMenu.querySelector( '#GameMenu-bottom' );
+
+var numberOfColumns = Options.getNumberOfColumns();
+var numberOfLines = Options.getNumberOfLines();
+
+    // show the menu (has to be before doing the calculations below)
+$( gameMenu ).css( 'display', 'block' );
+
+    // set the width of the menus
+$( gameMenuTop ).css( 'width', GAME_MENU_WIDTH + 'px' );
+$( gameMenuBottom ).css( 'width', GAME_MENU_WIDTH + 'px' );
+
+    // left is same for both menus (top/bottom)
+var left = canvasPosition.left + numberOfColumns * Square.size + GAME_MENU_WIDTH / 2; // text is center aligned, so divide by 2
+
+var topMenu_top = canvasPosition.top;
+var bottomMenu_top = topMenu_top + numberOfLines * Square.size - $( gameMenuBottom ).height();
+
+
+$( gameMenuTop ).css( 'top', topMenu_top + 'px' );
+$( gameMenuTop ).css( 'left', left + 'px' );
+
+$( gameMenuBottom ).css( 'top', bottomMenu_top + 'px' );
+$( gameMenuBottom ).css( 'left', left + 'px' );
+};
+
+
+
+Game.clear = function()
+{
+$( '#GameMenu-pauseResume' ).text( 'Pause' );
+
+$( '#GameMenu' ).css( 'display', 'none' );
 };
 
 
