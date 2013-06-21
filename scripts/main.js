@@ -60,11 +60,6 @@ var STAGE;
     // other stuff
 var CANVAS;
 
-
-    // current active piece on the map (falling)
-var ACTIVE_PIECE = null;
-
-
 var GRID;
 
 
@@ -130,7 +125,7 @@ switch( event.keyCode )
 
     case EVENT_KEY.downArrow:
 
-        ACTIVE_PIECE.softDrop();
+        Game.getActivePiece().softDrop();
         return false;
     }
 
@@ -146,6 +141,8 @@ if ( !event )
     }
 
 
+var activePiece = Game.getActivePiece();
+
 switch( event.keyCode )
     {
     case EVENT_KEY.leftArrow:
@@ -160,22 +157,22 @@ switch( event.keyCode )
 
     case EVENT_KEY.downArrow:
 
-        ACTIVE_PIECE.stopSoftDrop();
+        activePiece.stopSoftDrop();
         return false;
 
     case EVENT_KEY.space:
 
-        ACTIVE_PIECE.hardDrop();
+        activePiece.hardDrop();
         return false;
 
     case EVENT_KEY.a:
 
-        ACTIVE_PIECE.rotateLeft();
+        activePiece.rotateLeft();
         return false;
 
     case EVENT_KEY.d:
 
-        ACTIVE_PIECE.rotateRight();
+        activePiece.rotateRight();
         return false;
     }
 

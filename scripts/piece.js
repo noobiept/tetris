@@ -23,19 +23,13 @@
 
 function Piece( gridObject, column, line )
 {
-var container = gridObject.container;
-
-
-var centerX = parseInt( gridObject.numberOfColumns / 2, 10 ) * Square.size;
-
-
 var color = this.color;
 
-var pivot = new Square( this, centerX, 0, this.pivot_color );
+var pivot = new Square( this, 0, 0, this.pivot_color );
     
-var square1 = new Square( this, centerX, 0, color );  // the positions will be updated later
-var square2 = new Square( this, centerX, 0, color );
-var square3 = new Square( this, centerX, 0, color );
+var square1 = new Square( this, 0, 0, color );  // the positions will be updated later
+var square2 = new Square( this, 0, 0, color );
+var square3 = new Square( this, 0, 0, color );
 
 this.all_squares = [ square1, square2, square3, pivot ];
 this.pivot_square = pivot;
@@ -43,14 +37,22 @@ this.other_squares = [ square1, square2, square3 ];
 this.grid_object = gridObject;
 
 
-container.addChild( square1.shape );
-container.addChild( square2.shape );
-container.addChild( square3.shape );
-container.addChild( pivot.shape );
+    // when we only want to create a Piece for show, the gridObject isn't given (adding to a container is dealt in other place)
+if ( gridObject )
+    {
+    var container = gridObject.container;
+
+    container.addChild( square1.shape );
+    container.addChild( square2.shape );
+    container.addChild( square3.shape );
+    container.addChild( pivot.shape );
+    }
 
 
 this.setPosition( column, line, false );
 }
+
+
 
 
 /**
@@ -109,7 +111,11 @@ for (var i = 0 ; i < currentRotations.length ; i++)
     other.line = pivotLine + rotation.line;
     }
 
-this.grid_object.addPiece( this );
+
+if ( grid )
+    {
+    grid.addPiece( this );
+    }
 };
 
 

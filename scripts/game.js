@@ -18,6 +18,14 @@ var CURRENT_LEVEL = 1;
 var GAME_MENU_WIDTH = 200;  // in pixels
 
 
+    // current active piece on the map (falling)
+var ACTIVE_PIECE = null;
+
+    // has the next piece class (so, 'IPiece' or 'TPiece', etc)
+var NEXT_PIECE_CLASS = null;
+var NEXT_PIECE = null;  // has the next piece object
+
+
 Game.start = function()
 {
 clearCanvas();
@@ -31,11 +39,16 @@ CURRENT_LEVEL = Options.getStartingLevel();
 
     // resize the canvas, according to the grid's dimension
 CANVAS.width = numberOfColumns * Square.size + 2 * startingX + GAME_MENU_WIDTH;
+
+
 CANVAS.height = numberOfLines * Square.size + 2 * startingY;
 
 centerCanvas();
 
 GRID = new Grid( startingX, startingY, numberOfColumns, numberOfLines );
+
+
+NEXT_PIECE_CLASS = Game.chooseRandomPiece();
 
 Game.newPiece();
 Game.initGameMenu();
@@ -66,12 +79,9 @@ if ( ACTIVE_PIECE )
     GRID.checkClearedLines();
     }
 
-var possiblePieces = [ IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece ];
 
-var choose = getRandomInt( 0, possiblePieces.length - 1 );
-
-var chosenPiece = possiblePieces[ choose ];
-
+    // the next piece is the one determined before
+var chosenPiece = NEXT_PIECE_CLASS;
 
 var rotation = chosenPiece.POSSIBLE_ROTATIONS[ 0 ];
 
@@ -98,10 +108,27 @@ for (i = 0 ; i < rotation.length ; i++)
     }
 
 
+    // we randomly get a new piece, for next time
+NEXT_PIECE_CLASS = Game.chooseRandomPiece();
+
+    // and show it in the game menu
+Game.showNextPiece( NEXT_PIECE_CLASS );
+
+
 ACTIVE_PIECE = new chosenPiece( GRID, pivotColumn, pivotLine );
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)
 DELAY_COUNT = 0;
+};
+
+
+Game.chooseRandomPiece = function()
+{
+var possiblePieces = [ IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece ];
+
+var choose = getRandomInt( 0, possiblePieces.length - 1 );
+
+return possiblePieces[ choose ];
 };
 
 
@@ -177,10 +204,11 @@ $( gameMenuTop ).css( 'width', GAME_MENU_WIDTH + 'px' );
 $( gameMenuBottom ).css( 'width', GAME_MENU_WIDTH + 'px' );
 
     // left is same for both menus (top/bottom)
-var left = canvasPosition.left + numberOfColumns * Square.size + GAME_MENU_WIDTH / 2; // text is center aligned, so divide by 2
+var left = canvasPosition.left + 2 * GRID.startingX + numberOfColumns * Square.size - 5;   //HERE -5 from the grid's thickness (the lines)
 
-var topMenu_top = canvasPosition.top;
-var bottomMenu_top = topMenu_top + numberOfLines * Square.size - $( gameMenuBottom ).height();
+
+var topMenu_top = canvasPosition.top + 100; //HERE
+var bottomMenu_top = canvasPosition.top + numberOfLines * Square.size - $( gameMenuBottom ).height();
 
 
 $( gameMenuTop ).css( 'top', topMenu_top + 'px' );
@@ -189,6 +217,40 @@ $( gameMenuTop ).css( 'left', left + 'px' );
 $( gameMenuBottom ).css( 'top', bottomMenu_top + 'px' );
 $( gameMenuBottom ).css( 'left', left + 'px' );
 };
+
+
+/*
+    Shows an image of the next piece to fall, in the game menu
+ */
+
+Game.showNextPiece = function( nextPieceClass )
+{
+if ( NEXT_PIECE )
+    {
+    STAGE.removeChild( NEXT_PIECE );
+    }
+
+var piece = new nextPieceClass( null, 0, 0 );
+
+var container = new createjs.Container();
+
+var all_squares = piece.all_squares;
+
+for (var i = 0 ; i < all_squares.length ; i++)
+    {
+    container.addChild( all_squares[ i ].shape );
+    }
+
+var x = 2 * GRID.startingX + GRID.numberOfColumns * Square.size + GAME_MENU_WIDTH / 2 - 5;  //HERE -5: the grid's line thickness
+
+container.x = x;
+container.y = GRID.startingY + 40;
+
+NEXT_PIECE = container;
+
+STAGE.addChild( container );
+};
+
 
 
 
@@ -206,6 +268,11 @@ Game.setFallDownSpeed = function( step )    //HERE improve this
 DELAY_STEP = step;
 };
 
+
+Game.getActivePiece = function()
+{
+return ACTIVE_PIECE;
+};
 
 
 Game.tick = function()
