@@ -62,8 +62,8 @@ this.setPosition( column, line, false );
 
     clearPreviousPosition to clear the grid before changing the position, not needed when adding a piece for the first time, but has to be done when moving (default is true)
 
-    @param {number} pivotColumn
-    @param {number} pivotLine
+    @param {Number} pivotColumn
+    @param {Number} pivotLine
     @param {Boolean} [clearPreviousPosition=true]
  */
 

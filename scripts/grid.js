@@ -210,9 +210,10 @@ for (column = 0 ; column < this.numberOfColumns ; column++)
 
             this.grid_array[ column ][ line ] = null;
             }
-
         }
     }
+
+Game.oneMoreClearedLine();
 };
 
 

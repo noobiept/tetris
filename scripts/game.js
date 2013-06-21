@@ -14,6 +14,9 @@ var DELAY_STEP = 1;
 
 var CURRENT_LEVEL = 1;
 
+    // number of cleared lines so far (count)
+var CLEARED_LINES = 0;
+
 
 var GAME_MENU_WIDTH = 200;  // in pixels
 
@@ -36,6 +39,8 @@ var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
 CURRENT_LEVEL = Options.getStartingLevel();
+
+CLEARED_LINES = 0;
 
     // resize the canvas, according to the grid's dimension
 CANVAS.width = numberOfColumns * Square.size + 2 * startingX + GAME_MENU_WIDTH;
@@ -141,6 +146,12 @@ var gameMenu = document.querySelector( '#GameMenu' );
 var currentLevel = gameMenu.querySelector( '#GameMenu-currentLevel span' );
 
 currentLevel.innerText = CURRENT_LEVEL;
+
+    // :: Cleared Lines :: //
+
+var clearedLines = gameMenu.querySelector( '#GameMenu-clearedLines span' );
+
+clearedLines.innerText = '0';
 
 
     // :: Pause / Resume :: //
@@ -273,6 +284,21 @@ Game.getActivePiece = function()
 {
 return ACTIVE_PIECE;
 };
+
+
+
+
+
+Game.oneMoreClearedLine = function()
+{
+CLEARED_LINES++;
+
+$( '#GameMenu-clearedLines span' ).text( CLEARED_LINES );
+};
+
+
+
+
 
 
 Game.tick = function()
