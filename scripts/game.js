@@ -18,7 +18,7 @@ var CURRENT_LEVEL = 1;
 var CLEARED_LINES = 0;
 
 
-var GAME_MENU_WIDTH = 200;  // in pixels
+var GAME_MENU_WIDTH = 160;  // in pixels
 
 
     // current active piece on the map (falling)
@@ -33,8 +33,8 @@ Game.start = function()
 {
 clearCanvas();
 
-var startingX = 50;
-var startingY = 10;
+var startingX = 20;
+var startingY = 20;
 var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
@@ -219,7 +219,7 @@ var left = canvasPosition.left + 2 * GRID.startingX + numberOfColumns * Square.s
 
 
 var topMenu_top = canvasPosition.top + 100; //HERE
-var bottomMenu_top = canvasPosition.top + numberOfLines * Square.size - $( gameMenuBottom ).height();
+var bottomMenu_top = canvasPosition.top + CANVAS.height - $( gameMenuBottom ).height() - GRID.startingY;
 
 
 $( gameMenuTop ).css( 'top', topMenu_top + 'px' );
@@ -255,7 +255,7 @@ for (var i = 0 ; i < all_squares.length ; i++)
 var x = 2 * GRID.startingX + GRID.numberOfColumns * Square.size + GAME_MENU_WIDTH / 2 - 5;  //HERE -5: the grid's line thickness
 
 container.x = x;
-container.y = GRID.startingY + 40;
+container.y = GRID.startingY + 20;
 
 NEXT_PIECE = container;
 
@@ -270,6 +270,8 @@ Game.clear = function()
 $( '#GameMenu-pauseResume' ).text( 'Pause' );
 
 $( '#GameMenu' ).css( 'display', 'none' );
+
+createjs.Ticker.removeListener( Game.tick );
 };
 
 

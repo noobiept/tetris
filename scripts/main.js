@@ -76,15 +76,7 @@ window.onload = function()
 {
 Options.load();
 
-var canvasWidth = 800;
-var canvasHeight = 650;
-
 CANVAS = document.querySelector( '#mainCanvas' );
-
-CANVAS.width = canvasWidth;
-CANVAS.height = canvasHeight;
-
-centerCanvas();
 
 STAGE = new createjs.Stage( CANVAS );
 
@@ -187,6 +179,7 @@ MainMenu.clear();
 
 createjs.Ticker.removeAllEventListeners( 'tick' );
 STAGE.removeAllChildren();
+STAGE.update();
 }
 
 

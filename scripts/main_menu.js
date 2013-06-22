@@ -13,6 +13,10 @@ var HELP_MENU;
 
 var ACTIVE_MENU;
 
+    // the canvas dimensions (for the main menu only, it may change for the game)
+var CANVAS_WIDTH = 800;
+var CANVAS_HEIGHT = 600;
+
 MainMenu.init = function()
 {
 MAIN_MENU = document.querySelector( '#MainMenu' );
@@ -24,6 +28,11 @@ HELP_MENU = document.querySelector( '#Help' );
 MainMenu.open = function()
 {
 clearCanvas();
+
+CANVAS.width = CANVAS_WIDTH;
+CANVAS.height = CANVAS_HEIGHT;
+
+centerCanvas();
 
 var startGame = MAIN_MENU.querySelector( '#MainMenu-startGame' );
 var options = MAIN_MENU.querySelector( '#MainMenu-options' );

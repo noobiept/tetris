@@ -33,9 +33,26 @@ em
     }
 
 
+    /* :: Main Menu :: */
+
+#MainMenu > *
+    {
+    padding: 10px;
+    font-size: 1.2em;
+    }
+
+
+
+    /* :: Game Menu :: */
+
 #GameMenu-top, #GameMenu-bottom
     {
     position: absolute;
+    }
+
+#GameMenu-bottom > *
+    {
+    padding: 10px 0;
     }
 
 
