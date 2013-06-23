@@ -142,7 +142,7 @@ var levelSlider = level.querySelector( '#Options-startingLevel-slider' );
 
 $( levelSlider ).slider({
     min: 1,
-    max: 20,
+    max: Game.getMaxLevel(),
     step: 1,
     value: startingLevel,
     range: 'min',

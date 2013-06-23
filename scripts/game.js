@@ -6,12 +6,15 @@ function Game()
 }
 
     // number of ticks until the active piece moves down 1 position
-var DELAY = 10;
+var DELAY_START = 10;
+var DELAY_LIMIT = DELAY_START;
 var DELAY_COUNT = 0;
 
     // how much the counter increases per tick
 var DELAY_STEP = 1;
 
+    // the max level is the same as delay_start, since we're reducing the delay count as the level is increase, so eventually you get to a point where you can't reduce the delay anymore (its == 1), so that's the max level, with the fastest speed
+var MAX_LEVEL = DELAY_START;
 var CURRENT_LEVEL = 1;
 
     // number of cleared lines so far (count)
@@ -38,7 +41,7 @@ var startingY = 20;
 var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
-CURRENT_LEVEL = Options.getStartingLevel();
+Game.setLevel( Options.getStartingLevel() )
 
 CLEARED_LINES = 0;
 
@@ -296,9 +299,58 @@ Game.oneMoreClearedLine = function()
 CLEARED_LINES++;
 
 $( '#GameMenu-clearedLines span' ).text( CLEARED_LINES );
+
+
+    // move up one level every 5 cleared lines
+if ( (CLEARED_LINES % 5) == 0 )
+    {
+    Game.nextLevel();
+    }
 };
 
 
+
+Game.nextLevel = function()
+{
+    // can't make the pieces fall down faster.. so means we achieved the max. level
+if ( CURRENT_LEVEL >= MAX_LEVEL )
+    {
+    $( '#GameMenu-currentLevel span' ).text( 'Max' );
+    }
+
+else
+    {
+    CURRENT_LEVEL++;
+
+    $( '#GameMenu-currentLevel span' ).text( CURRENT_LEVEL );
+
+    DELAY_LIMIT--;
+    }
+};
+
+
+Game.setLevel = function( level )
+{
+if ( level >= MAX_LEVEL )
+    {
+    CURRENT_LEVEL = MAX_LEVEL;
+
+    DELAY_LIMIT = 1;
+    }
+
+else
+    {
+    CURRENT_LEVEL = level;
+
+    DELAY_LIMIT = DELAY_START - level + 1;
+    }
+};
+
+
+Game.getMaxLevel = function()
+{
+return MAX_LEVEL;
+};
 
 
 
@@ -310,7 +362,7 @@ DELAY_COUNT += DELAY_STEP;
 movement_tick();
 
 
-if ( DELAY_COUNT >= DELAY )
+if ( DELAY_COUNT >= DELAY_LIMIT )
     {
     DELAY_COUNT = 0;
 

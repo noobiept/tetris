@@ -49,6 +49,7 @@
                 - change the grid's dimensions
                 - change the initial speed of the pieces (map level?..)
             - help (the keyboard shortcuts..)
+        - add an option to specify the number of cleared lines it takes to increase the level
  */
 
 
