@@ -9,7 +9,8 @@ var OPTIONS = {
 
     numberOfColumns: 20,
     numberOfLines: 30,
-    startingLevel: 1
+    startingLevel: 1,
+    linesToLevelUp: 5
 
     };
 
@@ -24,7 +25,25 @@ var options = localStorage.getObject( 'options' );
 
 if ( options !== null )
     {
-    OPTIONS = options;
+    if ( options.numberOfColumns )
+        {
+        OPTIONS.numberOfColumns = options.numberOfColumns;
+        }
+
+    if ( options.numberOfLines )
+        {
+        OPTIONS.numberOfLines = options.numberOfLines;
+        }
+
+    if ( options.startingLevel )
+        {
+        OPTIONS.startingLevel = options.startingLevel;
+        }
+
+    if ( options.linesToLevelUp )
+        {
+        OPTIONS.linesToLevelUp = options.linesToLevelUp;
+        }
     }
 };
 
@@ -63,6 +82,17 @@ Options.setStartingLevel = function( level )
 OPTIONS.startingLevel = level;
 };
 
+
+Options.getLinesToLevelUp = function()
+{
+return OPTIONS.linesToLevelUp;
+};
+
+
+Options.setLinesToLevelUp = function( lines )
+{
+OPTIONS.linesToLevelUp = lines;
+};
 
 
 window.Options = Options;

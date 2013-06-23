@@ -56,6 +56,12 @@ em
     }
 
 
+#Options-container
+    {
+    width: 600px;   /* force to have 2 options per line */
+    }
+
+
 #Options-container > *
     {
     display: inline-block;

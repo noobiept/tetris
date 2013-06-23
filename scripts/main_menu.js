@@ -157,6 +157,37 @@ $( levelSlider ).slider({
     });
 
 
+    // :: Required Lines to Level Up :: //
+
+var linesToLevel = OPTIONS_MENU.querySelector( '#Options-linesToLevelUp' );
+var linesToLevelSpan = linesToLevel.querySelector( 'span' );
+
+var linesToLevelValue = Options.getLinesToLevelUp();
+
+linesToLevelSpan.innerText = linesToLevelValue;
+
+
+var linesToLevelSlider = linesToLevel.querySelector( '#Options-linesToLevelUp-slider' );
+
+$( linesToLevelSlider ).slider({
+    min: 1,
+    max: 15,
+    step: 1,
+    value: linesToLevelValue,
+    range: 'min',
+    slide: function( event, ui )
+        {
+        linesToLevelSpan.innerText = ui.value;
+
+        Options.setLinesToLevelUp( parseInt( ui.value, 10 ) );
+
+        centerElement( OPTIONS_MENU );
+        }
+    });
+
+
+
+    // :: Other :: //
 
 var back = OPTIONS_MENU.querySelector( '#Options-back' );
 

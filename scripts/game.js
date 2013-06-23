@@ -301,8 +301,8 @@ CLEARED_LINES++;
 $( '#GameMenu-clearedLines span' ).text( CLEARED_LINES );
 
 
-    // move up one level every 5 cleared lines
-if ( (CLEARED_LINES % 5) == 0 )
+    // move up one level, once the number of cleared lines is reached
+if ( (CLEARED_LINES % Options.getLinesToLevelUp()) == 0 )
     {
     Game.nextLevel();
     }

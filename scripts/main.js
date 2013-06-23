@@ -36,23 +36,8 @@
 
     to doo:
 
-        - adjust the canvas width/height according to the grid's dimensions (to fit)
         - you can rotate when a piece is added, and it overlaps the top of the grid (doesnt affect the game though)
-        - increase the speed after a certain number of lines cleared
-        - add game menu:
-            - show the number of cleared lines so far and current level
-            - way to return to main menu
-            - pause/resume the game
-        - add a menu with:
-            - start game
-            - options:
-                - change the grid's dimensions
-                - change the initial speed of the pieces (map level?..)
-            - help (the keyboard shortcuts..)
-        - add an option to specify the number of cleared lines it takes to increase the level
  */
-
-
 
 
     // createjs
