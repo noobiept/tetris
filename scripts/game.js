@@ -148,7 +148,15 @@ var gameMenu = document.querySelector( '#GameMenu' );
 
 var currentLevel = gameMenu.querySelector( '#GameMenu-currentLevel span' );
 
-currentLevel.innerText = CURRENT_LEVEL;
+if ( CURRENT_LEVEL >= MAX_LEVEL )
+    {
+    currentLevel.innerText = 'max';
+    }
+
+else
+    {
+    currentLevel.innerText = CURRENT_LEVEL;
+    }
 
     // :: Cleared Lines :: //
 
@@ -218,7 +226,7 @@ $( gameMenuTop ).css( 'width', GAME_MENU_WIDTH + 'px' );
 $( gameMenuBottom ).css( 'width', GAME_MENU_WIDTH + 'px' );
 
     // left is same for both menus (top/bottom)
-var left = canvasPosition.left + 2 * GRID.startingX + numberOfColumns * Square.size - 5;   //HERE -5 from the grid's thickness (the lines)
+var left = canvasPosition.left + 2 * GRID.startingX + numberOfColumns * Square.size - 6;   //HERE -5 from the grid's thickness (the lines)
 
 
 var topMenu_top = canvasPosition.top + 100; //HERE
@@ -255,7 +263,7 @@ for (var i = 0 ; i < all_squares.length ; i++)
     container.addChild( all_squares[ i ].shape );
     }
 
-var x = 2 * GRID.startingX + GRID.numberOfColumns * Square.size + GAME_MENU_WIDTH / 2 - 5;  //HERE -5: the grid's line thickness
+var x = 2 * GRID.startingX + GRID.numberOfColumns * Square.size + GAME_MENU_WIDTH / 2 - 6;  //HERE -5: the grid's line thickness
 
 container.x = x;
 container.y = GRID.startingY + 20;
@@ -279,7 +287,7 @@ createjs.Ticker.removeListener( Game.tick );
 
 
 
-Game.setFallDownSpeed = function( step )    //HERE improve this
+Game.setFallDownSpeed = function( step )
 {
 DELAY_STEP = step;
 };
@@ -312,16 +320,16 @@ if ( (CLEARED_LINES % Options.getLinesToLevelUp()) == 0 )
 
 Game.nextLevel = function()
 {
+CURRENT_LEVEL++;
+
     // can't make the pieces fall down faster.. so means we achieved the max. level
-if ( CURRENT_LEVEL >= MAX_LEVEL )
+if ( CURRENT_LEVEL > MAX_LEVEL )
     {
-    $( '#GameMenu-currentLevel span' ).text( 'Max' );
+    $( '#GameMenu-currentLevel span' ).text( 'max' );
     }
 
 else
     {
-    CURRENT_LEVEL++;
-
     $( '#GameMenu-currentLevel span' ).text( CURRENT_LEVEL );
 
     DELAY_LIMIT--;

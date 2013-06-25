@@ -25,6 +25,13 @@ em
     cursor: pointer;
     }
 
+.button:hover
+    {
+    color: #fcd3a1;
+    border-bottom: 1px solid #fcd3a1;
+    }
+
+
 
 #MainMenu, #Options, #Help, #GameMenu
     {
@@ -39,8 +46,15 @@ em
     {
     padding: 10px;
     font-size: 1.2em;
+    width: 200px;
     }
 
+
+#Options-back, #Help-back
+    {
+    width: 200px;
+    margin: auto;
+    }
 
 
     /* :: Game Menu :: */

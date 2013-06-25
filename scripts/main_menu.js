@@ -111,7 +111,7 @@ linesSpan.innerText = numberOfLines;
 var linesSlider = lines.querySelector( '#Options-numberOfLines-slider' );
 
 $( linesSlider ).slider({
-    min: 10,
+    min: 15,
     max: 40,
     step: 5,
     value: numberOfLines,

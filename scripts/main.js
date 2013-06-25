@@ -37,6 +37,7 @@
     to doo:
 
         - you can rotate when a piece is added, and it overlaps the top of the grid (doesnt affect the game though)
+        - have a way to use a different movement style (move left/right), that when pressing the arrow key doesnt move constantly (see classic tetris). an option to switch between both
  */
 
 
@@ -53,6 +54,7 @@ var GRID;
 var KEYS_HELD = {
     leftArrow  : false,     // move left
     rightArrow : false      // move right
+
     };
 
 

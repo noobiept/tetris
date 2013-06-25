@@ -2,6 +2,7 @@
     "name": "tetris",
     "version": "1.0",
     "description": "tetris game",
+    "icons": { "16": "images/tetris_16.png", "128": "images/tetris_128.png" },
     "app": { "launch": { "local_path": "index.html" } },
     "manifest_version": 2
 }
