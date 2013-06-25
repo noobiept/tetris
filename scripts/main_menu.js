@@ -76,7 +76,7 @@ var columnsSpan = columns.querySelector( 'span' );
 
 var numberOfColumns = Options.getNumberOfColumns();
 
-columnsSpan.innerText = numberOfColumns;
+$( columnsSpan ).text( numberOfColumns );
 
 
 var columnsSlider = columns.querySelector( '#Options-numberOfColumns-slider' );
@@ -89,7 +89,7 @@ $( columnsSlider ).slider({
     range: 'min',
     slide: function( event, ui )
         {
-        columnsSpan.innerText = ui.value;
+        $( columnsSpan ).text( ui.value );
 
         Options.setNumberOfColumns( parseInt( ui.value, 10 ) );
 
@@ -105,7 +105,7 @@ var linesSpan = lines.querySelector( 'span' );
 
 var numberOfLines = Options.getNumberOfLines();
 
-linesSpan.innerText = numberOfLines;
+$( linesSpan ).text( numberOfLines );
 
 
 var linesSlider = lines.querySelector( '#Options-numberOfLines-slider' );
@@ -118,7 +118,7 @@ $( linesSlider ).slider({
     range: 'min',
     slide: function( event, ui )
         {
-        linesSpan.innerText = ui.value;
+        $( linesSpan ).text( ui.value );
 
         Options.setNumberOfLines( parseInt( ui.value, 10 ) );
 
@@ -135,7 +135,7 @@ var levelSpan = level.querySelector( 'span' );
 
 var startingLevel = Options.getStartingLevel();
 
-levelSpan.innerText = startingLevel;
+$( levelSpan ).text( startingLevel );
 
 
 var levelSlider = level.querySelector( '#Options-startingLevel-slider' );
@@ -148,7 +148,7 @@ $( levelSlider ).slider({
     range: 'min',
     slide: function( event, ui )
         {
-        levelSpan.innerText = ui.value;
+        $( levelSpan ).text( ui.value );
 
         Options.setStartingLevel( parseInt( ui.value, 10 ) );
 
@@ -164,7 +164,7 @@ var linesToLevelSpan = linesToLevel.querySelector( 'span' );
 
 var linesToLevelValue = Options.getLinesToLevelUp();
 
-linesToLevelSpan.innerText = linesToLevelValue;
+$( linesToLevelSpan ).text( linesToLevelValue );
 
 
 var linesToLevelSlider = linesToLevel.querySelector( '#Options-linesToLevelUp-slider' );
@@ -177,7 +177,7 @@ $( linesToLevelSlider ).slider({
     range: 'min',
     slide: function( event, ui )
         {
-        linesToLevelSpan.innerText = ui.value;
+        $( linesToLevelSpan ).text( ui.value );
 
         Options.setLinesToLevelUp( parseInt( ui.value, 10 ) );
 

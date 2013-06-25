@@ -41,7 +41,7 @@ var startingY = 20;
 var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
-Game.setLevel( Options.getStartingLevel() )
+Game.setLevel( Options.getStartingLevel() );
 
 CLEARED_LINES = 0;
 
@@ -150,19 +150,19 @@ var currentLevel = gameMenu.querySelector( '#GameMenu-currentLevel span' );
 
 if ( CURRENT_LEVEL >= MAX_LEVEL )
     {
-    currentLevel.innerText = 'max';
+    $( currentLevel ).text( 'max' );
     }
 
 else
     {
-    currentLevel.innerText = CURRENT_LEVEL;
+    $( currentLevel ).text( CURRENT_LEVEL );
     }
 
     // :: Cleared Lines :: //
 
 var clearedLines = gameMenu.querySelector( '#GameMenu-clearedLines span' );
 
-clearedLines.innerText = '0';
+$( clearedLines ).text( '0' );
 
 
     // :: Pause / Resume :: //
@@ -176,7 +176,7 @@ pauseResume.onclick = function()
     if ( isPaused )
         {
         isPaused = false;
-        pauseResume.innerText = 'Pause';
+        $( pauseResume ).text( 'Pause' );
 
         resume();
         }
@@ -184,7 +184,7 @@ pauseResume.onclick = function()
     else
         {
         isPaused = true;
-        pauseResume.innerText = 'Resume';
+        $( pauseResume ).text( 'Resume' );
 
         pause();
         }

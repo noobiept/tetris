@@ -1,0 +1,15 @@
+{
+    "resultingFolder": "tetris",
+    "basePath": "..",
+    "files":
+        [
+            "images/tetris_16.png",
+            "images/tetris_128.png",
+
+            "css/",
+            "libraries/",
+
+            "index.html",
+            "manifest.json"
+        ]
+}

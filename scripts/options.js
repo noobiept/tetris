@@ -7,8 +7,8 @@ function Options()
 
 var OPTIONS = {
 
-    numberOfColumns: 20,
-    numberOfLines: 30,
+    numberOfColumns: 10,
+    numberOfLines: 20,
     startingLevel: 1,
     linesToLevelUp: 5
 
