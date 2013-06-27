@@ -83,7 +83,7 @@ var columnsSlider = columns.querySelector( '#Options-numberOfColumns-slider' );
 
 $( columnsSlider ).slider({
     min: 10,
-    max: 40,
+    max: 30,
     step: 5,
     value: numberOfColumns,
     range: 'min',

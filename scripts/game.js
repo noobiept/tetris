@@ -312,29 +312,10 @@ $( '#GameMenu-clearedLines span' ).text( CLEARED_LINES );
     // move up one level, once the number of cleared lines is reached
 if ( (CLEARED_LINES % Options.getLinesToLevelUp()) == 0 )
     {
-    Game.nextLevel();
+    Game.setLevel( CURRENT_LEVEL + 1 );
     }
 };
 
-
-
-Game.nextLevel = function()
-{
-CURRENT_LEVEL++;
-
-    // can't make the pieces fall down faster.. so means we achieved the max. level
-if ( CURRENT_LEVEL > MAX_LEVEL )
-    {
-    $( '#GameMenu-currentLevel span' ).text( 'max' );
-    }
-
-else
-    {
-    $( '#GameMenu-currentLevel span' ).text( CURRENT_LEVEL );
-
-    DELAY_LIMIT--;
-    }
-};
 
 
 Game.setLevel = function( level )
@@ -344,6 +325,8 @@ if ( level >= MAX_LEVEL )
     CURRENT_LEVEL = MAX_LEVEL;
 
     DELAY_LIMIT = 1;
+
+    $( '#GameMenu-currentLevel span' ).text( 'max' );
     }
 
 else
@@ -351,6 +334,8 @@ else
     CURRENT_LEVEL = level;
 
     DELAY_LIMIT = DELAY_START - level + 1;
+
+    $( '#GameMenu-currentLevel span' ).text( CURRENT_LEVEL );
     }
 };
 
@@ -359,7 +344,6 @@ Game.getMaxLevel = function()
 {
 return MAX_LEVEL;
 };
-
 
 
 
