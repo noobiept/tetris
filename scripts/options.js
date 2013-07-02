@@ -25,22 +25,22 @@ var options = localStorage.getObject( 'options' );
 
 if ( options !== null )
     {
-    if ( options.numberOfColumns )
+    if ( $.isNumeric( options.numberOfColumns ) )
         {
         OPTIONS.numberOfColumns = options.numberOfColumns;
         }
 
-    if ( options.numberOfLines )
+    if ( $.isNumeric( options.numberOfLines ) )
         {
         OPTIONS.numberOfLines = options.numberOfLines;
         }
 
-    if ( options.startingLevel )
+    if ( $.isNumeric( options.startingLevel ) )
         {
         OPTIONS.startingLevel = options.startingLevel;
         }
 
-    if ( options.linesToLevelUp )
+    if ( $.isNumeric( options.linesToLevelUp ) )
         {
         OPTIONS.linesToLevelUp = options.linesToLevelUp;
         }
