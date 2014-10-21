@@ -1,5 +1,4 @@
 {
-    "resultingFolder": "tetris",
     "basePath": "..",
     "files":
         [
@@ -11,5 +10,12 @@
 
             "index.html",
             "manifest.json"
+        ],
+    "extensions":
+        [
+            ".css",
+            ".js",
+            ".gif",
+            ".png"
         ]
 }

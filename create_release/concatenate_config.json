@@ -1,19 +1,19 @@
 {
     "C:\\Users\\drk\\Dropbox\\projects\\tetris": [
-        "scripts/utilities.js", 
-        "scripts/main.js", 
-        "scripts/options.js", 
-        "scripts/main_menu.js", 
-        "scripts/game.js", 
-        "scripts/grid.js", 
-        "scripts/piece.js", 
-        "scripts/i_piece.js", 
-        "scripts/t_piece.js", 
-        "scripts/s_piece.js", 
-        "scripts/z_piece.js", 
-        "scripts/o_piece.js", 
-        "scripts/j_piece.js", 
-        "scripts/l_piece.js", 
+        "scripts/utilities.js",
+        "scripts/main.js",
+        "scripts/options.js",
+        "scripts/main_menu.js",
+        "scripts/game.js",
+        "scripts/grid.js",
+        "scripts/piece.js",
+        "scripts/i_piece.js",
+        "scripts/t_piece.js",
+        "scripts/s_piece.js",
+        "scripts/z_piece.js",
+        "scripts/o_piece.js",
+        "scripts/j_piece.js",
+        "scripts/l_piece.js",
         "scripts/square.js"
     ]
 }
