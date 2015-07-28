@@ -89,6 +89,7 @@ pivot.line = pivotLine;
 var pivotX = pivotColumn * Square.size;
 var pivotY = pivotLine * Square.size;
 
+
 pivot.shape.x = pivotX;
 pivot.shape.y = pivotY;
 

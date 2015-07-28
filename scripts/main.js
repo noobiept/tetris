@@ -1,46 +1,3 @@
-
-/*
-    - Each piece/element has 4 square blocks
-    - a random sequence of pieces falls down
-    - we can rotate it (90 degrees each time, both ways)
-    - need to create a horizontal line to clear the line
-    - when a certain number of lines is cleared, we change the level of the game, which increases the speed of the falling pieces
-    - game ends when a piece reaches the top
-
-
-    Movement:
-
-        = left arrow  : move left
-        - right arrow : move right
-        - down arrow  : soft drop
-        - space       : hard drop
-        - a           : rotate left
-        - d           : rotate right
-
-
-
-    reference:
-
-        - http://en.wikipedia.org/wiki/Tetris
-
-
-    Dependencies:
-
-        - jquery : 2.0
-        - jqueryui : 1.10
-
-            - slider
-            - blitzer theme
-
-        - easeljs : 0.6
-
-    to doo:
-
-        - you can rotate when a piece is added, and it overlaps the top of the grid (doesnt affect the game though)
-        - have a way to use a different movement style (move left/right), that when pressing the arrow key doesnt move constantly (see classic tetris). an option to switch between both
- */
-
-
     // createjs
 var STAGE;
 
@@ -54,9 +11,7 @@ var GRID;
 var KEYS_HELD = {
     leftArrow  : false,     // move left
     rightArrow : false      // move right
-
     };
-
 
 
 
@@ -80,7 +35,6 @@ window.onunload = function()
 {
 Options.save();
 };
-
 
 
 window.onkeydown = function( event )

@@ -36,8 +36,6 @@ Game.start = function()
 {
 clearCanvas();
 
-var startingX = 20;
-var startingY = 20;
 var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
@@ -45,15 +43,13 @@ Game.setLevel( Options.getStartingLevel() );
 
 CLEARED_LINES = 0;
 
+GRID = new Grid( numberOfColumns, numberOfLines );
+
     // resize the canvas, according to the grid's dimension
-CANVAS.width = numberOfColumns * Square.size + 2 * startingX + GAME_MENU_WIDTH;
-
-
-CANVAS.height = numberOfLines * Square.size + 2 * startingY;
+CANVAS.width = GRID.width + GAME_MENU_WIDTH;
+CANVAS.height = GRID.height;
 
 centerCanvas();
-
-GRID = new Grid( startingX, startingY, numberOfColumns, numberOfLines );
 
 
 NEXT_PIECE_CLASS = Game.chooseRandomPiece();
@@ -215,8 +211,6 @@ var canvasPosition = $( CANVAS ).position();
 var gameMenuTop = gameMenu.querySelector( '#GameMenu-top' );
 var gameMenuBottom = gameMenu.querySelector( '#GameMenu-bottom' );
 
-var numberOfColumns = Options.getNumberOfColumns();
-var numberOfLines = Options.getNumberOfLines();
 
     // show the menu (has to be before doing the calculations below)
 $( gameMenu ).css( 'display', 'block' );
@@ -226,11 +220,11 @@ $( gameMenuTop ).css( 'width', GAME_MENU_WIDTH + 'px' );
 $( gameMenuBottom ).css( 'width', GAME_MENU_WIDTH + 'px' );
 
     // left is same for both menus (top/bottom)
-var left = canvasPosition.left + 2 * GRID.startingX + numberOfColumns * Square.size - 6;   //HERE -5 from the grid's thickness (the lines)
+var left = canvasPosition.left + GRID.width;
 
 
 var topMenu_top = canvasPosition.top + 100; //HERE
-var bottomMenu_top = canvasPosition.top + CANVAS.height - $( gameMenuBottom ).height() - GRID.startingY;
+var bottomMenu_top = canvasPosition.top + CANVAS.height - $( gameMenuBottom ).height();
 
 
 $( gameMenuTop ).css( 'top', topMenu_top + 'px' );
@@ -263,10 +257,10 @@ for (var i = 0 ; i < all_squares.length ; i++)
     container.addChild( all_squares[ i ].shape );
     }
 
-var x = 2 * GRID.startingX + GRID.numberOfColumns * Square.size + GAME_MENU_WIDTH / 2 - 6;  //HERE -5: the grid's line thickness
+var x = GRID.width + GAME_MENU_WIDTH / 2;
 
 container.x = x;
-container.y = GRID.startingY + 20;
+container.y = 20;
 
 NEXT_PIECE = container;
 

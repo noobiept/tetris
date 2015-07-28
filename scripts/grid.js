@@ -1,12 +1,26 @@
 (function(window)
 {
-/*
-    startingX/Y is in pixels
+/**
+ * Create the grid where the game will be played.
+ * Also add a border around the playable area, and have some margin around it.
  */
-
-function Grid( startingX, startingY, numberOfColumns, numberOfLines )
+function Grid( numberOfColumns, numberOfLines )
 {
-this.draw( startingX, startingY, numberOfColumns, numberOfLines );
+this.margin = 20;
+this.border_thickness = 5;
+this.numberOfColumns = numberOfColumns;
+this.numberOfLines = numberOfLines;
+
+    // the playable area
+this.inner_width = numberOfColumns * Square.size;
+this.inner_height = numberOfLines * Square.size;
+
+    // margin + border
+this.separation_length = this.margin + this.border_thickness;
+
+    // full width/height (margin + border + inner area + border + margin)
+this.width = 2 * this.separation_length + this.inner_width;
+this.height = 2 * this.separation_length + this.inner_height;
 
 
     // tells which squares of the grid are occupied
@@ -21,30 +35,31 @@ for (var i = 0 ; i < numberOfColumns ; i++)
         this.grid_array[ i ][ k ] = null;
         }
     }
+
+this.container = this.draw();
 }
 
 
-/*
-    Draw the grid lines
+/**
+ * Draw the grid lines.
  */
-
-Grid.prototype.draw = function( startingX, startingY, numberOfColumns, numberOfLines )
+Grid.prototype.draw = function()
 {
-var width = numberOfColumns * Square.size;
-var height = numberOfLines * Square.size;
-
-var thickness = 5;
+var margin = this.margin;
+var thickness = this.border_thickness;
+var innerWidth = this.inner_width;
+var innerHeight = this.inner_height;
 
     // top line
 var top = new createjs.Shape();
 
-top.x = startingX;
-top.y = startingY;
+top.x = margin;
+top.y = margin;
 
 var g = top.graphics;
 
 g.beginFill( 'white' );
-g.drawRect( 0, -thickness, width, thickness );
+g.drawRect( 0, -thickness, innerWidth, thickness );
 
 STAGE.addChild( top );
 
@@ -52,61 +67,53 @@ STAGE.addChild( top );
     // bottom line
 var bottom = new createjs.Shape();
 
-bottom.x = startingX;
-bottom.y = startingY + height;
+bottom.x = margin;
+bottom.y = margin + innerHeight;
 
 g = bottom.graphics;
 
 g.beginFill( 'white' );
-g.drawRect( 0, 0, width, thickness );
+g.drawRect( 0, 0, innerWidth, thickness );
 
 STAGE.addChild( bottom );
 
     // left line
 var left = new createjs.Shape();
 
-left.x = startingX;
-left.y = startingY;
+left.x = margin;
+left.y = margin;
 
 g = left.graphics;
 
 g.beginFill( 'white' );
-g.drawRect( -thickness, 0, thickness, height ); // the -thickness in x is to take out the grid's own width out of the grid dimensions
+g.drawRect( -thickness, 0, thickness, innerHeight ); // the -thickness in x is to take out the grid's own width out of the grid dimensions
 
 STAGE.addChild( left );
 
     // right line
 var right = new createjs.Shape();
 
-right.x = startingX + width;
-right.y = startingY;
+right.x = margin + innerWidth;
+right.y = margin;
 
 g = right.graphics;
 
 g.beginFill( 'white' );
-g.drawRect( 0, 0, thickness, height );
+g.drawRect( 0, 0, thickness, innerHeight );
 
 STAGE.addChild( right );
 
 
     // container
-
 var container = new createjs.Container();
 
-container.x = startingX;
-container.y = startingY;
+container.x = 0;
+container.y = 0;
 
 STAGE.addChild( container );
 
 
-    // object properties
-this.startingX = startingX;
-this.startingY = startingY;
-this.numberOfColumns = numberOfColumns;
-this.numberOfLines = numberOfLines;
-this.width = width;
-this.height = height;
-this.container = container;
+return container;
 };
 
 
@@ -124,7 +131,6 @@ for (var i = 0 ; i < all.length ; i++)
 };
 
 
-
 Grid.prototype.addPiece = function( pieceObject )
 {
 var all = pieceObject.all_squares;
@@ -139,10 +145,9 @@ for (var i = 0 ; i < all.length ; i++)
 };
 
 
-/*
-    Check for any completed line
+/**
+ * Check for any completed line.
  */
-
 Grid.prototype.checkClearedLines = function()
 {
 var line, column;
@@ -174,7 +179,6 @@ for (line = this.numberOfLines - 1 ; line >= 0 ; line--)
         }
     }
 };
-
 
 
 Grid.prototype.clearLine = function( clearedLine )
@@ -217,7 +221,5 @@ Game.oneMoreClearedLine();
 };
 
 
-
 window.Grid = Grid;
-
 }(window));
