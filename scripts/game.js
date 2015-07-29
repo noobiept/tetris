@@ -49,8 +49,6 @@ GRID = new Grid( numberOfColumns, numberOfLines );
 CANVAS.width = GRID.width + GAME_MENU_WIDTH;
 CANVAS.height = GRID.height;
 
-centerCanvas();
-
 NEXT_PIECE_CLASS = Game.chooseRandomPiece();
 
 Game.newPiece();
@@ -137,6 +135,9 @@ return possiblePieces[ choose ];
 };
 
 
+/**
+ * Initialize the game menu elements.
+ */
 Game.initGameMenu = function()
 {
 var gameMenu = document.querySelector( '#GameMenu' );
@@ -205,34 +206,13 @@ quit.onclick = function()
     };
 
 
-    // :: Position Game Menu :: //
+    // :: Game Menu :: //
 
-var canvasPosition = $( CANVAS ).position();
+    // show the menu
+$( gameMenu ).removeClass( 'hide' );
 
-var gameMenuTop = gameMenu.querySelector( '#GameMenu-top' );
-var gameMenuBottom = gameMenu.querySelector( '#GameMenu-bottom' );
-
-
-    // show the menu (has to be before doing the calculations below)
-$( gameMenu ).css( 'display', 'block' );
-
-    // set the width of the menus
-$( gameMenuTop ).css( 'width', GAME_MENU_WIDTH + 'px' );
-$( gameMenuBottom ).css( 'width', GAME_MENU_WIDTH + 'px' );
-
-    // left is same for both menus (top/bottom)
-var left = canvasPosition.left + GRID.width;
-
-
-var topMenu_top = canvasPosition.top + 100; //HERE
-var bottomMenu_top = canvasPosition.top + CANVAS.height - $( gameMenuBottom ).height();
-
-
-$( gameMenuTop ).css( 'top', topMenu_top + 'px' );
-$( gameMenuTop ).css( 'left', left + 'px' );
-
-$( gameMenuBottom ).css( 'top', bottomMenu_top + 'px' );
-$( gameMenuBottom ).css( 'left', left + 'px' );
+    // need to set the height of the menu to the same height of the canvas, so that it is position correctly
+$( gameMenu ).css( 'height', CANVAS.height + 'px' );
 };
 
 
@@ -250,7 +230,7 @@ if ( NEXT_PIECE )
 
 var piece = new nextPieceClass();
 
-piece.positionIn( GRID.width + GAME_MENU_WIDTH / 2, 20 );
+piece.positionIn( GRID.width + GAME_MENU_WIDTH / 2 - Square.size / 2, 20 );
 piece.addToContainer( STAGE );
 
 NEXT_PIECE = piece;
@@ -262,7 +242,8 @@ Game.clear = function()
 {
 $( '#GameMenu-pauseResume' ).text( 'Pause' );
 
-$( '#GameMenu' ).css( 'display', 'none' );
+
+$( '#GameMenu' ).addClass( 'hide' );
 
 createjs.Ticker.removeListener( Game.tick );
 };

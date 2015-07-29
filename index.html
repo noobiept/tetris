@@ -39,7 +39,21 @@
 </head>
 <body>
 
-    <canvas id="mainCanvas"></canvas>
+    <div id="CanvasContainer">
+        <canvas id="mainCanvas"></canvas>
+
+        <div id="GameMenu" class="hide">
+            <div id="GameMenu-top">
+                <div id="GameMenu-currentLevel">Current Level: <span>1</span></div>
+                <div id="GameMenu-clearedLines">Cleared Lines: <span>0</span></div>
+            </div>
+
+            <div id="GameMenu-bottom">
+                <div id="GameMenu-pauseResume" class="button">Pause</div>
+                <div id="GameMenu-quit" class="button">Quit</div>
+            </div>
+        </div>
+    </div>
 
     <div id="MainMenu">
         <div id="MainMenu-startGame" class="button">Start Game</div>
@@ -47,7 +61,7 @@
         <div id="MainMenu-help" class="button">Help</div>
     </div>
 
-    <div id="Options">
+    <div id="Options" class="hide">
         <h2>Options</h2>
 
         <div id="Options-container">
@@ -61,7 +75,7 @@
         <div id="Options-back" class="button">Back</div>
     </div>
 
-    <div id="Help">
+    <div id="Help" class="hide">
         <h2>Help</h2>
 
         <div id="Help-keyboard">
@@ -78,18 +92,6 @@
 
         <br />
         <div id="Help-back" class="button">Back</div>
-    </div>
-
-    <div id="GameMenu">
-        <div id="GameMenu-top">
-            <div id="GameMenu-currentLevel">Current Level: <span>1</span></div>
-            <div id="GameMenu-clearedLines">Cleared Lines: <span>0</span></div>
-        </div>
-
-        <div id="GameMenu-bottom">
-            <div id="GameMenu-pauseResume" class="button">Pause</div>
-            <div id="GameMenu-quit" class="button">Quit</div>
-        </div>
     </div>
 
     <div id="Message"></div>

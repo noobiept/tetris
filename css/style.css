@@ -1,3 +1,5 @@
+    /* :: Basic Elements :: */
+
 body
     {
     background-color: black;
@@ -5,20 +7,13 @@ body
     text-align: center;
     }
 
-
 em
     {
     color: antiquewhite;
     }
 
 
-#mainCanvas
-    {
-    position: absolute;
-
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
+    /* :: Generic classes :: */
 
 .button
     {
@@ -31,11 +26,8 @@ em
     border-bottom: 1px solid #fcd3a1;
     }
 
-
-
-#MainMenu, #Options, #Help, #GameMenu
+.hide, #GameMenu.hide
     {
-    position: absolute;
     display: none;
     }
 
@@ -49,6 +41,10 @@ em
     width: 200px;
     }
 
+#MainMenu, #Options, #Help
+    {
+    position: absolute;
+    }
 
 #Options-back, #Help-back
     {
@@ -56,25 +52,10 @@ em
     margin: auto;
     }
 
-
-    /* :: Game Menu :: */
-
-#GameMenu-top, #GameMenu-bottom
-    {
-    position: absolute;
-    }
-
-#GameMenu-bottom > *
-    {
-    padding: 10px 0;
-    }
-
-
 #Options-container
     {
     width: 600px;   /* force to have 2 options per line */
     }
-
 
 #Options-container > *
     {
@@ -83,7 +64,6 @@ em
     padding: 0;
     margin: 20px;
     }
-
 
 #Help ul
     {
@@ -94,3 +74,46 @@ em
     {
     text-align: left;
     }
+
+
+    /* :: Canvas :: */
+
+#CanvasContainer
+    {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+    }
+
+#mainCanvas
+    {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+
+    /* :: Game Menu :: */
+
+#GameMenu
+    {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 160px;
+    margin-left: -160px;
+    z-index: 10;
+    }
+
+#GameMenu-top
+    {
+    margin-top: 100px;
+    }
+
+#GameMenu-bottom > *
+    {
+    padding: 10px 0;
+    }
+

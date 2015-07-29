@@ -20,11 +20,9 @@ window.onload = function()
 Options.load();
 
 CANVAS = document.querySelector( '#mainCanvas' );
-
 STAGE = new createjs.Stage( CANVAS );
 
 createjs.Ticker.setInterval( 50 );
-
 
 MainMenu.init();
 MainMenu.open();
@@ -117,28 +115,9 @@ return true;
 
 function clearCanvas()
 {
-MainMenu.clear();
-
 createjs.Ticker.removeAllEventListeners( 'tick' );
 STAGE.removeAllChildren();
 STAGE.update();
-}
-
-
-
-
-
-/*
-    center the canvas in the middle of window
- */
-
-function centerCanvas()
-{
-var left = $( window ).width() / 2 - CANVAS.width / 2;
-var top = $( window ).height() / 2 - CANVAS.height / 2;
-
-$( CANVAS ).css( 'left', left + 'px' );
-$( CANVAS ).css( 'top', top + 'px' );
 }
 
 

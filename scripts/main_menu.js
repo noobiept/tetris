@@ -14,8 +14,8 @@ var HELP_MENU;
 var ACTIVE_MENU;
 
     // the canvas dimensions (for the main menu only, it may change for the game)
-var CANVAS_WIDTH = 800;
-var CANVAS_HEIGHT = 600;
+var CANVAS_WIDTH = 600;
+var CANVAS_HEIGHT = 450;
 
 MainMenu.init = function()
 {
@@ -27,12 +27,18 @@ HELP_MENU = document.querySelector( '#Help' );
 
 MainMenu.open = function()
 {
+if ( ACTIVE_MENU )
+    {
+    ACTIVE_MENU.classList.add( 'hide' );
+    }
+
+ACTIVE_MENU = MAIN_MENU;
+ACTIVE_MENU.classList.remove( 'hide' );
+
 clearCanvas();
 
 CANVAS.width = CANVAS_WIDTH;
 CANVAS.height = CANVAS_HEIGHT;
-
-centerCanvas();
 
 var startGame = MAIN_MENU.querySelector( '#MainMenu-startGame' );
 var options = MAIN_MENU.querySelector( '#MainMenu-options' );
@@ -41,6 +47,8 @@ var help = MAIN_MENU.querySelector( '#MainMenu-help' );
     // set events
 startGame.onclick = function()
     {
+    ACTIVE_MENU.classList.add( 'hide' );
+
     Game.start();
     };
 
@@ -54,10 +62,8 @@ help.onclick = function()
     MainMenu.openHelp();
     };
 
-$( MAIN_MENU ).css( 'display', 'block' );
 
 ACTIVE_MENU = MAIN_MENU;
-
 centerElement( MAIN_MENU );
 
 createjs.Ticker.addEventListener( 'tick', MainMenu.tick );
@@ -66,7 +72,10 @@ createjs.Ticker.addEventListener( 'tick', MainMenu.tick );
 
 MainMenu.openOptions = function()
 {
-$( ACTIVE_MENU ).css( 'display', 'none' );
+ACTIVE_MENU.classList.add( 'hide' );
+ACTIVE_MENU = OPTIONS_MENU;
+
+OPTIONS_MENU.classList.remove( 'hide' );
 
 
     // :: number of columns :: //
@@ -197,20 +206,12 @@ back.onclick = function()
     };
 
 
-$( OPTIONS_MENU ).css( 'display', 'block' );
-
 centerElement( OPTIONS_MENU );
-
-ACTIVE_MENU = OPTIONS_MENU;
 };
 
 
 MainMenu.openHelp = function()
 {
-$( ACTIVE_MENU ).css( 'display', 'none' );
-
-
-
 var back = HELP_MENU.querySelector( '#Help-back' );
 
 back.onclick = function()
@@ -218,22 +219,13 @@ back.onclick = function()
     MainMenu.open();
     };
 
-$( HELP_MENU ).css( 'display', 'block' );
+
+ACTIVE_MENU.classList.add( 'hide' );
+ACTIVE_MENU = HELP_MENU;
+ACTIVE_MENU.classList.remove( 'hide' );
 
 centerElement( HELP_MENU );
-
-ACTIVE_MENU = HELP_MENU;
 };
-
-
-
-MainMenu.clear = function()
-{
-$( MAIN_MENU    ).css( 'display', 'none' );
-$( OPTIONS_MENU ).css( 'display', 'none' );
-$( HELP_MENU    ).css( 'display', 'none' );
-};
-
 
 
 MainMenu.tick = function()
