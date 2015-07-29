@@ -1,24 +1,21 @@
-/*
-    Base class for all the pieces
- */
-
 (function(window)
 {
-/*
-    Derived classes need to implement:
-
-        this.color = 'a_color';
-        this.possible_rotations = [
-                [
-                    { x: ..., y: ... },
-                    { x: ..., y: ... },
-                    { x: ..., y: ... }
-                ],
-
-                (...)
-            ];
-
-        this.current_position = 0;
+/**
+ * Base class for all the pieces.
+ *
+ * Derived classes need to implement:
+ *
+ *     this.color = 'a_color';
+ *     this.pivot_color = 'a_color';
+ *     this.possible_rotations = [
+ *             [
+ *                 { column: ..., line: ... },
+ *                 { column: ..., line: ... },
+ *                 { column: ..., line: ... }
+ *             ],
+ *             // (...)
+ *         ];
+ *     this.current_rotation = 0;
  */
 function Piece()
 {
@@ -76,90 +73,31 @@ return this.possible_rotations[ this.current_rotation ];
 };
 
 
-Piece.prototype.rotate = function()
-{
-var grid = this.grid_object;
-var rotation = this.possible_rotations[ this.current_rotation ];
-
-var pivot = this.pivot_square;
-var others = this.other_squares;
-
-var square;
-var nextSquare;
-var position;
-var i;
-
-
-    // check if you can rotate the piece
-for (i = 0 ; i < others.length ; i++)
-    {
-    square = others[ i ];
-
-    position = rotation[ i ];
-
-    var nextColumn = pivot.column + position.column;
-    var nextLine = pivot.line + position.line;
-
-
-        // check if its within the grid's limits
-    if ( nextColumn < 0 || nextColumn >= grid.numberOfColumns || nextLine >= grid.numberOfLines )
-        {
-        return false;
-        }
-
-    nextSquare = grid.grid_array[ nextColumn ][ nextLine ];
-
-        // check if its not taken that spot
-    if ( nextSquare && nextSquare.isInStack )
-        {
-        return false;
-        }
-    }
-
-
-    // apply the rotation (change the squares position)
-this.setPosition( pivot.column, pivot.line );
-
-return true;
-};
-
-
 Piece.prototype.rotateLeft = function()
 {
-var tempCurrentRotation = this.current_rotation;
+var nextPosition = this.current_rotation - 1;
 
-this.current_rotation--;
-
-if ( this.current_rotation < 0 )
+if ( nextPosition < 0 )
     {
-    this.current_rotation = 3;
+    nextPosition = this.possible_rotations.length - 1;
     }
 
-    // if rotating wasn't possible, we stay in the current rotation
-if ( !this.rotate() )
-    {
-    this.current_rotation = tempCurrentRotation;
-    }
+
+GRID.rotatePiece( this, nextPosition );
 };
 
 
 
 Piece.prototype.rotateRight = function()
 {
-var tempCurrentRotation = this.current_rotation;
+var nextPosition = this.current_rotation + 1;
 
-this.current_rotation++;
-
-if ( this.current_rotation > 3 )
+if ( nextPosition >= this.possible_rotations.length )
     {
-    this.current_rotation = 0;
+    nextPosition = 0;
     }
 
-    // if rotating wasn't possible, we stay in the current rotation
-if ( !this.rotate() )
-    {
-    this.current_rotation = tempCurrentRotation;
-    }
+GRID.rotatePiece( this, nextPosition );
 };
 
 

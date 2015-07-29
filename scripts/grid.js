@@ -47,14 +47,15 @@ Grid.prototype.draw = function()
 {
 var margin = this.margin;
 var thickness = this.border_thickness;
+var separation = this.separation_length;
 var innerWidth = this.inner_width;
 var innerHeight = this.inner_height;
 
     // top line
 var top = new createjs.Shape();
 
-top.x = margin;
-top.y = margin;
+top.x = separation;
+top.y = separation;
 
 var g = top.graphics;
 
@@ -67,8 +68,8 @@ STAGE.addChild( top );
     // bottom line
 var bottom = new createjs.Shape();
 
-bottom.x = margin;
-bottom.y = margin + innerHeight;
+bottom.x = separation;
+bottom.y = separation + innerHeight;
 
 g = bottom.graphics;
 
@@ -86,20 +87,20 @@ left.y = margin;
 g = left.graphics;
 
 g.beginFill( 'white' );
-g.drawRect( -thickness, 0, thickness, innerHeight ); // the -thickness in x is to take out the grid's own width out of the grid dimensions
+g.drawRect( 0, 0, thickness, innerHeight + 2 * thickness );
 
 STAGE.addChild( left );
 
     // right line
 var right = new createjs.Shape();
 
-right.x = margin + innerWidth;
+right.x = this.separation_length + innerWidth;
 right.y = margin;
 
 g = right.graphics;
 
 g.beginFill( 'white' );
-g.drawRect( 0, 0, thickness, innerHeight );
+g.drawRect( 0, 0, thickness, innerHeight + 2 * thickness );
 
 STAGE.addChild( right );
 
@@ -167,6 +168,10 @@ for (var a = 0 ; a < currentRotation.length ; a++)
 };
 
 
+/**
+ * Move a piece to a different position.
+ * Moves 'columnMove/lineMove' from the current position.
+ */
 Grid.prototype.movePiece = function( piece, columnMove, lineMove )
 {
 var all = piece.all_squares;
@@ -199,6 +204,45 @@ for (var a = 0 ; a < all.length ; a++)
     // clear the previous position
 this.clearPiece( piece );
 this.addPiece( piece, pivot.column + columnMove, pivot.line + lineMove );
+
+return true;
+};
+
+
+/**
+ * Rotate a piece to next rotation.
+ */
+Grid.prototype.rotatePiece = function( piece, nextRotationPosition )
+{
+var nextRotation = piece.possible_rotations[ nextRotationPosition ];
+var pivot = piece.pivot_square;
+
+    // check if you can rotate the piece
+for (var a = 0 ; a < nextRotation.length ; a++)
+    {
+    var position = nextRotation[ a ];
+    var column = pivot.column + position.column;
+    var line = pivot.line + position.line;
+
+        // check if its within the grid's limits
+    if ( column < 0 || column >= this.numberOfColumns ||
+         line   < 0 || line   >= this.numberOfLines )
+        {
+        return false;
+        }
+
+    var square = this.grid_array[ column ][ line ];
+
+    if ( square && square.pieceObject !== piece )
+        {
+        return false;
+        }
+    }
+
+
+this.clearPiece( piece );
+piece.current_rotation = nextRotationPosition;
+this.addPiece( piece, pivot.column, pivot.line );
 
 return true;
 };
