@@ -1,23 +1,20 @@
 (function(window)
 {
-function Square( pieceObject, x, y, color )
+function Square( pieceObject, color )
 {
     // width/height
 var size = Square.size;
-
 var shape = new createjs.Shape();
-
-shape.x = x;
-shape.y = y;
 
 var g = shape.graphics;
 
 g.beginFill( color );
 g.drawRoundRect( 0, 0, size, size, 2 );
 
-
 this.isInStack = false;
 this.shape = shape;
+this.column = -1;
+this.line = -1;
 this.pieceObject = pieceObject;
 }
 
@@ -52,10 +49,7 @@ this.shape.y += Square.size;
 };
 
 
-
-
 Square.size = 20;
 
 window.Square = Square;
-
 }(window));

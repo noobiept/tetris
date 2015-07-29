@@ -117,6 +117,18 @@ return container;
 };
 
 
+Grid.prototype.addSquare = function( square, column, line )
+{
+this.grid_array[ column ][ line ] = square;
+
+square.column = column;
+square.line = line;
+
+square.shape.x = this.separation_length + column * Square.size;
+square.shape.y = this.separation_length + line * Square.size;
+};
+
+
 Grid.prototype.clearPiece = function( pieceObject )
 {
 var all = pieceObject.all_squares;
@@ -131,17 +143,64 @@ for (var i = 0 ; i < all.length ; i++)
 };
 
 
-Grid.prototype.addPiece = function( pieceObject )
+/**
+ * Add a piece to the grid.
+ */
+Grid.prototype.addPiece = function( pieceObject, column, line )
 {
-var all = pieceObject.all_squares;
-var square;
+var other = pieceObject.other_squares;
+var pivot = pieceObject.pivot_square;
+var currentRotation = pieceObject.getCurrentRotation();
 
-for (var i = 0 ; i < all.length ; i++)
+this.addSquare( pivot, column, line );
+
+
+for (var a = 0 ; a < currentRotation.length ; a++)
     {
-    square = all[ i ];
+    var rotation = currentRotation[ a ];
+    var square = other[ a ];
+    var squareColumn = column + rotation.column;
+    var squareLine = line + rotation.line;
 
-    this.grid_array[ square.column ][ square.line ] = square;
+    this.addSquare( square, squareColumn, squareLine );
     }
+};
+
+
+Grid.prototype.movePiece = function( piece, columnMove, lineMove )
+{
+var all = piece.all_squares;
+var pivot = piece.pivot_square;
+
+    // check if we can move the piece
+for (var a = 0 ; a < all.length ; a++)
+    {
+    var square = all[ a ];
+    var nextColumn = square.column + columnMove;
+    var nextLine = square.line + lineMove;
+
+        // check if we're not at the grid's limits
+    if ( nextColumn < 0 || nextColumn >= this.numberOfColumns ||
+         nextLine   < 0 || nextLine   >= this.numberOfLines )
+        {
+        return false;
+        }
+
+        // check if it doesn't collide with the stacked squares
+    var nextSquare = this.grid_array[ nextColumn ][ nextLine ];
+
+    if ( nextSquare && nextSquare.pieceObject !== piece )
+        {
+        return false;
+        }
+    }
+
+
+    // clear the previous position
+this.clearPiece( piece );
+this.addPiece( piece, pivot.column + columnMove, pivot.line + lineMove );
+
+return true;
 };
 
 

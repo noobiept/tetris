@@ -51,7 +51,6 @@ CANVAS.height = GRID.height;
 
 centerCanvas();
 
-
 NEXT_PIECE_CLASS = Game.chooseRandomPiece();
 
 Game.newPiece();
@@ -59,8 +58,6 @@ Game.initGameMenu();
 
 createjs.Ticker.addListener( Game.tick );
 };
-
-
 
 
 Game.newPiece = function()
@@ -119,7 +116,11 @@ NEXT_PIECE_CLASS = Game.chooseRandomPiece();
 Game.showNextPiece( NEXT_PIECE_CLASS );
 
 
-ACTIVE_PIECE = new chosenPiece( GRID, pivotColumn, pivotLine );
+ACTIVE_PIECE = new chosenPiece();
+ACTIVE_PIECE.addToContainer( GRID.container );
+GRID.addPiece( ACTIVE_PIECE, pivotColumn, pivotLine );
+
+
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)
 DELAY_COUNT = 0;
@@ -243,30 +244,17 @@ Game.showNextPiece = function( nextPieceClass )
 {
 if ( NEXT_PIECE )
     {
-    STAGE.removeChild( NEXT_PIECE );
+    NEXT_PIECE.remove();
+    NEXT_PIECE = null;
     }
 
-var piece = new nextPieceClass( null, 0, 0 );
+var piece = new nextPieceClass();
 
-var container = new createjs.Container();
+piece.positionIn( GRID.width + GAME_MENU_WIDTH / 2, 20 );
+piece.addToContainer( STAGE );
 
-var all_squares = piece.all_squares;
-
-for (var i = 0 ; i < all_squares.length ; i++)
-    {
-    container.addChild( all_squares[ i ].shape );
-    }
-
-var x = GRID.width + GAME_MENU_WIDTH / 2;
-
-container.x = x;
-container.y = 20;
-
-NEXT_PIECE = container;
-
-STAGE.addChild( container );
+NEXT_PIECE = piece;
 };
-
 
 
 
@@ -352,7 +340,13 @@ if ( DELAY_COUNT >= DELAY_LIMIT )
     {
     DELAY_COUNT = 0;
 
-    ACTIVE_PIECE.moveBottom();
+        // move bottom
+    var successful = GRID.movePiece( ACTIVE_PIECE, 0, 1 );
+
+    if ( !successful )
+        {
+        Game.newPiece();
+        }
     }
 
 STAGE.update();
@@ -364,12 +358,13 @@ function movement_tick()
 {
 if ( KEYS_HELD.leftArrow )
     {
-    ACTIVE_PIECE.moveLeft();
+        // move left
+    GRID.movePiece( ACTIVE_PIECE, -1, 0 );
     }
 
 else if ( KEYS_HELD.rightArrow )
     {
-    ACTIVE_PIECE.moveRight();
+    GRID.movePiece( ACTIVE_PIECE, 1, 0 );
     }
 }
 
