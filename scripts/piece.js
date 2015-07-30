@@ -83,7 +83,17 @@ if ( nextPosition < 0 )
     }
 
 
-GRID.rotatePiece( this, nextPosition );
+var rotated = GRID.rotatePiece( this, nextPosition );
+
+if ( rotated === false )
+    {
+    Game.showMessage( "Couldn't rotate left!" );
+    }
+
+else
+    {
+    Game.clearMessage();
+    }
 };
 
 
@@ -97,7 +107,17 @@ if ( nextPosition >= this.possible_rotations.length )
     nextPosition = 0;
     }
 
-GRID.rotatePiece( this, nextPosition );
+var rotated = GRID.rotatePiece( this, nextPosition );
+
+if ( rotated === false )
+    {
+    Game.showMessage( "Couldn't rotate right!" );
+    }
+
+else
+    {
+    Game.clearMessage();
+    }
 };
 
 

@@ -21,7 +21,9 @@ var CURRENT_LEVEL = 1;
 var CLEARED_LINES = 0;
 
 
-var GAME_MENU_WIDTH = 160;  // in pixels
+var GAME_MENU_WIDTH;    // in pixels
+var MESSAGE_COUNT;      // reference to the message's count html element
+var MESSAGE_TEXT;       // reference to the message's text html element
 
 
     // current active piece on the map (falling)
@@ -45,6 +47,10 @@ CLEARED_LINES = 0;
 
 GRID = new Grid( numberOfColumns, numberOfLines );
 
+GAME_MENU_WIDTH = $( '#GameMenu' ).width();
+MESSAGE_COUNT = document.getElementById( 'MessageCount' );
+MESSAGE_TEXT = document.getElementById( 'MessageText' );
+
     // resize the canvas, according to the grid's dimension
 CANVAS.width = GRID.width + GAME_MENU_WIDTH;
 CANVAS.height = GRID.height;
@@ -60,6 +66,7 @@ createjs.Ticker.addListener( Game.tick );
 
 Game.newPiece = function()
 {
+Game.clearMessage();
 var i;
 var square;
 
@@ -101,7 +108,7 @@ for (i = 0 ; i < rotation.length ; i++)
 
     if ( gridSquare )
         {
-        Game.start();
+        Game.end();
         return;
         }
     }
@@ -309,6 +316,54 @@ return MAX_LEVEL;
 };
 
 
+/**
+ * Show a message in the game menu.
+ * When the same message is trying to be shown, it will show a counter of the times it was tried.
+ */
+Game.showMessage = function( text )
+{
+var currentText = $( MESSAGE_TEXT ).text();
+
+    // same message, add to the counter
+if ( text === currentText )
+    {
+    var count = Number( MESSAGE_COUNT.getAttribute( 'data-count' ) ) + 1;
+
+    MESSAGE_COUNT.setAttribute( 'data-count', count.toString() );
+    $( MESSAGE_COUNT ).text( count + 'x' );
+    }
+
+else
+    {
+    MESSAGE_COUNT.setAttribute( 'data-count', '0' );
+    $( MESSAGE_COUNT ).text( '' );
+    $( MESSAGE_TEXT ).text( text );
+    }
+};
+
+
+/**
+ * Game has ended. Show a message and then restart the game.
+ */
+Game.end = function()
+{
+window.alert( 'Game Over!' );
+
+Game.start();
+};
+
+
+
+/**
+ * Clear the current message.
+ */
+Game.clearMessage = function()
+{
+MESSAGE_COUNT.setAttribute( 'data-count', '0' );
+MESSAGE_COUNT.innerHTML = '';
+MESSAGE_TEXT.innerHTML = '';
+};
+
 
 Game.tick = function()
 {
@@ -334,7 +389,6 @@ STAGE.update();
 };
 
 
-
 function movement_tick()
 {
 if ( KEYS_HELD.leftArrow )
@@ -351,5 +405,4 @@ else if ( KEYS_HELD.rightArrow )
 
 
 window.Game = Game;
-
 }(window));

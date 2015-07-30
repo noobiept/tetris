@@ -102,8 +102,8 @@ em
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 160px;
-    margin-left: -160px;
+    width: 185px;
+    margin-left: -185px;    /* same as width */
     z-index: 10;
     }
 
@@ -117,3 +117,8 @@ em
     padding: 10px 0;
     }
 
+#Message
+    {
+    margin-top: 30px;
+    color: red;
+    }
