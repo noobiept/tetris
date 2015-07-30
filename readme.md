@@ -33,10 +33,10 @@ Dependencies
 ============
 
 
-- jquery : 2.0
-- jqueryui : 1.10
+- jquery : 2.1
+- jqueryui : 1.11
 
     - slider
     - blitzer theme
 
-- easeljs : 0.6
+- easeljs : 0.8

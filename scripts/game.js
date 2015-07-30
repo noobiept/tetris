@@ -60,7 +60,7 @@ NEXT_PIECE_CLASS = Game.chooseRandomPiece();
 Game.newPiece();
 Game.initGameMenu();
 
-createjs.Ticker.addListener( Game.tick );
+createjs.Ticker.addEventListener( 'tick', Game.tick );
 };
 
 
@@ -174,26 +174,7 @@ $( clearedLines ).text( '0' );
 
 var pauseResume = gameMenu.querySelector( '#GameMenu-pauseResume' );
 
-var isPaused = false;
-
-pauseResume.onclick = function()
-    {
-    if ( isPaused )
-        {
-        isPaused = false;
-        $( pauseResume ).text( 'Pause' );
-
-        resume();
-        }
-
-    else
-        {
-        isPaused = true;
-        $( pauseResume ).text( 'Resume' );
-
-        pause();
-        }
-    };
+pauseResume.addEventListener( 'click', Game.togglePaused );
 
 
     // :: Quit :: //
@@ -202,13 +183,7 @@ var quit = gameMenu.querySelector( '#GameMenu-quit' );
 
 quit.onclick = function()
     {
-    if ( isPaused )
-        {
-        resume();
-        }
-
     Game.clear();
-
     MainMenu.open();
     };
 
@@ -247,12 +222,11 @@ NEXT_PIECE = piece;
 
 Game.clear = function()
 {
-$( '#GameMenu-pauseResume' ).text( 'Pause' );
-
+Game.setPaused( false );
 
 $( '#GameMenu' ).addClass( 'hide' );
 
-createjs.Ticker.removeListener( Game.tick );
+createjs.Ticker.removeEventListener( 'tick', Game.tick );
 };
 
 
@@ -353,7 +327,6 @@ Game.start();
 };
 
 
-
 /**
  * Clear the current message.
  */
@@ -365,8 +338,58 @@ MESSAGE_TEXT.innerHTML = '';
 };
 
 
+/**
+ * Toggle between the pause/resume state.
+ */
+Game.togglePaused = function()
+{
+Game.setPaused( !Game.isPaused() );
+};
+
+
+/**
+ * Pause/resume the game.
+ */
+Game.setPaused = function( state )
+{
+createjs.Ticker.paused = state;
+
+KEYS_HELD.leftArrow = false;
+KEYS_HELD.rightArrow = false;
+
+if ( ACTIVE_PIECE )
+    {
+    ACTIVE_PIECE.stopSoftDrop();
+    }
+
+if ( state )
+    {
+    $( '#GameMenu-pauseResume' ).text( 'Resume' );
+    }
+
+else
+    {
+    $( '#GameMenu-pauseResume' ).text( 'Pause' );
+    }
+};
+
+
+/**
+ * Tells if the game is currently paused or not.
+ */
+Game.isPaused = function()
+{
+return createjs.Ticker.paused;
+};
+
+
 Game.tick = function()
 {
+if ( createjs.Ticker.paused )
+    {
+    return;
+    }
+
 DELAY_COUNT += DELAY_STEP;
 
 movement_tick();

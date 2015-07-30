@@ -37,6 +37,11 @@ Options.save();
 
 window.onkeydown = function( event )
 {
+if ( Game.isPaused() )
+    {
+    return;
+    }
+
 if ( !event )
     {
     event = window.event;
@@ -67,6 +72,11 @@ return true;
 
 window.onkeyup = function( event )
 {
+if ( Game.isPaused() )
+    {
+    return;
+    }
+
 if ( !event )
     {
     event = window.event;
@@ -112,24 +122,10 @@ return true;
 };
 
 
-
 function clearCanvas()
 {
 createjs.Ticker.removeAllEventListeners( 'tick' );
 STAGE.removeAllChildren();
 STAGE.update();
 }
-
-
-function pause()
-{
-createjs.Ticker.setPaused( true );
-}
-
-
-function resume()
-{
-createjs.Ticker.setPaused( false );
-}
-
 
