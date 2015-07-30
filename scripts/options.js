@@ -14,10 +14,12 @@ var OPTIONS = {
 
     };
 
+
 Options.save = function()
 {
 localStorage.setObject( 'options', OPTIONS );
 };
+
 
 Options.load = function()
 {
@@ -65,6 +67,7 @@ Options.getNumberOfLines = function()
 return OPTIONS.numberOfLines;
 };
 
+
 Options.setNumberOfLines = function( lines )
 {
 OPTIONS.numberOfLines = lines;
@@ -96,5 +99,4 @@ OPTIONS.linesToLevelUp = lines;
 
 
 window.Options = Options;
-
 }(window));

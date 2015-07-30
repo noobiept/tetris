@@ -33,11 +33,17 @@ var ACTIVE_PIECE = null;
 var NEXT_PIECE_CLASS = null;
 var NEXT_PIECE = null;  // has the next piece object
 
+var GRID;
+
+    // keys being pressed/held
+var KEYS_HELD = {
+    leftArrow  : false,     // move left
+    rightArrow : false      // move right
+    };
+
 
 Game.start = function()
 {
-clearCanvas();
-
 var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
@@ -61,6 +67,9 @@ Game.newPiece();
 Game.initGameMenu();
 
 createjs.Ticker.addEventListener( 'tick', Game.tick );
+
+document.addEventListener( 'keydown', keyDownListener );
+document.addEventListener( 'keyup', keyUpListener );
 };
 
 
@@ -227,8 +236,16 @@ Game.setPaused( false );
 $( '#GameMenu' ).addClass( 'hide' );
 
 createjs.Ticker.removeEventListener( 'tick', Game.tick );
-};
 
+document.addEventListener( 'keydown', keyDownListener );
+document.addEventListener( 'keyup', keyUpListener );
+
+ACTIVE_PIECE = null;
+GRID = null;
+
+STAGE.removeAllChildren();
+STAGE.update();
+};
 
 
 Game.setFallDownSpeed = function( step )
@@ -323,6 +340,7 @@ Game.end = function()
 {
 window.alert( 'Game Over!' );
 
+Game.clear();
 Game.start();
 };
 
@@ -380,6 +398,105 @@ else
 Game.isPaused = function()
 {
 return createjs.Ticker.paused;
+};
+
+
+/**
+ * Deals with the keyboard shortcuts/controls.
+ */
+function keyDownListener( event )
+{
+if ( Game.isPaused() )
+    {
+    return;
+    }
+
+if ( !event )
+    {
+    event = window.event;
+    }
+
+
+switch( event.keyCode )
+    {
+    case EVENT_KEY.leftArrow:
+
+        KEYS_HELD.leftArrow = true;
+        return false;
+
+    case EVENT_KEY.rightArrow:
+
+        KEYS_HELD.rightArrow = true;
+        return false;
+
+    case EVENT_KEY.downArrow:
+
+        Game.getActivePiece().softDrop();
+        return false;
+    }
+
+return true;
+}
+
+
+/**
+ * Deals with the keyboard shortcuts/controls.
+ */
+function keyUpListener( event )
+{
+if ( Game.isPaused() )
+    {
+    return;
+    }
+
+if ( !event )
+    {
+    event = window.event;
+    }
+
+
+var activePiece = Game.getActivePiece();
+
+switch( event.keyCode )
+    {
+    case EVENT_KEY.leftArrow:
+
+        KEYS_HELD.leftArrow = false;
+        return false;
+
+    case EVENT_KEY.rightArrow:
+
+        KEYS_HELD.rightArrow = false;
+        return false;
+
+    case EVENT_KEY.downArrow:
+
+        activePiece.stopSoftDrop();
+        return false;
+
+    case EVENT_KEY.space:
+
+        activePiece.hardDrop();
+        return false;
+
+    case EVENT_KEY.a:
+
+        activePiece.rotateLeft();
+        return false;
+
+    case EVENT_KEY.d:
+
+        activePiece.rotateRight();
+        return false;
+    }
+
+return true;
+}
+
+
+Game.getGrid = function()
+{
+return GRID;
 };
 
 

@@ -35,8 +35,6 @@ if ( ACTIVE_MENU )
 ACTIVE_MENU = MAIN_MENU;
 ACTIVE_MENU.classList.remove( 'hide' );
 
-clearCanvas();
-
 CANVAS.width = CANVAS_WIDTH;
 CANVAS.height = CANVAS_HEIGHT;
 

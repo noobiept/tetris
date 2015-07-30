@@ -83,7 +83,7 @@ if ( nextPosition < 0 )
     }
 
 
-var rotated = GRID.rotatePiece( this, nextPosition );
+var rotated = Game.getGrid().rotatePiece( this, nextPosition );
 
 if ( rotated === false )
     {
@@ -107,7 +107,7 @@ if ( nextPosition >= this.possible_rotations.length )
     nextPosition = 0;
     }
 
-var rotated = GRID.rotatePiece( this, nextPosition );
+var rotated = Game.getGrid().rotatePiece( this, nextPosition );
 
 if ( rotated === false )
     {
@@ -141,8 +141,10 @@ Game.setFallDownSpeed( 1 );
 
 Piece.prototype.hardDrop = function()
 {
+var grid = Game.getGrid();
+
     // move the piece bottom continuously until it can't move anymore
-while ( GRID.movePiece( this, 0, 1 ) )
+while ( grid.movePiece( this, 0, 1 ) )
     {
         // empty
     }
