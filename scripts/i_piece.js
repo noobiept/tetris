@@ -45,5 +45,4 @@ IPiece.POSSIBLE_ROTATIONS = [
 
 
 window.IPiece = IPiece;
-
 }(window));

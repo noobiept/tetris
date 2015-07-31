@@ -48,5 +48,4 @@ SPiece.POSSIBLE_ROTATIONS = [
 
 
 window.SPiece = SPiece;
-
 }(window));

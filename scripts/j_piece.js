@@ -43,5 +43,4 @@ JPiece.POSSIBLE_ROTATIONS = [
 
 
 window.JPiece = JPiece;
-
 }(window));

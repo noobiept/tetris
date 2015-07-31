@@ -67,12 +67,18 @@ for (var a = 0 ; a < currentRotation.length ; a++)
 };
 
 
+/**
+ * Get the current rotation of this piece (where the squares are positioned around the pivot).
+ */
 Piece.prototype.getCurrentRotation = function()
 {
 return this.possible_rotations[ this.current_rotation ];
 };
 
 
+/**
+ * Rotate this piece to the left (anti-clockwise).
+ */
 Piece.prototype.rotateLeft = function()
 {
 var nextPosition = this.current_rotation - 1;
@@ -97,7 +103,9 @@ else
 };
 
 
-
+/**
+ * Rotate this piece to the right (clockwise).
+ */
 Piece.prototype.rotateRight = function()
 {
 var nextPosition = this.current_rotation + 1;
@@ -121,6 +129,9 @@ else
 };
 
 
+/**
+ * Move this piece downward continuously until it reaches either the stack, or the bottom of the grid.
+ */
 Piece.prototype.hardDrop = function()
 {
 var grid = Game.getGrid();
@@ -133,6 +144,9 @@ while ( grid.movePiece( this, 0, 1 ) )
 };
 
 
+/**
+ * Remove this piece from the game.
+ */
 Piece.prototype.remove = function()
 {
 var parent = this.pivot_square.shape.parent;

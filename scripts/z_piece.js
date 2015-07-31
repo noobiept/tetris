@@ -43,5 +43,4 @@ ZPiece.POSSIBLE_ROTATIONS = [
 
 
 window.ZPiece = ZPiece;
-
 }(window));

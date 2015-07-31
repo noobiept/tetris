@@ -1,7 +1,6 @@
-/*
- * Keys code for the keyboard events
+/**
+ * Keys code for the keyboard events.
  */
-
 var EVENT_KEY = {
 
     backspace  : 8,
@@ -71,53 +70,18 @@ var EVENT_KEY = {
 };
 
 
-
-/*
-    All elements are squares, so have width/height of Square.size
+/**
+ * Get a random integer between the minimum and maximum values provided (inclusive).
  */
-
-function checkCollision( oneX, oneY, twoX, twoY )
-{
-    // squares have the origin in top-left
-var oneLeft = oneX;
-var oneRight = oneX + Square.size;
-var oneTop = oneY;
-var oneBottom = oneY + Square.size;
-
-var twoLeft = twoX;
-var twoRight = twoX + Square.size;
-var twoTop = twoY;
-var twoBottom = twoY + Square.size;
-
-
-if ( oneRight > twoLeft && oneLeft < twoRight && oneTop < twoBottom && oneBottom > twoTop )
-    {
-    return true;
-    }
-
-return false;
-}
-
-
-
 function getRandomInt( min, max )
 {
 return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
-function getRandomFloat( min, max )
-{
-return Math.random() * (max - min) + min;
-}
-
-
-
-
-/*
-    Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
+/**
+ * Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
  */
-
 function centerElement( element )
 {
 var canvasWidth = CANVAS.width;
@@ -137,25 +101,21 @@ $( element ).css({
 }
 
 
-
-
-/*
- * Converts an object to string, and saves it in storage
+/**
+ * Converts an object to string, and saves it in storage.
  *
  * usage:
  *      localStorage.setObject( "...", { ... } );
  */
-
 Storage.prototype.setObject = function( key, value )
 {
 this.setItem( key, JSON.stringify( value ) );
 };
 
 
-/*
- * Returns null if it doesn't find, otherwise returns the string correspondent
+/**
+ * Returns null if it doesn't find, otherwise returns the string correspondent.
  */
-
 Storage.prototype.getObject = function( key )
 {
 var value = this.getItem( key );
@@ -165,10 +125,9 @@ return value && JSON.parse( value );
 
 
 
-/*
- * Used for 'class' inheritance (search prototypal inheritance)
+/**
+ * Used for 'class' inheritance (search prototypal inheritance).
  */
-
 function OBJECT( o )
 {
 function F(){}
@@ -179,10 +138,9 @@ return new F();
 }
 
 
-/*
- * Used for 'class' inheritance (search for parasitic combination inheritance)
+/**
+ * Used for 'class' inheritance (search for parasitic combination inheritance).
  */
-
 function INHERIT_PROTOTYPE( derivedClass, baseClass )
 {
 var prototype = OBJECT( baseClass.prototype );

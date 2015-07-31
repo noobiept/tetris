@@ -43,5 +43,4 @@ TPiece.POSSIBLE_ROTATIONS = [
 
 
 window.TPiece = TPiece;
-
 }(window));

@@ -118,6 +118,9 @@ return container;
 };
 
 
+/**
+ * Add a square to the grid, given it column/line position.
+ */
 Grid.prototype.addSquare = function( square, column, line )
 {
 this.grid_array[ column ][ line ] = square;
@@ -130,6 +133,9 @@ square.shape.y = this.separation_length + line * Square.size;
 };
 
 
+/**
+ * Remove a piece from the grid.
+ */
 Grid.prototype.clearPiece = function( pieceObject )
 {
 var all = pieceObject.all_squares;
@@ -210,7 +216,7 @@ return true;
 
 
 /**
- * Rotate a piece to next rotation.
+ * Rotate a piece to the next rotation.
  */
 Grid.prototype.rotatePiece = function( piece, nextRotationPosition )
 {
@@ -284,6 +290,10 @@ for (line = this.numberOfLines - 1 ; line >= 0 ; line--)
 };
 
 
+/**
+ * There's a line completed with squares in all positions.
+ * We remove that line, and move what was on top of it 1 line down.
+ */
 Grid.prototype.clearLine = function( clearedLine )
 {
 var square;

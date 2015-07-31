@@ -43,5 +43,4 @@ LPiece.POSSIBLE_ROTATIONS = [
 
 
 window.LPiece = LPiece;
-
 }(window));

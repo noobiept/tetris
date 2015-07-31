@@ -44,6 +44,9 @@ var KEYS_HELD = {
     };
 
 
+/**
+ * Start a new game.
+ */
 Game.start = function()
 {
 var numberOfColumns = Options.getNumberOfColumns();
@@ -75,6 +78,11 @@ document.addEventListener( 'keyup', keyUpListener );
 };
 
 
+/**
+ * Add a new piece to the grid.
+ * The previously active piece will be part of the stack now.
+ * Also check for the game ending condition (see if it doesn't collide with other squares in the stack, otherwise the game is over).
+ */
 Game.newPiece = function()
 {
 Game.clearMessage();
@@ -143,6 +151,9 @@ DELAY_COUNT = 0;
 };
 
 
+/**
+ * Randomly choose the class of a piece.
+ */
 Game.chooseRandomPiece = function()
 {
 var possiblePieces = [ IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece ];
@@ -195,10 +206,9 @@ $( gameMenu ).css( 'height', CANVAS.height + 'px' );
 };
 
 
-/*
-    Shows an image of the next piece to fall, in the game menu
+/**
+ * Shows an image of the next piece to fall, in the game menu.
  */
-
 Game.showNextPiece = function( nextPieceClass )
 {
 if ( NEXT_PIECE )
@@ -266,12 +276,19 @@ SOFT_DROP_ACTIVE = false;
 };
 
 
+/**
+ * Get the current active piece object.
+ */
 Game.getActivePiece = function()
 {
 return ACTIVE_PIECE;
 };
 
 
+/**
+ * A line in the stack has been cleared.
+ * Update the menus, and check if we reached a new level.
+ */
 Game.oneMoreClearedLine = function()
 {
 CLEARED_LINES++;
@@ -511,12 +528,20 @@ return true;
 }
 
 
+/**
+ * Get the grid object. You can use it to add/move/rotate pieces, etc.
+ */
 Game.getGrid = function()
 {
 return GRID;
 };
 
 
+/**
+ * Deals with the movement of the active piece.
+ * Checks when we need to add a new piece to the game.
+ * Redraws the game.
+ */
 Game.tick = function( event )
 {
 if ( createjs.Ticker.paused )
@@ -556,6 +581,9 @@ STAGE.update();
 };
 
 
+/**
+ * Deal with the horizontal movement of the active piece.
+ */
 function movement_tick()
 {
 if ( KEYS_HELD.leftArrow )

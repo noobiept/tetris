@@ -10,13 +10,18 @@ var MAIN_MENU;
 var OPTIONS_MENU;
 var HELP_MENU;
 
-
+    // current active (shown) menu
+    // either the main menu, options menu or the help menu
 var ACTIVE_MENU;
 
     // the canvas dimensions (for the main menu only, it may change for the game)
 var CANVAS_WIDTH = 600;
 var CANVAS_HEIGHT = 450;
 
+
+/**
+ * Initialize the main menu.
+ */
 MainMenu.init = function()
 {
 MAIN_MENU = document.querySelector( '#MainMenu' );
@@ -25,6 +30,10 @@ HELP_MENU = document.querySelector( '#Help' );
 };
 
 
+/**
+ * Open the main menu.
+ * You can start the game, open the options or the help menu from this.
+ */
 MainMenu.open = function()
 {
 if ( ACTIVE_MENU )
@@ -63,11 +72,12 @@ help.onclick = function()
 
 ACTIVE_MENU = MAIN_MENU;
 centerElement( MAIN_MENU );
-
-createjs.Ticker.addEventListener( 'tick', MainMenu.tick );
 };
 
 
+/**
+ * Open the options menu.
+ */
 MainMenu.openOptions = function()
 {
 ACTIVE_MENU.classList.add( 'hide' );
@@ -192,7 +202,6 @@ $( linesToLevelSlider ).slider({
     });
 
 
-
     // :: Other :: //
 
 var back = OPTIONS_MENU.querySelector( '#Options-back' );
@@ -207,6 +216,9 @@ centerElement( OPTIONS_MENU );
 };
 
 
+/**
+ * Open the help menu.
+ */
 MainMenu.openHelp = function()
 {
 var back = HELP_MENU.querySelector( '#Help-back' );
@@ -225,13 +237,5 @@ centerElement( HELP_MENU );
 };
 
 
-MainMenu.tick = function()
-{
-STAGE.update();
-};
-
-
-
 window.MainMenu = MainMenu;
-
 }(window));

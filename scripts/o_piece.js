@@ -43,5 +43,4 @@ OPiece.POSSIBLE_ROTATIONS = [
 
 
 window.OPiece = OPiece;
-
 }(window));
