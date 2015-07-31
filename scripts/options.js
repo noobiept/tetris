@@ -17,13 +17,13 @@ var OPTIONS = {
 
 Options.save = function()
 {
-localStorage.setObject( 'options', OPTIONS );
+localStorage.setObject( 'tetris_options', OPTIONS );
 };
 
 
 Options.load = function()
 {
-var options = localStorage.getObject( 'options' );
+var options = localStorage.getObject( 'tetris_options' );
 
 if ( options !== null )
     {

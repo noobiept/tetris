@@ -216,17 +216,28 @@ NEXT_PIECE = piece;
 };
 
 
-
-Game.clear = function()
+/**
+ * Remove the tick and keyboard listeners.
+ */
+Game.clearEvents = function()
 {
-Game.setPaused( false );
-
-$( '#GameMenu' ).addClass( 'hide' );
-
 createjs.Ticker.removeEventListener( 'tick', Game.tick );
 
 document.addEventListener( 'keydown', keyDownListener );
 document.addEventListener( 'keyup', keyUpListener );
+};
+
+
+/**
+ * Clear the game state, remove all the elements, etc.
+ */
+Game.clear = function()
+{
+Game.clearEvents();
+
+Game.setPaused( false );
+
+$( '#GameMenu' ).addClass( 'hide' );
 
 ACTIVE_PIECE = null;
 GRID = null;
@@ -342,6 +353,8 @@ else
  */
 Game.end = function()
 {
+Game.clearEvents();
+
 window.alert( 'Game Over!' );
 
 Game.clear();

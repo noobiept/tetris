@@ -136,7 +136,6 @@ $( linesSlider ).slider({
 
     // :: starting level :: //
 
-
 var level = OPTIONS_MENU.querySelector( '#Options-startingLevel' );
 var levelSpan = level.querySelector( 'span' );
 
