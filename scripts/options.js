@@ -9,7 +9,7 @@ var OPTIONS = {
 
     numberOfColumns: 10,
     numberOfLines: 20,
-    startingLevel: 1,
+    startingLevel: 0,
     linesToLevelUp: 5
 
     };

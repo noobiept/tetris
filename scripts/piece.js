@@ -121,24 +121,6 @@ else
 };
 
 
-/*
-    Increases the speed that the pieces falls down
- */
-Piece.prototype.softDrop = function()
-{
-Game.setFallDownSpeed( 5 );
-};
-
-
-/*
-    Back to normal speed
- */
-Piece.prototype.stopSoftDrop = function()
-{
-Game.setFallDownSpeed( 1 );
-};
-
-
 Piece.prototype.hardDrop = function()
 {
 var grid = Game.getGrid();

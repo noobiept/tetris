@@ -5,17 +5,19 @@ function Game()
 
 }
 
-    // number of ticks until the active piece moves down 1 position
-var DELAY_START = 10;
-var DELAY_LIMIT = DELAY_START;
+    // number of milliseconds until the active piece moves down 1 position
+var DELAY_LIMIT = 0;
 var DELAY_COUNT = 0;
 
-    // how much the counter increases per tick
-var DELAY_STEP = 1;
+    // time between the downward movement of the active piece
+    // it is reduced as the current level increases
+    // value is in milliseconds (drops 20% per level)
+var DELAY_PER_LEVEL = [
+    600, 480, 384, 307, 246, 197, 157, 126, 101, 81
+];
 
-    // the max level is the same as delay_start, since we're reducing the delay count as the level is increase, so eventually you get to a point where you can't reduce the delay anymore (its == 1), so that's the max level, with the fastest speed
-var MAX_LEVEL = DELAY_START;
-var CURRENT_LEVEL = 1;
+var SOFT_DROP_ACTIVE = false;
+var CURRENT_LEVEL = 0;
 
     // number of cleared lines so far (count)
 var CLEARED_LINES = 0;
@@ -158,20 +160,6 @@ Game.initGameMenu = function()
 {
 var gameMenu = document.querySelector( '#GameMenu' );
 
-    // :: Current Level :: //
-
-var currentLevel = gameMenu.querySelector( '#GameMenu-currentLevel span' );
-
-if ( CURRENT_LEVEL >= MAX_LEVEL )
-    {
-    $( currentLevel ).text( 'max' );
-    }
-
-else
-    {
-    $( currentLevel ).text( CURRENT_LEVEL );
-    }
-
     // :: Cleared Lines :: //
 
 var clearedLines = gameMenu.querySelector( '#GameMenu-clearedLines span' );
@@ -242,15 +230,28 @@ document.addEventListener( 'keyup', keyUpListener );
 
 ACTIVE_PIECE = null;
 GRID = null;
+SOFT_DROP_ACTIVE = false;
 
 STAGE.removeAllChildren();
 STAGE.update();
 };
 
 
-Game.setFallDownSpeed = function( step )
+/**
+ * Increase the downward movement of the active piece.
+ */
+Game.startSoftDrop = function()
 {
-DELAY_STEP = step;
+SOFT_DROP_ACTIVE = true;
+};
+
+
+/**
+ * Back to the normal movement.
+ */
+Game.stopSoftDrop = function()
+{
+SOFT_DROP_ACTIVE = false;
 };
 
 
@@ -258,9 +259,6 @@ Game.getActivePiece = function()
 {
 return ACTIVE_PIECE;
 };
-
-
-
 
 
 Game.oneMoreClearedLine = function()
@@ -278,32 +276,38 @@ if ( (CLEARED_LINES % Options.getLinesToLevelUp()) == 0 )
 };
 
 
-
+/**
+ * Set the current level. Will influence the difficulty of the game.
+ */
 Game.setLevel = function( level )
 {
-if ( level >= MAX_LEVEL )
+var maxLevel = DELAY_PER_LEVEL.length;
+var text;
+
+if ( level >= maxLevel - 1 )
     {
-    CURRENT_LEVEL = MAX_LEVEL;
-
-    DELAY_LIMIT = 1;
-
-    $( '#GameMenu-currentLevel span' ).text( 'max' );
+    level = maxLevel - 1;
+    text = 'max';
     }
 
 else
     {
-    CURRENT_LEVEL = level;
-
-    DELAY_LIMIT = DELAY_START - level + 1;
-
-    $( '#GameMenu-currentLevel span' ).text( CURRENT_LEVEL );
+    text = level + 1;
     }
+
+CURRENT_LEVEL = level;
+DELAY_LIMIT = DELAY_PER_LEVEL[ CURRENT_LEVEL ];
+
+document.getElementById( 'GameMenu-currentLevel' ).lastElementChild.innerHTML = text;
 };
 
 
+/**
+ * Get the maximum achievable level of the game.
+ */
 Game.getMaxLevel = function()
 {
-return MAX_LEVEL;
+return DELAY_PER_LEVEL.length;
 };
 
 
@@ -377,7 +381,7 @@ KEYS_HELD.rightArrow = false;
 
 if ( ACTIVE_PIECE )
     {
-    ACTIVE_PIECE.stopSoftDrop();
+    Game.stopSoftDrop();
     }
 
 if ( state )
@@ -431,7 +435,7 @@ switch( event.keyCode )
 
     case EVENT_KEY.downArrow:
 
-        Game.getActivePiece().softDrop();
+        Game.startSoftDrop();
         return false;
     }
 
@@ -471,7 +475,7 @@ switch( event.keyCode )
 
     case EVENT_KEY.downArrow:
 
-        activePiece.stopSoftDrop();
+        Game.stopSoftDrop();
         return false;
 
     case EVENT_KEY.space:
@@ -500,19 +504,29 @@ return GRID;
 };
 
 
-Game.tick = function()
+Game.tick = function( event )
 {
 if ( createjs.Ticker.paused )
     {
     return;
     }
 
-DELAY_COUNT += DELAY_STEP;
-
+    // move the active piece to the left/right
 movement_tick();
 
 
-if ( DELAY_COUNT >= DELAY_LIMIT )
+    // move the active piece to the bottom (if the limit has been reached)
+DELAY_COUNT += event.delta;
+
+var limit = DELAY_LIMIT;
+
+    // move faster if the soft drop is active
+if ( SOFT_DROP_ACTIVE )
+    {
+    limit = 40;
+    }
+
+if ( DELAY_COUNT >= limit )
     {
     DELAY_COUNT = 0;
 

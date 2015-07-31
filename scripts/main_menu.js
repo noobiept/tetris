@@ -90,8 +90,8 @@ var columnsSlider = columns.querySelector( '#Options-numberOfColumns-slider' );
 
 $( columnsSlider ).slider({
     min: 10,
-    max: 30,
-    step: 5,
+    max: 20,
+    step: 1,
     value: numberOfColumns,
     range: 'min',
     slide: function( event, ui )
@@ -119,8 +119,8 @@ var linesSlider = lines.querySelector( '#Options-numberOfLines-slider' );
 
 $( linesSlider ).slider({
     min: 15,
-    max: 40,
-    step: 5,
+    max: 25,
+    step: 1,
     value: numberOfLines,
     range: 'min',
     slide: function( event, ui )
@@ -142,7 +142,7 @@ var levelSpan = level.querySelector( 'span' );
 
 var startingLevel = Options.getStartingLevel();
 
-$( levelSpan ).text( startingLevel );
+$( levelSpan ).text( startingLevel + 1 );
 
 
 var levelSlider = level.querySelector( '#Options-startingLevel-slider' );
@@ -151,13 +151,13 @@ $( levelSlider ).slider({
     min: 1,
     max: Game.getMaxLevel(),
     step: 1,
-    value: startingLevel,
+    value: startingLevel + 1,
     range: 'min',
     slide: function( event, ui )
         {
         $( levelSpan ).text( ui.value );
 
-        Options.setStartingLevel( parseInt( ui.value, 10 ) );
+        Options.setStartingLevel( parseInt( ui.value, 10 ) - 1 );
 
         centerElement( OPTIONS_MENU );
         }
