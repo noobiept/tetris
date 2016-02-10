@@ -1,3 +1,5 @@
+/*global Options, Grid, CANVAS, createjs, IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece, getRandomInt, MainMenu, Square, STAGE, EVENT_KEY*/
+
 (function(window)
 {
 function Game()

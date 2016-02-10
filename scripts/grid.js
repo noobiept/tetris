@@ -1,3 +1,5 @@
+/*global Square, Game, STAGE, createjs*/
+
 (function(window)
 {
 /**

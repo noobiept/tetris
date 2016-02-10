@@ -1,3 +1,5 @@
+/*global Piece, INHERIT_PROTOTYPE*/
+
 (function(window)
 {
 function LPiece( gridObject, column, line )

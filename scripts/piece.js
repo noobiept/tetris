@@ -1,3 +1,5 @@
+/*global Square, Game*/
+
 (function(window)
 {
 /**

@@ -1,3 +1,5 @@
+/*global Piece, INHERIT_PROTOTYPE*/
+
 (function(window)
 {
 function ZPiece( gridObject, column, line )

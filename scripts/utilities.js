@@ -1,3 +1,6 @@
+/*global CANVAS*/
+/*exported EVENT_KEY, getRandomInt, centerElement, INHERIT_PROTOTYPE*/
+
 /**
  * Keys code for the keyboard events.
  */

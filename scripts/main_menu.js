@@ -1,3 +1,5 @@
+/*global CANVAS, centerElement, Options, Game*/
+
 (function(window)
 {
 function MainMenu()

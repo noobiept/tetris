@@ -1,3 +1,6 @@
+/*global createjs, MainMenu, Options*/
+/*exported STAGE, CANVAS*/
+
 var STAGE;      // createjs Stage object
 var CANVAS;     // canvas html element
 
