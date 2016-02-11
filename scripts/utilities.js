@@ -1,10 +1,13 @@
 /*global CANVAS*/
-/*exported EVENT_KEY, getRandomInt, centerElement, INHERIT_PROTOTYPE*/
+
+var Utilities;
+(function(Utilities) {
+
 
 /**
  * Keys code for the keyboard events.
  */
-var EVENT_KEY = {
+Utilities.EVENT_KEY = {
 
     backspace  : 8,
     tab        : 9,
@@ -69,39 +72,38 @@ var EVENT_KEY = {
     f10 : 121,
     f11 : 122,
     f12 : 123
-
 };
 
 
 /**
  * Get a random integer between the minimum and maximum values provided (inclusive).
  */
-function getRandomInt( min, max )
-{
-return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+Utilities.getRandomInt = function( min, max )
+    {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 
 
 /**
  * Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
  */
-function centerElement( element )
-{
-var canvasWidth = CANVAS.width;
-var canvasHeight = CANVAS.height;
+Utilities.centerElement = function( element )
+    {
+    var canvasWidth = CANVAS.width;
+    var canvasHeight = CANVAS.height;
 
-    // the canvas may not be starting at 0,0 position, so we need to account for that
-var canvasPosition = $( CANVAS ).position();
+        // the canvas may not be starting at 0,0 position, so we need to account for that
+    var canvasPosition = $( CANVAS ).position();
 
-var left = canvasWidth / 2 - $( element ).width() / 2 + canvasPosition.left;
+    var left = canvasWidth / 2 - $( element ).width() / 2 + canvasPosition.left;
 
-var top = canvasHeight / 2 - $( element ).height() / 2 + canvasPosition.top;
+    var top = canvasHeight / 2 - $( element ).height() / 2 + canvasPosition.top;
 
-$( element ).css({
-    top  : top  + 'px',
-    left : left + 'px'
-    });
-}
+    $( element ).css({
+        top  : top  + 'px',
+        left : left + 'px'
+        });
+    };
 
 
 /**
@@ -111,45 +113,46 @@ $( element ).css({
  *      localStorage.setObject( "...", { ... } );
  */
 Storage.prototype.setObject = function( key, value )
-{
-this.setItem( key, JSON.stringify( value ) );
-};
+    {
+    this.setItem( key, JSON.stringify( value ) );
+    };
 
 
 /**
  * Returns null if it doesn't find, otherwise returns the string correspondent.
  */
 Storage.prototype.getObject = function( key )
-{
-var value = this.getItem( key );
+    {
+    var value = this.getItem( key );
 
-return value && JSON.parse( value );
-};
-
+    return value && JSON.parse( value );
+    };
 
 
 /**
  * Used for 'class' inheritance (search prototypal inheritance).
  */
 function OBJECT( o )
-{
-function F(){}
+    {
+    function F(){}
 
-F.prototype = o;
+    F.prototype = o;
 
-return new F();
-}
+    return new F();
+    }
 
 
 /**
  * Used for 'class' inheritance (search for parasitic combination inheritance).
  */
-function INHERIT_PROTOTYPE( derivedClass, baseClass )
-{
-var prototype = OBJECT( baseClass.prototype );
+Utilities.INHERIT_PROTOTYPE = function( derivedClass, baseClass )
+    {
+    var prototype = OBJECT( baseClass.prototype );
 
-prototype.constructor = derivedClass;
+    prototype.constructor = derivedClass;
 
-derivedClass.prototype = prototype;
-}
+    derivedClass.prototype = prototype;
+    };
 
+
+})(Utilities || (Utilities = {}));

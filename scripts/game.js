@@ -1,4 +1,4 @@
-/*global Options, Grid, CANVAS, createjs, IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece, getRandomInt, MainMenu, Square, STAGE, EVENT_KEY*/
+/*global Options, Grid, CANVAS, createjs, IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece, MainMenu, Square, STAGE, Utilities*/
 
 (function(window)
 {
@@ -160,7 +160,7 @@ Game.chooseRandomPiece = function()
 {
 var possiblePieces = [ IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece ];
 
-var choose = getRandomInt( 0, possiblePieces.length - 1 );
+var choose = Utilities.getRandomInt( 0, possiblePieces.length - 1 );
 
 return possiblePieces[ choose ];
 };
@@ -455,17 +455,17 @@ if ( !event )
 
 switch( event.keyCode )
     {
-    case EVENT_KEY.leftArrow:
+    case Utilities.EVENT_KEY.leftArrow:
 
         KEYS_HELD.leftArrow = true;
         return false;
 
-    case EVENT_KEY.rightArrow:
+    case Utilities.EVENT_KEY.rightArrow:
 
         KEYS_HELD.rightArrow = true;
         return false;
 
-    case EVENT_KEY.downArrow:
+    case Utilities.EVENT_KEY.downArrow:
 
         Game.startSoftDrop();
         return false;
@@ -495,32 +495,32 @@ var activePiece = Game.getActivePiece();
 
 switch( event.keyCode )
     {
-    case EVENT_KEY.leftArrow:
+    case Utilities.EVENT_KEY.leftArrow:
 
         KEYS_HELD.leftArrow = false;
         return false;
 
-    case EVENT_KEY.rightArrow:
+    case Utilities.EVENT_KEY.rightArrow:
 
         KEYS_HELD.rightArrow = false;
         return false;
 
-    case EVENT_KEY.downArrow:
+    case Utilities.EVENT_KEY.downArrow:
 
         Game.stopSoftDrop();
         return false;
 
-    case EVENT_KEY.space:
+    case Utilities.EVENT_KEY.space:
 
         activePiece.hardDrop();
         return false;
 
-    case EVENT_KEY.a:
+    case Utilities.EVENT_KEY.a:
 
         activePiece.rotateLeft();
         return false;
 
-    case EVENT_KEY.d:
+    case Utilities.EVENT_KEY.d:
 
         activePiece.rotateRight();
         return false;

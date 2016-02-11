@@ -1,4 +1,4 @@
-/*global Piece, INHERIT_PROTOTYPE*/
+/*global Piece, Utilities*/
 
 (function(window)
 {
@@ -17,7 +17,7 @@ Piece.call( this, gridObject, column, line );
 }
 
     // inherit the member functions
-INHERIT_PROTOTYPE( JPiece, Piece );
+Utilities.INHERIT_PROTOTYPE( JPiece, Piece );
 
 
 JPiece.POSSIBLE_ROTATIONS = [

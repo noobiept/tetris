@@ -1,4 +1,4 @@
-/*global Piece, INHERIT_PROTOTYPE*/
+/*global Piece, Utilities*/
 
 (function(window)
 {
@@ -17,7 +17,7 @@ Piece.call( this, gridObject, column, line );
 }
 
     // inherit the member functions
-INHERIT_PROTOTYPE( OPiece, Piece );
+Utilities.INHERIT_PROTOTYPE( OPiece, Piece );
 
 
 OPiece.POSSIBLE_ROTATIONS = [

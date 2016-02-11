@@ -1,4 +1,4 @@
-/*global CANVAS, centerElement, Options, Game*/
+/*global CANVAS, Utilities, Options, Game*/
 
 (function(window)
 {
@@ -73,7 +73,7 @@ help.onclick = function()
 
 
 ACTIVE_MENU = MAIN_MENU;
-centerElement( MAIN_MENU );
+Utilities.centerElement( MAIN_MENU );
 };
 
 
@@ -112,7 +112,7 @@ $( columnsSlider ).slider({
 
         Options.setNumberOfColumns( parseInt( ui.value, 10 ) );
 
-        centerElement( OPTIONS_MENU );
+        Utilities.centerElement( OPTIONS_MENU );
         }
     });
 
@@ -141,7 +141,7 @@ $( linesSlider ).slider({
 
         Options.setNumberOfLines( parseInt( ui.value, 10 ) );
 
-        centerElement( OPTIONS_MENU );
+        Utilities.centerElement( OPTIONS_MENU );
         }
     });
 
@@ -170,7 +170,7 @@ $( levelSlider ).slider({
 
         Options.setStartingLevel( parseInt( ui.value, 10 ) - 1 );
 
-        centerElement( OPTIONS_MENU );
+        Utilities.centerElement( OPTIONS_MENU );
         }
     });
 
@@ -199,7 +199,7 @@ $( linesToLevelSlider ).slider({
 
         Options.setLinesToLevelUp( parseInt( ui.value, 10 ) );
 
-        centerElement( OPTIONS_MENU );
+        Utilities.centerElement( OPTIONS_MENU );
         }
     });
 
@@ -214,7 +214,7 @@ back.onclick = function()
     };
 
 
-centerElement( OPTIONS_MENU );
+Utilities.centerElement( OPTIONS_MENU );
 };
 
 
@@ -235,7 +235,7 @@ ACTIVE_MENU.classList.add( 'hide' );
 ACTIVE_MENU = HELP_MENU;
 ACTIVE_MENU.classList.remove( 'hide' );
 
-centerElement( HELP_MENU );
+Utilities.centerElement( HELP_MENU );
 };
 
 
