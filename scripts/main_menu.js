@@ -73,8 +73,7 @@ help.onclick = function()
     };
 
 
-ACTIVE_MENU = MAIN_MENU;
-Utilities.centerElement( MAIN_MENU );
+MainMenu.rePosition();
 };
 
 
@@ -116,7 +115,7 @@ $( columnsSlider ).slider({
 
         Options.setNumberOfColumns( parseInt( ui.value, 10 ) );
 
-        Utilities.centerElement( OPTIONS_MENU );
+        MainMenu.rePosition();
         }
     });
 
@@ -145,7 +144,7 @@ $( linesSlider ).slider({
 
         Options.setNumberOfLines( parseInt( ui.value, 10 ) );
 
-        Utilities.centerElement( OPTIONS_MENU );
+        MainMenu.rePosition();
         }
     });
 
@@ -174,7 +173,7 @@ $( levelSlider ).slider({
 
         Options.setStartingLevel( parseInt( ui.value, 10 ) - 1 );
 
-        Utilities.centerElement( OPTIONS_MENU );
+        MainMenu.rePosition();
         }
     });
 
@@ -203,7 +202,7 @@ $( linesToLevelSlider ).slider({
 
         Options.setLinesToLevelUp( parseInt( ui.value, 10 ) );
 
-        Utilities.centerElement( OPTIONS_MENU );
+        MainMenu.rePosition();
         }
     });
 
@@ -218,8 +217,7 @@ back.onclick = function()
     MainMenu.open();
     };
 
-
-Utilities.centerElement( OPTIONS_MENU );
+MainMenu.rePosition();
 };
 
 
@@ -244,7 +242,19 @@ if ( ACTIVE_MENU )
 ACTIVE_MENU = HELP_MENU;
 ACTIVE_MENU.classList.remove( 'hide' );
 
-Utilities.centerElement( HELP_MENU );
+MainMenu.rePosition();
+};
+
+
+/**
+ * Re-center the menu elements.
+ */
+MainMenu.rePosition = function()
+{
+if ( ACTIVE_MENU )
+    {
+    Utilities.centerElement( ACTIVE_MENU );
+    }
 };
 
 

@@ -33,3 +33,9 @@ else
     MainMenu.open();
     }
 }
+
+
+window.onresize = function()
+{
+MainMenu.rePosition();
+};

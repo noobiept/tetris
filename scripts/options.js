@@ -31,7 +31,7 @@ AppStorage.setData( { tetris_options: OPTIONS } );
  */
 Options.load = function( options )
 {
-if ( options !== null )
+if ( options )
     {
     if ( $.isNumeric( options.numberOfColumns ) )
         {
