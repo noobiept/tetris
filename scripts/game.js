@@ -299,7 +299,7 @@ $( '#GameMenu-clearedLines span' ).text( CLEARED_LINES );
 
 
     // move up one level, once the number of cleared lines is reached
-if ( (CLEARED_LINES % Options.getLinesToLevelUp()) == 0 )
+if ( (CLEARED_LINES % Options.getLinesToLevelUp()) === 0 )
     {
     Game.setLevel( CURRENT_LEVEL + 1 );
     }
@@ -444,7 +444,7 @@ function keyDownListener( event )
 {
 if ( Game.isPaused() )
     {
-    return;
+    return true;
     }
 
 if ( !event )
@@ -482,7 +482,7 @@ function keyUpListener( event )
 {
 if ( Game.isPaused() )
     {
-    return;
+    return true;
     }
 
 if ( !event )

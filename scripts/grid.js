@@ -281,7 +281,7 @@ for (line = this.numberOfLines - 1 ; line >= 0 ; line--)
         }
 
         // means the loop passed through all the columns (so, the line contains all the squares filled)
-    if (column == this.numberOfColumns)
+    if (column === this.numberOfColumns)
         {
         this.clearLine( line );
 

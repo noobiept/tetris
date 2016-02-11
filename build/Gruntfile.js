@@ -52,6 +52,9 @@ grunt.initConfig({
                     src: '*.css',
                     dest: dest + 'css/'
                 }]
+            },
+            options: {
+                advanced: false
             }
         },
 
@@ -63,6 +66,10 @@ grunt.initConfig({
                 src: 'index.html',
                 dest: dest
             }
+        },
+
+        eslint: {
+            target: [ root + 'scripts/**' ]
         }
     });
 
@@ -72,7 +79,8 @@ grunt.loadNpmTasks( 'grunt-contrib-copy' );
 grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 grunt.loadNpmTasks( 'grunt-processhtml' );
+grunt.loadNpmTasks( 'grunt-eslint' );
 
     // tasks
-grunt.registerTask( 'default', [ 'clean', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
+grunt.registerTask( 'default', [ 'eslint', 'clean', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
 };
