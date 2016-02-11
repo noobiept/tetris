@@ -4,13 +4,14 @@
     <meta charset="utf-8" />
     <title>Tetris</title>
 
-
+    <!-- styling -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="libraries/jquery-ui/jquery-ui.min.css" />
+    
     <!-- libraries -->
     <script type="text/javascript" src="libraries/jquery-2.2.0.min.js"></script>
     <script type="text/javascript" src="libraries/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="libraries/easeljs-0.8.2.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="libraries/jquery-ui/jquery-ui.min.css" />
 
     <!-- scripts -->
     <!-- build:js min.js -->
@@ -31,12 +32,6 @@
     <script type="text/javascript" src="scripts/l_piece.js"></script>
     <script type="text/javascript" src="scripts/square.js"></script>
     <!-- /build -->
-
-
-    <!-- styling -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-
-
 </head>
 <body>
 
@@ -59,6 +54,8 @@
             </div>
         </div>
     </div>
+
+    <div id="DialogMessage">Game Over!</div>
 
     <div id="MainMenu" class="hide">
         <div id="MainMenu-startGame" class="button">Start Game</div>

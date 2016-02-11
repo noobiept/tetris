@@ -377,11 +377,20 @@ else
 Game.end = function()
 {
 Game.clearEvents();
+Game.setPaused( true );
 
-window.alert( 'Game Over!' );
+$( "#DialogMessage" ).dialog({
+    modal: true,
+    buttons: {
+        Ok: function()
+            {
+            $( this ).dialog( "close" );
 
-Game.clear();
-Game.start();
+            Game.clear();
+            Game.start();
+            }
+        }
+    });
 };
 
 

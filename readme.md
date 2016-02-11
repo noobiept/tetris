@@ -41,6 +41,7 @@ Dependencies
 - jqueryui : 1.11
 
     - slider
+    - dialog
     - blitzer theme
 
 - createjs
