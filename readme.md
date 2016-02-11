@@ -37,10 +37,11 @@ Dependencies
 ============
 
 
-- jquery : 2.1
+- jquery : 2.2
 - jqueryui : 1.11
 
     - slider
     - blitzer theme
 
-- easeljs : 0.8
+- createjs
+    - easeljs : 0.8

@@ -1,4 +1,4 @@
-/*global createjs, MainMenu, Options*/
+/*global createjs, MainMenu, Options, AppStorage*/
 /*exported STAGE, CANVAS*/
 
 var STAGE;      // createjs Stage object
