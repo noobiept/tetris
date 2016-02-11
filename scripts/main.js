@@ -7,19 +7,29 @@ var CANVAS;     // canvas html element
 
 window.onload = function()
 {
-Options.load();
+AppStorage.getData( [ 'tetris_options', 'tetris_has_run_before' ], initApp );
+};
+
+
+function initApp( data )
+{
+Options.load( data[ 'tetris_options' ] );
 
 CANVAS = document.querySelector( '#mainCanvas' );
 STAGE = new createjs.Stage( CANVAS );
 
-createjs.Ticker.setInterval( 50 );
+createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
 MainMenu.init();
-MainMenu.open();
-};
 
+if ( !data[ 'tetris_has_run_before' ] )
+    {
+    AppStorage.setData( { tetris_has_run_before: true } );
+    MainMenu.openHelp();
+    }
 
-window.onunload = function()
-{
-Options.save();
-};
+else
+    {
+    MainMenu.open();
+    }
+}

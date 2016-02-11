@@ -29,6 +29,9 @@ MainMenu.init = function()
 MAIN_MENU = document.querySelector( '#MainMenu' );
 OPTIONS_MENU = document.querySelector( '#Options' );
 HELP_MENU = document.querySelector( '#Help' );
+
+CANVAS.width = CANVAS_WIDTH;
+CANVAS.height = CANVAS_HEIGHT;
 };
 
 
@@ -46,8 +49,6 @@ if ( ACTIVE_MENU )
 ACTIVE_MENU = MAIN_MENU;
 ACTIVE_MENU.classList.remove( 'hide' );
 
-CANVAS.width = CANVAS_WIDTH;
-CANVAS.height = CANVAS_HEIGHT;
 
 var startGame = MAIN_MENU.querySelector( '#MainMenu-startGame' );
 var options = MAIN_MENU.querySelector( '#MainMenu-options' );
@@ -82,9 +83,12 @@ Utilities.centerElement( MAIN_MENU );
  */
 MainMenu.openOptions = function()
 {
-ACTIVE_MENU.classList.add( 'hide' );
-ACTIVE_MENU = OPTIONS_MENU;
+if ( ACTIVE_MENU )
+    {
+    ACTIVE_MENU.classList.add( 'hide' );
+    }
 
+ACTIVE_MENU = OPTIONS_MENU;
 OPTIONS_MENU.classList.remove( 'hide' );
 
 
@@ -210,6 +214,7 @@ var back = OPTIONS_MENU.querySelector( '#Options-back' );
 
 back.onclick = function()
     {
+    Options.save();
     MainMenu.open();
     };
 
@@ -231,7 +236,11 @@ back.onclick = function()
     };
 
 
-ACTIVE_MENU.classList.add( 'hide' );
+if ( ACTIVE_MENU )
+    {
+    ACTIVE_MENU.classList.add( 'hide' );
+    }
+
 ACTIVE_MENU = HELP_MENU;
 ACTIVE_MENU.classList.remove( 'hide' );
 

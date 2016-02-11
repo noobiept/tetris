@@ -20,17 +20,15 @@ var OPTIONS = {
  */
 Options.save = function()
 {
-localStorage.setObject( 'tetris_options', OPTIONS );
+AppStorage.setData( { tetris_options: OPTIONS } );
 };
 
 
 /**
  * Load the options from the local storage.
  */
-Options.load = function()
+Options.load = function( options )
 {
-var options = localStorage.getObject( 'tetris_options' );
-
 if ( options !== null )
     {
     if ( $.isNumeric( options.numberOfColumns ) )
