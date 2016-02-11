@@ -11,6 +11,10 @@ function Game()
 var DELAY_LIMIT = 0;
 var DELAY_COUNT = 0;
 
+    // time between the horizontal move of a piece
+var HORIZONTAL_LIMIT = 75;
+var HORIZONTAL_COUNT = 0;
+
     // time between the downward movement of the active piece
     // it is reduced as the current level increases
     // value is in milliseconds (drops 20% per level)
@@ -552,7 +556,7 @@ if ( createjs.Ticker.paused )
     }
 
     // move the active piece to the left/right
-movement_tick();
+movement_tick( event.delta );
 
 
     // move the active piece to the bottom (if the limit has been reached)
@@ -586,17 +590,25 @@ STAGE.update();
 /**
  * Deal with the horizontal movement of the active piece.
  */
-function movement_tick()
+function movement_tick( deltaTime )
 {
-if ( KEYS_HELD.leftArrow )
+HORIZONTAL_COUNT += deltaTime;
+
+if ( HORIZONTAL_COUNT >= HORIZONTAL_LIMIT )
     {
         // move left
-    GRID.movePiece( ACTIVE_PIECE, -1, 0 );
-    }
+    if ( KEYS_HELD.leftArrow )
+        {
+        HORIZONTAL_COUNT = 0;
+        GRID.movePiece( ACTIVE_PIECE, -1, 0 );
+        }
 
-else if ( KEYS_HELD.rightArrow )
-    {
-    GRID.movePiece( ACTIVE_PIECE, 1, 0 );
+        // move right
+    else if ( KEYS_HELD.rightArrow )
+        {
+        HORIZONTAL_COUNT = 0;
+        GRID.movePiece( ACTIVE_PIECE, 1, 0 );
+        }
     }
 }
 
