@@ -19,6 +19,7 @@ em
 .button
     {
     cursor: pointer;
+    color: white;
     }
 
 .button:hover
@@ -76,6 +77,11 @@ em
     text-align: left;
     }
 
+#MainMenu-donate
+    {
+    display: block;
+    text-decoration: none;
+    }
 
     /* :: Canvas :: */
 
