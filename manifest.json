@@ -1,6 +1,6 @@
 {
     "name": "tetris",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "A tetris game, where you can specify the number of columns/lines of the grid.",
     "icons": { "16": "images/tetris_16.png", "128": "images/tetris_128.png" },
     "app": { "background": { "scripts": [ "background.js" ] } },
