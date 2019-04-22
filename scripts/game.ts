@@ -112,7 +112,7 @@ var rotation = chosenPiece.POSSIBLE_ROTATIONS[ 0 ];
 
 
         // center the element in the grid
-var pivotColumn = parseInt( GRID.numberOfColumns / 2, 10 );
+var pivotColumn = Math.floor( GRID.numberOfColumns / 2 );
 var pivotLine = 0;
 var gridSquare;
 var column, line;
@@ -189,11 +189,11 @@ pauseResume.addEventListener( 'click', Game.togglePaused );
 
 var quit = gameMenu.querySelector( '#GameMenu-quit' );
 
-quit.onclick = function()
+quit.addEventListener('click', function()
     {
     Game.clear();
     MainMenu.open();
-    };
+    });
 
 
     // :: Game Menu :: //

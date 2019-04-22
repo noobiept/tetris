@@ -108,8 +108,7 @@ $( columnsSlider ).slider({
         {
         $( columnsSpan ).text( ui.value );
 
-        Options.setNumberOfColumns( parseInt( ui.value, 10 ) );
-
+        Options.setNumberOfColumns( Math.round( ui.value ) );
         MainMenu.rePosition();
         }
     });
@@ -137,8 +136,7 @@ $( linesSlider ).slider({
         {
         $( linesSpan ).text( ui.value );
 
-        Options.setNumberOfLines( parseInt( ui.value, 10 ) );
-
+        Options.setNumberOfLines( Math.round( ui.value ) );
         MainMenu.rePosition();
         }
     });
@@ -166,8 +164,7 @@ $( levelSlider ).slider({
         {
         $( levelSpan ).text( ui.value );
 
-        Options.setStartingLevel( parseInt( ui.value, 10 ) - 1 );
-
+        Options.setStartingLevel( Math.round( ui.value ) - 1 );
         MainMenu.rePosition();
         }
     });
@@ -195,8 +192,7 @@ $( linesToLevelSlider ).slider({
         {
         $( linesToLevelSpan ).text( ui.value );
 
-        Options.setLinesToLevelUp( parseInt( ui.value, 10 ) );
-
+        Options.setLinesToLevelUp( Math.round( ui.value ) );
         MainMenu.rePosition();
         }
     });
