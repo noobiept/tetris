@@ -1,9 +1,8 @@
 {
     "compilerOptions": {
-        "allowJs": true,
         "strict": false,
         "target": "es2017",
-        "module": "system",
+        "module": "es2015",
         "outDir": "build"
     },
     "include": [ "scripts/**/*" ]

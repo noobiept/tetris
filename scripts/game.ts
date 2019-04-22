@@ -1,5 +1,8 @@
-var Game;
-(function(Game) {
+import * as Options from './options.js';
+import * as MainMenu from './main_menu.js';
+import * as Utilities from './utilities.js';
+import { STAGE, CANVAS } from './main.js';
+
 
     // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;
@@ -47,12 +50,12 @@ var KEYS_HELD = {
 /**
  * Start a new game.
  */
-Game.start = function()
+export function start()
 {
 var numberOfColumns = Options.getNumberOfColumns();
 var numberOfLines = Options.getNumberOfLines();
 
-Game.setLevel( Options.getStartingLevel() );
+setLevel( Options.getStartingLevel() );
 
 CLEARED_LINES = 0;
 
@@ -66,12 +69,12 @@ MESSAGE_TEXT = document.getElementById( 'MessageText' );
 CANVAS.width = GRID.width + GAME_MENU_WIDTH;
 CANVAS.height = GRID.height;
 
-NEXT_PIECE_CLASS = Game.chooseRandomPiece();
+NEXT_PIECE_CLASS = chooseRandomPiece();
 
-Game.newPiece();
-Game.initGameMenu();
+newPiece();
+initGameMenu();
 
-createjs.Ticker.addEventListener( 'tick', Game.tick );
+createjs.Ticker.addEventListener( 'tick', tick );
 
 document.addEventListener( 'keydown', keyDownListener );
 document.addEventListener( 'keyup', keyUpListener );
@@ -83,9 +86,10 @@ document.addEventListener( 'keyup', keyUpListener );
  * The previously active piece will be part of the stack now.
  * Also check for the game ending condition (see if it doesn't collide with other squares in the stack, otherwise the game is over).
  */
-Game.newPiece = function()
+export function newPiece()
 {
-Game.clearMessage();
+clearMessage();
+
 var i;
 var square;
 
@@ -127,24 +131,22 @@ for (i = 0 ; i < rotation.length ; i++)
 
     if ( gridSquare )
         {
-        Game.end();
+        end();
         return;
         }
     }
 
 
     // we randomly get a new piece, for next time
-NEXT_PIECE_CLASS = Game.chooseRandomPiece();
+NEXT_PIECE_CLASS = chooseRandomPiece();
 
     // and show it in the game menu
-Game.showNextPiece( NEXT_PIECE_CLASS );
+showNextPiece( NEXT_PIECE_CLASS );
 
 
 ACTIVE_PIECE = new chosenPiece();
 ACTIVE_PIECE.addToContainer( GRID.container );
 GRID.addPiece( ACTIVE_PIECE, pivotColumn, pivotLine );
-
-
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)
 DELAY_COUNT = 0;
@@ -154,36 +156,31 @@ DELAY_COUNT = 0;
 /**
  * Randomly choose the class of a piece.
  */
-Game.chooseRandomPiece = function()
+function chooseRandomPiece()
 {
 var possiblePieces = [ IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece ];
-
 var choose = Utilities.getRandomInt( 0, possiblePieces.length - 1 );
 
 return possiblePieces[ choose ];
-};
+}
 
 
 /**
  * Initialize the game menu elements.
  */
-Game.initGameMenu = function()
+function initGameMenu()
 {
 var gameMenu = document.querySelector( '#GameMenu' );
 
     // :: Cleared Lines :: //
 
 var clearedLines = gameMenu.querySelector( '#GameMenu-clearedLines span' );
-
 $( clearedLines ).text( '0' );
-
 
     // :: Pause / Resume :: //
 
 var pauseResume = gameMenu.querySelector( '#GameMenu-pauseResume' );
-
-pauseResume.addEventListener( 'click', Game.togglePaused );
-
+pauseResume.addEventListener( 'click', togglePaused );
 
     // :: Quit :: //
 
@@ -191,7 +188,7 @@ var quit = gameMenu.querySelector( '#GameMenu-quit' );
 
 quit.addEventListener('click', function()
     {
-    Game.clear();
+    clear();
     MainMenu.open();
     });
 
@@ -203,13 +200,13 @@ $( gameMenu ).removeClass( 'hide' );
 
     // need to set the height of the menu to the same height of the canvas, so that it is position correctly
 $( gameMenu ).css( 'height', CANVAS.height + 'px' );
-};
+}
 
 
 /**
  * Shows an image of the next piece to fall, in the game menu.
  */
-Game.showNextPiece = function( nextPieceClass )
+function showNextPiece( nextPieceClass )
 {
 if ( NEXT_PIECE )
     {
@@ -223,15 +220,15 @@ piece.positionIn( GRID.width + GAME_MENU_WIDTH / 2 - Square.size / 2, 20 );
 piece.addToContainer( STAGE );
 
 NEXT_PIECE = piece;
-};
+}
 
 
 /**
  * Remove the tick and keyboard listeners.
  */
-Game.clearEvents = function()
+function clearEvents()
 {
-createjs.Ticker.removeEventListener( 'tick', Game.tick );
+createjs.Ticker.removeEventListener( 'tick', tick );
 
 document.addEventListener( 'keydown', keyDownListener );
 document.addEventListener( 'keyup', keyUpListener );
@@ -241,11 +238,10 @@ document.addEventListener( 'keyup', keyUpListener );
 /**
  * Clear the game state, remove all the elements, etc.
  */
-Game.clear = function()
+function clear()
 {
-Game.clearEvents();
-
-Game.setPaused( false );
+clearEvents();
+setPaused( false );
 
 $( '#GameMenu' ).addClass( 'hide' );
 
@@ -255,41 +251,41 @@ SOFT_DROP_ACTIVE = false;
 
 STAGE.removeAllChildren();
 STAGE.update();
-};
+}
 
 
 /**
  * Increase the downward movement of the active piece.
  */
-Game.startSoftDrop = function()
+function startSoftDrop()
 {
 SOFT_DROP_ACTIVE = true;
-};
+}
 
 
 /**
  * Back to the normal movement.
  */
-Game.stopSoftDrop = function()
+function stopSoftDrop()
 {
 SOFT_DROP_ACTIVE = false;
-};
+}
 
 
 /**
  * Get the current active piece object.
  */
-Game.getActivePiece = function()
+function getActivePiece()
 {
 return ACTIVE_PIECE;
-};
+}
 
 
 /**
  * A line in the stack has been cleared.
  * Update the menus, and check if we reached a new level.
  */
-Game.oneMoreClearedLine = function()
+function oneMoreClearedLine()
 {
 CLEARED_LINES++;
 
@@ -299,15 +295,15 @@ $( '#GameMenu-clearedLines span' ).text( CLEARED_LINES );
     // move up one level, once the number of cleared lines is reached
 if ( (CLEARED_LINES % Options.getLinesToLevelUp()) === 0 )
     {
-    Game.setLevel( CURRENT_LEVEL + 1 );
+    setLevel( CURRENT_LEVEL + 1 );
     }
-};
+}
 
 
 /**
  * Set the current level. Will influence the difficulty of the game.
  */
-Game.setLevel = function( level )
+function setLevel( level )
 {
 var maxLevel = DELAY_PER_LEVEL.length;
 var text;
@@ -327,23 +323,23 @@ CURRENT_LEVEL = level;
 DELAY_LIMIT = DELAY_PER_LEVEL[ CURRENT_LEVEL ];
 
 document.getElementById( 'GameMenu-currentLevel' ).lastElementChild.innerHTML = text;
-};
+}
 
 
 /**
  * Get the maximum achievable level of the game.
  */
-Game.getMaxLevel = function()
+export function getMaxLevel()
 {
 return DELAY_PER_LEVEL.length;
-};
+}
 
 
 /**
  * Show a message in the game menu.
  * When the same message is trying to be shown, it will show a counter of the times it was tried.
  */
-Game.showMessage = function( text )
+function showMessage( text )
 {
 var currentText = $( MESSAGE_TEXT ).text();
 
@@ -362,16 +358,16 @@ else
     $( MESSAGE_COUNT ).text( '' );
     $( MESSAGE_TEXT ).text( text );
     }
-};
+}
 
 
 /**
  * Game has ended. Show a message and then restart the game.
  */
-Game.end = function()
+function end()
 {
-Game.clearEvents();
-Game.setPaused( true );
+clearEvents();
+setPaused( true );
 
 $( "#DialogMessage" ).dialog({
     modal: true,
@@ -380,38 +376,38 @@ $( "#DialogMessage" ).dialog({
             {
             $( this ).dialog( "close" );
 
-            Game.clear();
-            Game.start();
+            clear();
+            start();
             }
         }
     });
-};
+}
 
 
 /**
  * Clear the current message.
  */
-Game.clearMessage = function()
+function clearMessage()
 {
 MESSAGE_COUNT.setAttribute( 'data-count', '0' );
 MESSAGE_COUNT.innerHTML = '';
 MESSAGE_TEXT.innerHTML = '';
-};
+}
 
 
 /**
  * Toggle between the pause/resume state.
  */
-Game.togglePaused = function()
+function togglePaused()
 {
-Game.setPaused( !Game.isPaused() );
-};
+setPaused( !isPaused() );
+}
 
 
 /**
  * Pause/resume the game.
  */
-Game.setPaused = function( state )
+function setPaused( state )
 {
 createjs.Ticker.paused = state;
 
@@ -420,7 +416,7 @@ KEYS_HELD.rightArrow = false;
 
 if ( ACTIVE_PIECE )
     {
-    Game.stopSoftDrop();
+    stopSoftDrop();
     }
 
 if ( state )
@@ -432,16 +428,16 @@ else
     {
     $( '#GameMenu-pauseResume' ).text( 'Pause' );
     }
-};
+}
 
 
 /**
  * Tells if the game is currently paused or not.
  */
-Game.isPaused = function()
+function isPaused()
 {
 return createjs.Ticker.paused;
-};
+}
 
 
 /**
@@ -449,7 +445,7 @@ return createjs.Ticker.paused;
  */
 function keyDownListener( event )
 {
-if ( Game.isPaused() )
+if ( isPaused() )
     {
     return true;
     }
@@ -474,7 +470,7 @@ switch( event.keyCode )
 
     case Utilities.EVENT_KEY.downArrow:
 
-        Game.startSoftDrop();
+        startSoftDrop();
         return false;
     }
 
@@ -487,7 +483,7 @@ return true;
  */
 function keyUpListener( event )
 {
-if ( Game.isPaused() )
+if ( isPaused() )
     {
     return true;
     }
@@ -498,7 +494,7 @@ if ( !event )
     }
 
 
-var activePiece = Game.getActivePiece();
+var activePiece = getActivePiece();
 
 switch( event.keyCode )
     {
@@ -514,7 +510,7 @@ switch( event.keyCode )
 
     case Utilities.EVENT_KEY.downArrow:
 
-        Game.stopSoftDrop();
+        stopSoftDrop();
         return false;
 
     case Utilities.EVENT_KEY.space:
@@ -540,10 +536,10 @@ return true;
 /**
  * Get the grid object. You can use it to add/move/rotate pieces, etc.
  */
-Game.getGrid = function()
+export function getGrid()
 {
 return GRID;
-};
+}
 
 
 /**
@@ -551,7 +547,7 @@ return GRID;
  * Checks when we need to add a new piece to the game.
  * Redraws the game.
  */
-Game.tick = function( event )
+function tick( event )
 {
 if ( createjs.Ticker.paused )
     {
@@ -582,12 +578,12 @@ if ( DELAY_COUNT >= limit )
 
     if ( !successful )
         {
-        Game.newPiece();
+        newPiece();
         }
     }
 
 STAGE.update();
-};
+}
 
 
 /**
@@ -614,5 +610,3 @@ if ( HORIZONTAL_COUNT >= HORIZONTAL_LIMIT )
         }
     }
 }
-
-})(Game || (Game = {}));

@@ -1,6 +1,5 @@
-var Options;
-(function(Options)
-{
+import * as AppStorage from './app_storage.js';
+
     // default options
 var OPTIONS = {
 
@@ -14,16 +13,16 @@ var OPTIONS = {
 /**
  * Save the current options to the local storage.
  */
-Options.save = function()
+export function save()
 {
 AppStorage.setData( { tetris_options: OPTIONS } );
-};
+}
 
 
 /**
  * Load the options from the local storage.
  */
-Options.load = function( options )
+export function load( options )
 {
 if ( options )
     {
@@ -47,79 +46,76 @@ if ( options )
         OPTIONS.linesToLevelUp = options.linesToLevelUp;
         }
     }
-};
+}
 
 
 /**
  * Return the grid's number of columns.
  */
-Options.getNumberOfColumns = function()
+export function getNumberOfColumns()
 {
 return OPTIONS.numberOfColumns;
-};
+}
 
 
 /**
  * Change the number of columns of the grid.
  */
-Options.setNumberOfColumns = function( columns )
+export function setNumberOfColumns( columns )
 {
 OPTIONS.numberOfColumns = columns;
-};
+}
 
 
 /**
  * Return the grid's number of lines.
  */
-Options.getNumberOfLines = function()
+export function getNumberOfLines()
 {
 return OPTIONS.numberOfLines;
-};
+}
 
 
 /**
  * Change the number of lines of the grid.
  */
-Options.setNumberOfLines = function( lines )
+export function setNumberOfLines( lines )
 {
 OPTIONS.numberOfLines = lines;
-};
+}
 
 
 /**
  * Return the starting level of the game.
  */
-Options.getStartingLevel = function()
+export function getStartingLevel()
 {
 return OPTIONS.startingLevel;
-};
+}
 
 
 /**
  * Change the starting level of the game.
  */
-Options.setStartingLevel = function( level )
+export function setStartingLevel( level )
 {
 OPTIONS.startingLevel = level;
-};
+}
 
 
 /**
  * Return the number of cleared lines necessary to level up.
  */
-Options.getLinesToLevelUp = function()
+export function getLinesToLevelUp()
 {
 return OPTIONS.linesToLevelUp;
-};
+}
 
 
 /**
  * Change the number of cleared lines necessary to level up.
  */
-Options.setLinesToLevelUp = function( lines )
+export function setLinesToLevelUp( lines )
 {
 OPTIONS.linesToLevelUp = lines;
-};
-
-
-})(Options || (Options = {}));
+}

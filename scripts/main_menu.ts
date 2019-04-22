@@ -1,6 +1,7 @@
-var MainMenu;
-(function(MainMenu)
-{
+import * as Options from './options.js';
+import * as Game from './game.js';
+import * as Utilities from './utilities.js';
+import { CANVAS } from './main.js';
 
     // reference to the html elements
 var MAIN_MENU;
@@ -19,7 +20,7 @@ var CANVAS_HEIGHT = 450;
 /**
  * Initialize the main menu.
  */
-MainMenu.init = function()
+export function init()
 {
 MAIN_MENU = document.querySelector( '#MainMenu' );
 OPTIONS_MENU = document.querySelector( '#Options' );
@@ -27,14 +28,14 @@ HELP_MENU = document.querySelector( '#Help' );
 
 CANVAS.width = CANVAS_WIDTH;
 CANVAS.height = CANVAS_HEIGHT;
-};
+}
 
 
 /**
  * Open the main menu.
  * You can start the game, open the options or the help menu from this.
  */
-MainMenu.open = function()
+export function open()
 {
 if ( ACTIVE_MENU )
     {
@@ -59,23 +60,22 @@ startGame.onclick = function()
 
 options.onclick = function()
     {
-    MainMenu.openOptions();
+    openOptions();
     };
 
 help.onclick = function()
     {
-    MainMenu.openHelp();
+    openHelp();
     };
 
-
-MainMenu.rePosition();
-};
+rePosition();
+}
 
 
 /**
  * Open the options menu.
  */
-MainMenu.openOptions = function()
+export function openOptions()
 {
 if ( ACTIVE_MENU )
     {
@@ -109,7 +109,7 @@ $( columnsSlider ).slider({
         $( columnsSpan ).text( ui.value );
 
         Options.setNumberOfColumns( Math.round( ui.value ) );
-        MainMenu.rePosition();
+        rePosition();
         }
     });
 
@@ -137,7 +137,7 @@ $( linesSlider ).slider({
         $( linesSpan ).text( ui.value );
 
         Options.setNumberOfLines( Math.round( ui.value ) );
-        MainMenu.rePosition();
+        rePosition();
         }
     });
 
@@ -165,7 +165,7 @@ $( levelSlider ).slider({
         $( levelSpan ).text( ui.value );
 
         Options.setStartingLevel( Math.round( ui.value ) - 1 );
-        MainMenu.rePosition();
+        rePosition();
         }
     });
 
@@ -193,7 +193,7 @@ $( linesToLevelSlider ).slider({
         $( linesToLevelSpan ).text( ui.value );
 
         Options.setLinesToLevelUp( Math.round( ui.value ) );
-        MainMenu.rePosition();
+        rePosition();
         }
     });
 
@@ -205,23 +205,23 @@ var back = OPTIONS_MENU.querySelector( '#Options-back' );
 back.onclick = function()
     {
     Options.save();
-    MainMenu.open();
+    open();
     };
 
-MainMenu.rePosition();
-};
+rePosition();
+}
 
 
 /**
  * Open the help menu.
  */
-MainMenu.openHelp = function()
+export function openHelp()
 {
 var back = HELP_MENU.querySelector( '#Help-back' );
 
 back.onclick = function()
     {
-    MainMenu.open();
+    open();
     };
 
 
@@ -233,19 +233,17 @@ if ( ACTIVE_MENU )
 ACTIVE_MENU = HELP_MENU;
 ACTIVE_MENU.classList.remove( 'hide' );
 
-MainMenu.rePosition();
-};
+rePosition();
+}
 
 
 /**
  * Re-center the menu elements.
  */
-MainMenu.rePosition = function()
+export function rePosition()
 {
 if ( ACTIVE_MENU )
     {
     Utilities.centerElement( ACTIVE_MENU );
     }
-};
-
-})(MainMenu || (MainMenu = {}));
+}

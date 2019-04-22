@@ -1,8 +1,9 @@
-/*global createjs, MainMenu, Options, AppStorage*/
-/*exported STAGE, CANVAS*/
+import * as AppStorage from './app_storage.js';
+import * as Options from './options.js';
+import * as MainMenu from './main_menu.js';
 
-var STAGE;      // createjs Stage object
-var CANVAS;     // canvas html element
+export var STAGE;      // createjs Stage object
+export var CANVAS;     // canvas html element
 
 
 window.onload = function()

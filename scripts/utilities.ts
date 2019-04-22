@@ -1,13 +1,9 @@
-/*global CANVAS*/
-
-var Utilities;
-(function(Utilities) {
-
+import { CANVAS } from './main.js';
 
 /**
  * Keys code for the keyboard events.
  */
-Utilities.EVENT_KEY = {
+export const EVENT_KEY = {
 
     backspace  : 8,
     tab        : 9,
@@ -78,16 +74,16 @@ Utilities.EVENT_KEY = {
 /**
  * Get a random integer between the minimum and maximum values provided (inclusive).
  */
-Utilities.getRandomInt = function( min, max )
+export function getRandomInt( min, max )
     {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
+    }
 
 
 /**
  * Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
  */
-Utilities.centerElement = function( element )
+export function centerElement( element )
     {
     var canvasWidth = CANVAS.width;
     var canvasHeight = CANVAS.height;
@@ -96,7 +92,6 @@ Utilities.centerElement = function( element )
     var canvasPosition = $( CANVAS ).position();
 
     var left = canvasWidth / 2 - $( element ).width() / 2 + canvasPosition.left;
-
     var top = canvasHeight / 2 - $( element ).height() / 2 + canvasPosition.top;
 
     $( element ).css({
@@ -112,7 +107,6 @@ Utilities.centerElement = function( element )
 function OBJECT( o )
     {
     function F(){}
-
     F.prototype = o;
 
     return new F();
@@ -122,14 +116,10 @@ function OBJECT( o )
 /**
  * Used for 'class' inheritance (search for parasitic combination inheritance).
  */
-Utilities.INHERIT_PROTOTYPE = function( derivedClass, baseClass )
+export function INHERIT_PROTOTYPE( derivedClass, baseClass )
     {
     var prototype = OBJECT( baseClass.prototype );
 
     prototype.constructor = derivedClass;
-
     derivedClass.prototype = prototype;
     };
-
-
-})(Utilities || (Utilities = {}));
