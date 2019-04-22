@@ -1,11 +1,7 @@
 /*global Options, Grid, CANVAS, createjs, IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece, MainMenu, Square, STAGE, Utilities*/
 
-(function(window)
-{
-function Game()
-{
 
-}
+(function(Game) {
 
     // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;
@@ -621,6 +617,4 @@ if ( HORIZONTAL_COUNT >= HORIZONTAL_LIMIT )
     }
 }
 
-
-window.Game = Game;
-}(window));
+})(window.Game = window.Game || {});

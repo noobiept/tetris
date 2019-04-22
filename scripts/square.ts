@@ -1,7 +1,3 @@
-/*global createjs*/
-
-(function(window)
-{
 /**
  * Represents a square of the grid.
  * A piece will be composed of several squares.
@@ -71,7 +67,3 @@ this.shape.y += Square.size;
 
 
 Square.size = 20;
-
-
-window.Square = Square;
-}(window));

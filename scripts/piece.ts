@@ -1,7 +1,3 @@
-/*global Square, Game*/
-
-(function(window)
-{
 /**
  * Base class for all the pieces.
  *
@@ -167,7 +163,3 @@ this.all_squares.length = 0;
 this.pivot_square = null;
 this.other_squares.length = 0;
 };
-
-
-window.Piece = Piece;
-}(window));

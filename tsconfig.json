@@ -3,7 +3,7 @@
         "allowJs": true,
         "strict": false,
         "target": "es2017",
-        "module": "es2015",
+        "module": "system",
         "outDir": "build"
     },
     "include": [ "scripts/**/*" ]

@@ -3,6 +3,9 @@
     "description": "A tetris game, where you can specify the number of columns/lines of the grid.",
     "version": "2.0.0",
     "devDependencies": {
+        "@types/createjs": "0.0.29",
+        "@types/jquery": "^3.3.29",
+        "@types/jqueryui": "^1.12.7",
         "grunt": "~1.0.4",
         "grunt-contrib-clean": "~2.0.0",
         "grunt-contrib-copy": "~1.0.0",
