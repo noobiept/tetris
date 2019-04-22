@@ -1,7 +1,3 @@
-/*global Piece, Utilities*/
-
-(function(window)
-{
 function OPiece( gridObject, column, line )
 {
 this.possible_rotations = OPiece.POSSIBLE_ROTATIONS;
@@ -43,6 +39,3 @@ OPiece.POSSIBLE_ROTATIONS = [
         ]
     ];
 
-
-window.OPiece = OPiece;
-}(window));

@@ -1,7 +1,3 @@
-/*global Piece, Utilities*/
-
-(function(window)
-{
 function ZPiece( gridObject, column, line )
 {
 this.possible_rotations = ZPiece.POSSIBLE_ROTATIONS;
@@ -42,7 +38,3 @@ ZPiece.POSSIBLE_ROTATIONS = [
             { column: 0, line: 1 }
         ]
     ];
-
-
-window.ZPiece = ZPiece;
-}(window));

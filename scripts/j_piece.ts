@@ -1,7 +1,3 @@
-/*global Piece, Utilities*/
-
-(function(window)
-{
 function JPiece( gridObject, column, line )
 {
 this.possible_rotations = JPiece.POSSIBLE_ROTATIONS;
@@ -43,6 +39,3 @@ JPiece.POSSIBLE_ROTATIONS = [
         ]
     ];
 
-
-window.JPiece = JPiece;
-}(window));

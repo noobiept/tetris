@@ -1,7 +1,3 @@
-/*global Piece, Utilities*/
-
-(function(window)
-{
 function TPiece( gridObject, column, line )
 {
 this.possible_rotations = TPiece.POSSIBLE_ROTATIONS;
@@ -43,6 +39,3 @@ TPiece.POSSIBLE_ROTATIONS = [
         ]
     ];
 
-
-window.TPiece = TPiece;
-}(window));

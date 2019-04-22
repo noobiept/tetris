@@ -1,7 +1,3 @@
-/*global Piece, Utilities*/
-
-(function(window)
-{
 function IPiece( gridObject, column, line )
 {
     // its relative to the pivot square
@@ -44,7 +40,3 @@ IPiece.POSSIBLE_ROTATIONS = [
             { column: 0, line: 1 }
         ]
     ];
-
-
-window.IPiece = IPiece;
-}(window));

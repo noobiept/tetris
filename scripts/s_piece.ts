@@ -1,7 +1,3 @@
-/*global Piece, Utilities*/
-
-(function(window)
-{
 function SPiece( gridObject, column, line )
 {
     // relative to the center element (pivot)
@@ -47,7 +43,3 @@ SPiece.POSSIBLE_ROTATIONS = [
             { column: 1, line: 1 }
         ]
     ];
-
-
-window.SPiece = SPiece;
-}(window));
