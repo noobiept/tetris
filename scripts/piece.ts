@@ -1,51 +1,57 @@
+import * as Game from './game.js';
+import Square from './square.js';
+
+
+export interface PieceArgs {
+    color: string;
+    pivotColor: string;
+    possibleRotations: { column: number; line: number; }[][]
+}
+
+
 /**
  * Base class for all the pieces.
- *
- * Derived classes need to implement:
- *
- *     this.color = 'a_color';
- *     this.pivot_color = 'a_color';
- *     this.possible_rotations = [
- *             [
- *                 { column: ..., line: ... },
- *                 { column: ..., line: ... },
- *                 { column: ..., line: ... }
- *             ],
- *             // (...)
- *         ];
- *     this.current_rotation = 0;
  */
-function Piece()
+export default class Piece {
+
+    args: PieceArgs;
+    current_rotation: number;
+    all_squares: Square[];
+    pivot_square: Square;
+    other_squares: Square[];
+
+constructor(args: PieceArgs)
 {
-var color = this.color;
+    var color = args.color;
 
-var pivot = new Square( this, this.pivot_color );
-var square1 = new Square( this, color );
-var square2 = new Square( this, color );
-var square3 = new Square( this, color );
+    var pivot = new Square( this, args.pivotColor );
+    var square1 = new Square( this, color );
+    var square2 = new Square( this, color );
+    var square3 = new Square( this, color );
 
-this.all_squares = [ square1, square2, square3, pivot ];
-this.pivot_square = pivot;
-this.other_squares = [ square1, square2, square3 ];
+    this.current_rotation = 0;
+    this.all_squares = [ square1, square2, square3, pivot ];
+    this.pivot_square = pivot;
+    this.other_squares = [ square1, square2, square3 ];
 }
 
 
 /**
  * Add the piece squares to a container (can be the grid container element, or other element if its positioned outside of the grid).
  */
-Piece.prototype.addToContainer = function( container )
+addToContainer( container )
 {
 for (var a = 0 ; a < this.all_squares.length ; a++)
     {
     container.addChild( this.all_squares[ a ].shape );
     }
-};
+}
 
 
 /**
  * Position a piece in a given x/y position (unrelated to the grid).
  */
-Piece.prototype.positionIn = function( x, y )
+positionIn( x, y )
 {
 var pivot = this.pivot_square;
 var other = this.other_squares;
@@ -62,28 +68,28 @@ for (var a = 0 ; a < currentRotation.length ; a++)
     square.shape.x = x + rotation.column * Square.size;
     square.shape.y = y + rotation.line * Square.size;
     }
-};
+}
 
 
 /**
  * Get the current rotation of this piece (where the squares are positioned around the pivot).
  */
-Piece.prototype.getCurrentRotation = function()
+getCurrentRotation()
 {
-return this.possible_rotations[ this.current_rotation ];
-};
+return this.args.possibleRotations[ this.current_rotation ];
+}
 
 
 /**
  * Rotate this piece to the left (anti-clockwise).
  */
-Piece.prototype.rotateLeft = function()
+rotateLeft()
 {
 var nextPosition = this.current_rotation - 1;
 
 if ( nextPosition < 0 )
     {
-    nextPosition = this.possible_rotations.length - 1;
+    nextPosition = this.args.possibleRotations.length - 1;
     }
 
 
@@ -98,17 +104,17 @@ else
     {
     Game.clearMessage();
     }
-};
+}
 
 
 /**
  * Rotate this piece to the right (clockwise).
  */
-Piece.prototype.rotateRight = function()
+rotateRight()
 {
 var nextPosition = this.current_rotation + 1;
 
-if ( nextPosition >= this.possible_rotations.length )
+if ( nextPosition >= this.args.possibleRotations.length )
     {
     nextPosition = 0;
     }
@@ -124,13 +130,13 @@ else
     {
     Game.clearMessage();
     }
-};
+}
 
 
 /**
  * Move this piece downward continuously until it reaches either the stack, or the bottom of the grid.
  */
-Piece.prototype.hardDrop = function()
+hardDrop()
 {
 var grid = Game.getGrid();
 
@@ -139,13 +145,13 @@ while ( grid.movePiece( this, 0, 1 ) )
     {
         // empty
     }
-};
+}
 
 
 /**
  * Remove this piece from the game.
  */
-Piece.prototype.remove = function()
+remove()
 {
 var parent = this.pivot_square.shape.parent;
 var all = this.all_squares;
@@ -162,4 +168,5 @@ if ( parent )
 this.all_squares.length = 0;
 this.pivot_square = null;
 this.other_squares.length = 0;
-};
+}
+}
