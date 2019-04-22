@@ -1,5 +1,6 @@
 import * as Game from './game.js';
 import Square from './square.js';
+import { STAGE } from './main.js';
 
 
 /**
@@ -18,6 +19,7 @@ export default class Grid {
     width: number;
     height: number;
     grid_array: (Square | null)[][];
+    container: createjs.Container;
 
 constructor( numberOfColumns, numberOfLines )
 {
@@ -234,7 +236,7 @@ return true;
  */
 rotatePiece( piece, nextRotationPosition )
 {
-var nextRotation = piece.possible_rotations[ nextRotationPosition ];
+var nextRotation = piece.args.possibleRotations[ nextRotationPosition ];
 var pivot = piece.pivot_square;
 
     // check if you can rotate the piece

@@ -29,6 +29,7 @@ constructor(args: PieceArgs)
     var square2 = new Square( this, color );
     var square3 = new Square( this, color );
 
+    this.args = args;
     this.current_rotation = 0;
     this.all_squares = [ square1, square2, square3, pivot ];
     this.pivot_square = pivot;
