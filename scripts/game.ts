@@ -285,7 +285,7 @@ return ACTIVE_PIECE;
  * A line in the stack has been cleared.
  * Update the menus, and check if we reached a new level.
  */
-function oneMoreClearedLine()
+export function oneMoreClearedLine()
 {
 CLEARED_LINES++;
 
@@ -339,7 +339,7 @@ return DELAY_PER_LEVEL.length;
  * Show a message in the game menu.
  * When the same message is trying to be shown, it will show a counter of the times it was tried.
  */
-function showMessage( text )
+export function showMessage( text )
 {
 var currentText = $( MESSAGE_TEXT ).text();
 
@@ -387,7 +387,7 @@ $( "#DialogMessage" ).dialog({
 /**
  * Clear the current message.
  */
-function clearMessage()
+export function clearMessage()
 {
 MESSAGE_COUNT.setAttribute( 'data-count', '0' );
 MESSAGE_COUNT.innerHTML = '';

@@ -1,8 +1,25 @@
+import * as Game from './game.js';
+import Square from './square.js';
+
+
 /**
  * Create the grid where the game will be played.
  * Also add a border around the playable area, and have some margin around it.
  */
-function Grid( numberOfColumns, numberOfLines )
+export default class Grid {
+
+    margin: number;
+    border_thickness: number;
+    numberOfColumns: number;
+    numberOfLines: number;
+    inner_width: number;
+    inner_height: number;
+    separation_length: number;
+    width: number;
+    height: number;
+    grid_array: (Square | null)[][];
+
+constructor( numberOfColumns, numberOfLines )
 {
 this.margin = 20;
 this.border_thickness = 5;
@@ -41,7 +58,7 @@ this.container = this.draw();
 /**
  * Draw the grid lines.
  */
-Grid.prototype.draw = function()
+draw()
 {
 var margin = this.margin;
 var thickness = this.border_thickness;
@@ -111,15 +128,14 @@ container.y = 0;
 
 STAGE.addChild( container );
 
-
 return container;
-};
+}
 
 
 /**
  * Add a square to the grid, given it column/line position.
  */
-Grid.prototype.addSquare = function( square, column, line )
+addSquare( square, column, line )
 {
 this.grid_array[ column ][ line ] = square;
 
@@ -128,13 +144,13 @@ square.line = line;
 
 square.shape.x = this.separation_length + column * Square.size;
 square.shape.y = this.separation_length + line * Square.size;
-};
+}
 
 
 /**
  * Remove a piece from the grid.
  */
-Grid.prototype.clearPiece = function( pieceObject )
+clearPiece( pieceObject )
 {
 var all = pieceObject.all_squares;
 var square;
@@ -145,13 +161,13 @@ for (var i = 0 ; i < all.length ; i++)
 
     this.grid_array[ square.column ][ square.line ] = null;
     }
-};
+}
 
 
 /**
  * Add a piece to the grid.
  */
-Grid.prototype.addPiece = function( pieceObject, column, line )
+addPiece( pieceObject, column, line )
 {
 var other = pieceObject.other_squares;
 var pivot = pieceObject.pivot_square;
@@ -169,14 +185,14 @@ for (var a = 0 ; a < currentRotation.length ; a++)
 
     this.addSquare( square, squareColumn, squareLine );
     }
-};
+}
 
 
 /**
  * Move a piece to a different position.
  * Moves 'columnMove/lineMove' from the current position.
  */
-Grid.prototype.movePiece = function( piece, columnMove, lineMove )
+movePiece( piece, columnMove, lineMove )
 {
 var all = piece.all_squares;
 var pivot = piece.pivot_square;
@@ -210,13 +226,13 @@ this.clearPiece( piece );
 this.addPiece( piece, pivot.column + columnMove, pivot.line + lineMove );
 
 return true;
-};
+}
 
 
 /**
  * Rotate a piece to the next rotation.
  */
-Grid.prototype.rotatePiece = function( piece, nextRotationPosition )
+rotatePiece( piece, nextRotationPosition )
 {
 var nextRotation = piece.possible_rotations[ nextRotationPosition ];
 var pivot = piece.pivot_square;
@@ -249,13 +265,13 @@ piece.current_rotation = nextRotationPosition;
 this.addPiece( piece, pivot.column, pivot.line );
 
 return true;
-};
+}
 
 
 /**
  * Check for any completed line.
  */
-Grid.prototype.checkClearedLines = function()
+checkClearedLines()
 {
 var line, column;
 var square;
@@ -285,14 +301,14 @@ for (line = this.numberOfLines - 1 ; line >= 0 ; line--)
         line += 1;
         }
     }
-};
+}
 
 
 /**
  * There's a line completed with squares in all positions.
  * We remove that line, and move what was on top of it 1 line down.
  */
-Grid.prototype.clearLine = function( clearedLine )
+clearLine( clearedLine )
 {
 var square;
 var column, line;
@@ -329,4 +345,5 @@ for (column = 0 ; column < this.numberOfColumns ; column++)
     }
 
 Game.oneMoreClearedLine();
-};
+}
+}

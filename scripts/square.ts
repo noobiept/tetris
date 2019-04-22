@@ -1,8 +1,21 @@
+import Piece from './piece.js';
+
+
 /**
  * Represents a square of the grid.
  * A piece will be composed of several squares.
  */
-function Square( pieceObject, color )
+export default class Square {
+
+    static size = 20;
+
+    isInStack: boolean;
+    shape: createjs.Shape;
+    column: number;
+    line: number;
+    pieceObject: Piece;
+
+constructor( pieceObject, color )
 {
     // width/height
 var size = Square.size;
@@ -24,46 +37,45 @@ this.pieceObject = pieceObject;
 /**
  * Get the current x position.
  */
-Square.prototype.getX = function()
+getX()
 {
 return this.shape.x;
-};
+}
 
 
 /**
  * Get the current y position.
  */
-Square.prototype.getY = function()
+getY()
 {
 return this.shape.y;
-};
+}
 
 
 /**
  * Move the square to the left position.
  */
-Square.prototype.moveLeft = function()
+moveLeft()
 {
 this.shape.x -= Square.size;
-};
+}
 
 
 /**
  * Move the square to the right position.
  */
-Square.prototype.moveRight = function()
+moveRight()
 {
 this.shape.x += Square.size;
-};
+}
 
 
 /**
  * Move the square to the bottom position.
  */
-Square.prototype.moveBottom = function()
+moveBottom()
 {
 this.shape.y += Square.size;
-};
+}
 
-
-Square.size = 20;
+}
