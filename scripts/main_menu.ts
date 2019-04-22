@@ -1,11 +1,6 @@
-/*global CANVAS, Utilities, Options, Game*/
-
-(function(window)
+var MainMenu;
+(function(MainMenu)
 {
-function MainMenu()
-{
-
-}
 
     // reference to the html elements
 var MAIN_MENU;
@@ -257,6 +252,4 @@ if ( ACTIVE_MENU )
     }
 };
 
-
-window.MainMenu = MainMenu;
-}(window));
+})(MainMenu || (MainMenu = {}));

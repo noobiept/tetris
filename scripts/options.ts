@@ -1,12 +1,6 @@
-/*global AppStorage*/
-
-(function(window)
+var Options;
+(function(Options)
 {
-function Options()
-{
-
-}
-
     // default options
 var OPTIONS = {
 
@@ -128,5 +122,4 @@ OPTIONS.linesToLevelUp = lines;
 };
 
 
-window.Options = Options;
-}(window));
+})(Options || (Options = {}));

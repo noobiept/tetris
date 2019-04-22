@@ -1,7 +1,3 @@
-/*global Square, Game, STAGE, createjs*/
-
-(function(window)
-{
 /**
  * Create the grid where the game will be played.
  * Also add a border around the playable area, and have some margin around it.
@@ -334,7 +330,3 @@ for (column = 0 ; column < this.numberOfColumns ; column++)
 
 Game.oneMoreClearedLine();
 };
-
-
-window.Grid = Grid;
-}(window));

@@ -1,6 +1,4 @@
-/*global Options, Grid, CANVAS, createjs, IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece, MainMenu, Square, STAGE, Utilities*/
-
-
+var Game;
 (function(Game) {
 
     // number of milliseconds until the active piece moves down 1 position
@@ -617,4 +615,4 @@ if ( HORIZONTAL_COUNT >= HORIZONTAL_LIMIT )
     }
 }
 
-})(window.Game = window.Game || {});
+})(Game || (Game = {}));

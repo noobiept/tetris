@@ -1,5 +1,3 @@
-/*global chrome*/
-
 var AppStorage;
 (function(AppStorage) {
 
