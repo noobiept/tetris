@@ -33,6 +33,12 @@ Reference
 - http://en.wikipedia.org/wiki/Tetris
 
 
+
+# Development #
+
+- `npm run dev`: Run the typescript compiler and a local server (in `localhost:8000`).
+- `npm run build`: Run the release build (output located at `/release/(name)_(version)/`).
+
 Dependencies
 ============
 
