@@ -1,7 +1,11 @@
 import * as Options from './options.js';
 import * as MainMenu from './main_menu.js';
 import * as Utilities from './utilities.js';
+import Grid from './grid.js';
+import Square from './square.js';
 import { STAGE, CANVAS } from './main.js';
+import { IPiece, SPiece, TPiece, ZPiece, OPiece, JPiece, LPiece } from './all_pieces.js';
+import Piece, { PieceArgs } from './piece.js';
 
 
     // number of milliseconds until the active piece moves down 1 position
@@ -35,7 +39,7 @@ var MESSAGE_TEXT;       // reference to the message's text html element
 var ACTIVE_PIECE = null;
 
     // has the next piece class (so, 'IPiece' or 'TPiece', etc)
-var NEXT_PIECE_CLASS = null;
+var NEXT_PIECE_ARGS: PieceArgs | null = null;
 var NEXT_PIECE = null;  // has the next piece object
 
 var GRID;
@@ -69,7 +73,7 @@ MESSAGE_TEXT = document.getElementById( 'MessageText' );
 CANVAS.width = GRID.width + GAME_MENU_WIDTH;
 CANVAS.height = GRID.height;
 
-NEXT_PIECE_CLASS = chooseRandomPiece();
+NEXT_PIECE_ARGS = chooseRandomPiece();
 
 newPiece();
 initGameMenu();
@@ -108,12 +112,9 @@ if ( ACTIVE_PIECE )
     GRID.checkClearedLines();
     }
 
-
     // the next piece is the one determined before
-var chosenPiece = NEXT_PIECE_CLASS;
-
-var rotation = chosenPiece.POSSIBLE_ROTATIONS[ 0 ];
-
+var pieceArgs = NEXT_PIECE_ARGS;
+var rotation = pieceArgs.possibleRotations[ 0 ];
 
         // center the element in the grid
 var pivotColumn = Math.floor( GRID.numberOfColumns / 2 );
@@ -138,13 +139,13 @@ for (i = 0 ; i < rotation.length ; i++)
 
 
     // we randomly get a new piece, for next time
-NEXT_PIECE_CLASS = chooseRandomPiece();
+NEXT_PIECE_ARGS = chooseRandomPiece();
 
     // and show it in the game menu
-showNextPiece( NEXT_PIECE_CLASS );
+showNextPiece( NEXT_PIECE_ARGS );
 
 
-ACTIVE_PIECE = new chosenPiece();
+ACTIVE_PIECE = new Piece( pieceArgs );
 ACTIVE_PIECE.addToContainer( GRID.container );
 GRID.addPiece( ACTIVE_PIECE, pivotColumn, pivotLine );
 
@@ -206,7 +207,7 @@ $( gameMenu ).css( 'height', CANVAS.height + 'px' );
 /**
  * Shows an image of the next piece to fall, in the game menu.
  */
-function showNextPiece( nextPieceClass )
+function showNextPiece( nextPieceArgs )
 {
 if ( NEXT_PIECE )
     {
@@ -214,7 +215,7 @@ if ( NEXT_PIECE )
     NEXT_PIECE = null;
     }
 
-var piece = new nextPieceClass();
+var piece = new Piece( nextPieceArgs );
 
 piece.positionIn( GRID.width + GAME_MENU_WIDTH / 2 - Square.size / 2, 20 );
 piece.addToContainer( STAGE );
