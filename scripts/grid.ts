@@ -2,6 +2,11 @@ import * as Game from "./game.js";
 import Square from "./square.js";
 import { STAGE } from "./main.js";
 
+export interface GridArgs {
+    columns: number;
+    lines: number;
+}
+
 /**
  * Create the grid where the game will be played.
  * Also add a border around the playable area, and have some margin around it.
@@ -19,7 +24,10 @@ export default class Grid {
     grid_array: (Square | null)[][];
     container: createjs.Container;
 
-    constructor(numberOfColumns, numberOfLines) {
+    constructor(args: GridArgs) {
+        const numberOfColumns = args.columns;
+        const numberOfLines = args.lines;
+
         this.margin = 20;
         this.border_thickness = 5;
         this.numberOfColumns = numberOfColumns;

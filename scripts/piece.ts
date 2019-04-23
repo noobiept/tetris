@@ -20,10 +20,10 @@ export default class Piece {
     constructor(args: PieceArgs) {
         var color = args.color;
 
-        var pivot = new Square(this, args.pivotColor);
-        var square1 = new Square(this, color);
-        var square2 = new Square(this, color);
-        var square3 = new Square(this, color);
+        var pivot = new Square({ piece: this, color: args.pivotColor });
+        var square1 = new Square({ piece: this, color: color });
+        var square2 = new Square({ piece: this, color: color });
+        var square3 = new Square({ piece: this, color: color });
 
         this.args = args;
         this.current_rotation = 0;

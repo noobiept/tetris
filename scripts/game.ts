@@ -64,7 +64,7 @@ export function start() {
 
     CLEARED_LINES = 0;
 
-    GRID = new Grid(numberOfColumns, numberOfLines);
+    GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
 
     GAME_MENU_WIDTH = $("#GameMenu").width();
     MESSAGE_COUNT = document.getElementById("MessageCount");

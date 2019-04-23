@@ -1,5 +1,10 @@
 import Piece from "./piece.js";
 
+export interface SquareArgs {
+    piece: Piece;
+    color: string;
+}
+
 /**
  * Represents a square of the grid.
  * A piece will be composed of several squares.
@@ -13,21 +18,21 @@ export default class Square {
     line: number;
     pieceObject: Piece;
 
-    constructor(pieceObject, color) {
+    constructor(args: SquareArgs) {
         // width/height
         var size = Square.size;
         var shape = new createjs.Shape();
 
         var g = shape.graphics;
 
-        g.beginFill(color);
+        g.beginFill(args.color);
         g.drawRoundRect(0, 0, size, size, 2);
 
         this.isInStack = false;
         this.shape = shape;
         this.column = -1;
         this.line = -1;
-        this.pieceObject = pieceObject;
+        this.pieceObject = args.piece;
     }
 
     /**
