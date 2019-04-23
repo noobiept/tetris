@@ -1,143 +1,123 @@
-    /* :: Basic Elements :: */
+/* :: Basic Elements :: */
 
-body
-    {
+body {
     background-color: black;
     color: white;
     text-align: center;
     font-size: 24px;
-    }
+}
 
-em
-    {
+em {
     color: antiquewhite;
-    }
+}
 
+/* :: Generic classes :: */
 
-    /* :: Generic classes :: */
-
-.button
-    {
+.button {
     cursor: pointer;
     color: white;
-    }
+}
 
-.button:hover
-    {
+.button:hover {
     color: #fcd3a1;
     border-bottom: 1px solid #fcd3a1;
-    }
+}
 
-.hide, #GameMenu.hide
-    {
+.hide,
+#GameMenu.hide {
     display: none;
-    }
+}
 
+/* :: Main Menu :: */
 
-    /* :: Main Menu :: */
-
-#MainMenu > *
-    {
+#MainMenu > * {
     padding: 10px;
     font-size: 1.2em;
     width: 200px;
-    }
+}
 
-#MainMenu, #Options, #Help
-    {
+#MainMenu,
+#Options,
+#Help {
     position: absolute;
-    }
+}
 
-#Options-back, #Help-back
-    {
+#Options-back,
+#Help-back {
     width: 200px;
     margin: auto;
-    }
+}
 
-#Options-container
-    {
-    width: 600px;   /* force to have 2 options per line */
-    }
+#Options-container {
+    width: 600px; /* force to have 2 options per line */
+}
 
-#Options-container > *
-    {
+#Options-container > * {
     display: inline-block;
     width: 200px;
     padding: 0;
     margin: 20px;
-    }
+}
 
-#Help ul
-    {
+#Help ul {
     list-style-type: none;
-    }
+}
 
-#Help ul li
-    {
+#Help ul li {
     text-align: left;
-    }
+}
 
-#MainMenu-donate
-    {
+#MainMenu-donate {
     display: block;
     text-decoration: none;
-    }
+}
 
-    /* :: Canvas :: */
+/* :: Canvas :: */
 
-#CanvasContainer
-    {
+#CanvasContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     align-content: stretch;
-    }
+}
 
-#mainCanvas
-    {
+#mainCanvas {
     border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+}
 
+/* :: Game Menu :: */
 
-    /* :: Game Menu :: */
-
-#GameMenu
-    {
+#GameMenu {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
     width: 185px;
-    margin-left: -185px;    /* same as width */
+    margin-left: -185px; /* same as width */
     z-index: 10;
-    }
+}
 
-#GameMenu-top
-    {
+#GameMenu-top {
     margin-top: 100px;
-    }
+}
 
-#GameMenu-bottom > *
-    {
+#GameMenu-bottom > * {
     padding: 10px 0;
-    }
+}
 
-#Message
-    {
+#Message {
     margin-top: 30px;
     color: red;
-    }
+}
 
-    /* :: Dialog Message :: */
+/* :: Dialog Message :: */
 
-#DialogMessage
-    {
+#DialogMessage {
     display: none;
-    }
+}
 
-.ui-dialog-titlebar
-    {
+.ui-dialog-titlebar {
     display: none;
-    }
+}

@@ -1,83 +1,118 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>Tetris</title>
+    <head>
+        <meta charset="utf-8" />
+        <title>Tetris</title>
 
-    <!-- styling -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="libraries/jquery-ui/jquery-ui.min.css" />
+        <!-- styling -->
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="libraries/jquery-ui/jquery-ui.min.css"
+        />
 
-    <!-- libraries -->
-    <script type="text/javascript" src="libraries/jquery-2.2.4.min.js"></script>
-    <script type="text/javascript" src="libraries/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="libraries/easeljs-0.8.2.min.js"></script>
+        <!-- libraries -->
+        <script
+            type="text/javascript"
+            src="libraries/jquery-2.2.4.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="libraries/jquery-ui/jquery-ui.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="libraries/easeljs-0.8.2.min.js"
+        ></script>
 
-    <!-- scripts -->
-    <script type="module" src="build/main.js"></script>
-</head>
-<body>
+        <!-- scripts -->
+        <script type="module" src="build/main.js"></script>
+    </head>
+    <body>
+        <div id="CanvasContainer">
+            <canvas id="mainCanvas"></canvas>
 
-    <div id="CanvasContainer">
-        <canvas id="mainCanvas"></canvas>
+            <div id="GameMenu" class="hide">
+                <div id="GameMenu-top">
+                    <div id="GameMenu-currentLevel"
+                        >Current Level: <span>1</span></div
+                    >
+                    <div id="GameMenu-clearedLines"
+                        >Cleared Lines: <span>0</span></div
+                    >
 
-        <div id="GameMenu" class="hide">
-            <div id="GameMenu-top">
-                <div id="GameMenu-currentLevel">Current Level: <span>1</span></div>
-                <div id="GameMenu-clearedLines">Cleared Lines: <span>0</span></div>
+                    <div id="Message">
+                        <span id="MessageCount" data-count="0"></span>
+                        <span id="MessageText"></span>
+                    </div>
+                </div>
 
-                <div id="Message">
-                    <span id="MessageCount" data-count="0"></span> <span id="MessageText"></span>
+                <div id="GameMenu-bottom">
+                    <div id="GameMenu-pauseResume" class="button">Pause</div>
+                    <div id="GameMenu-quit" class="button">Quit</div>
                 </div>
             </div>
+        </div>
 
-            <div id="GameMenu-bottom">
-                <div id="GameMenu-pauseResume" class="button">Pause</div>
-                <div id="GameMenu-quit" class="button">Quit</div>
+        <div id="DialogMessage">Game Over!</div>
+
+        <div id="MainMenu" class="hide">
+            <div id="MainMenu-startGame" class="button">Start Game</div>
+            <div id="MainMenu-options" class="button">Options</div>
+            <div id="MainMenu-help" class="button">Help</div>
+            <a
+                id="MainMenu-donate"
+                class="button"
+                href="http://nbpt.eu/donate/"
+                target="_blank"
+                >Donate</a
+            >
+        </div>
+
+        <div id="Options" class="hide">
+            <h2>Options</h2>
+
+            <div id="Options-container">
+                <div id="Options-numberOfColumns"
+                    >Number Of Columns: <span></span
+                    ><div id="Options-numberOfColumns-slider"></div
+                ></div>
+                <div id="Options-numberOfLines"
+                    >Number Of Lines: <span></span
+                    ><div id="Options-numberOfLines-slider"></div
+                ></div>
+                <div id="Options-startingLevel"
+                    >Starting Level: <span></span
+                    ><div id="Options-startingLevel-slider"></div
+                ></div>
+                <div id="Options-linesToLevelUp"
+                    >Lines to Level Up: <span></span
+                    ><div id="Options-linesToLevelUp-slider"></div
+                ></div>
             </div>
-        </div>
-    </div>
 
-    <div id="DialogMessage">Game Over!</div>
-
-    <div id="MainMenu" class="hide">
-        <div id="MainMenu-startGame" class="button">Start Game</div>
-        <div id="MainMenu-options" class="button">Options</div>
-        <div id="MainMenu-help" class="button">Help</div>
-        <a id="MainMenu-donate" class="button" href="http://nbpt.eu/donate/" target="_blank">Donate</a>
-    </div>
-
-    <div id="Options" class="hide">
-        <h2>Options</h2>
-
-        <div id="Options-container">
-            <div id="Options-numberOfColumns">Number Of Columns: <span></span><div id="Options-numberOfColumns-slider"></div></div>
-            <div id="Options-numberOfLines">Number Of Lines: <span></span><div id="Options-numberOfLines-slider"></div></div>
-            <div id="Options-startingLevel">Starting Level: <span></span><div id="Options-startingLevel-slider"></div></div>
-            <div id="Options-linesToLevelUp">Lines to Level Up: <span></span><div id="Options-linesToLevelUp-slider"></div></div>
+            <br />
+            <div id="Options-back" class="button">Back</div>
         </div>
 
-        <br />
-        <div id="Options-back" class="button">Back</div>
-    </div>
+        <div id="Help" class="hide">
+            <h2>Help</h2>
 
-    <div id="Help" class="hide">
-        <h2>Help</h2>
+            <div id="Help-keyboard">
+                <h4>Keyboard</h4>
+                <ul>
+                    <li>move left : <em>left arrow</em></li>
+                    <li>move right : <em>right arrow</em></li>
+                    <li>soft drop : <em>down arrow</em></li>
+                    <li>hard drop : <em>space</em></li>
+                    <li>rotate left : <em>a</em></li>
+                    <li>rotate right : <em>d</em></li>
+                </ul>
+            </div>
 
-        <div id="Help-keyboard">
-            <h4>Keyboard</h4>
-            <ul>
-                <li>move left : <em>left arrow</em></li>
-                <li>move right : <em>right arrow</em></li>
-                <li>soft drop : <em>down arrow</em></li>
-                <li>hard drop : <em>space</em></li>
-                <li>rotate left : <em>a</em></li>
-                <li>rotate right : <em>d</em></li>
-            </ul>
+            <br />
+            <div id="Help-back" class="button">Back</div>
         </div>
-
-        <br />
-        <div id="Help-back" class="button">Back</div>
-    </div>
-</body>
+    </body>
 </html>

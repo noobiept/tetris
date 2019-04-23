@@ -5,5 +5,5 @@
         "module": "es2015",
         "outDir": "build"
     },
-    "include": [ "scripts/**/*" ]
+    "include": ["scripts/**/*"]
 }

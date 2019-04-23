@@ -1,54 +1,40 @@
-[Try it out](http://nbpt.eu/games/tetris/)
-==========================================
+# [Try it out](http://nbpt.eu/games/tetris/)
 
+# Description
 
-Description
-===========
+-   Each piece/element has 4 square blocks.
+-   A random sequence of pieces falls down.
+-   We can rotate it (90 degrees each time, both ways).
+-   Need to create a horizontal line to clear the line.
+-   When a certain number of lines is cleared, we change the level of the game, which increases the speed of the falling pieces.
+-   Game ends when a piece reaches the top.
 
+# Movement
 
-- Each piece/element has 4 square blocks.
-- A random sequence of pieces falls down.
-- We can rotate it (90 degrees each time, both ways).
-- Need to create a horizontal line to clear the line.
-- When a certain number of lines is cleared, we change the level of the game, which increases the speed of the falling pieces.
-- Game ends when a piece reaches the top.
+-   left arrow : move left
+-   right arrow : move right
+-   down arrow : soft drop
+-   space : hard drop
+-   a : rotate left
+-   d : rotate right
 
+# Reference
 
-Movement
-========
+-   http://en.wikipedia.org/wiki/Tetris
 
+# Development
 
-- left arrow  : move left
-- right arrow : move right
-- down arrow  : soft drop
-- space       : hard drop
-- a           : rotate left
-- d           : rotate right
+-   `npm run dev`: Run the typescript compiler and a local server (in `localhost:8000`).
+-   `npm run build`: Run the release build (output located at `/release/(name)_(version)/`).
 
+# Dependencies
 
-Reference
-=========
+-   jquery : 2.2
+-   jqueryui : 1.11
 
+    -   slider
+    -   dialog
+    -   blitzer theme
 
-- http://en.wikipedia.org/wiki/Tetris
-
-
-
-# Development #
-
-- `npm run dev`: Run the typescript compiler and a local server (in `localhost:8000`).
-- `npm run build`: Run the release build (output located at `/release/(name)_(version)/`).
-
-Dependencies
-============
-
-
-- jquery : 2.2
-- jqueryui : 1.11
-
-    - slider
-    - dialog
-    - blitzer theme
-
-- createjs
-    - easeljs : 0.8
+-   createjs
+    -   easeljs : 0.8
