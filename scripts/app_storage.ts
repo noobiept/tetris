@@ -2,6 +2,7 @@ import { OptionsData } from "./options.js";
 
 export interface StorageData {
     tetris_options?: OptionsData;
+    tetris_has_run_before?: boolean;
 }
 
 /**
@@ -30,7 +31,8 @@ export function getData(
 export function setData(items: StorageData, callback?: () => void) {
     for (var key in items) {
         if (items.hasOwnProperty(key)) {
-            localStorage.setItem(key, JSON.stringify(items[key]));
+            const dataKey = key as keyof StorageData;
+            localStorage.setItem(key, JSON.stringify(items[dataKey]));
         }
     }
 

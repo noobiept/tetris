@@ -1,5 +1,6 @@
 import * as Game from "./game.js";
 import Square from "./square.js";
+import Piece from "./piece.js";
 import { STAGE } from "./main.js";
 
 export interface GridArgs {
@@ -134,7 +135,7 @@ export default class Grid {
     /**
      * Add a square to the grid, given it column/line position.
      */
-    addSquare(square, column, line) {
+    addSquare(square: Square, column: number, line: number) {
         this.grid_array[column][line] = square;
 
         square.column = column;
@@ -147,7 +148,7 @@ export default class Grid {
     /**
      * Remove a piece from the grid.
      */
-    clearPiece(pieceObject) {
+    clearPiece(pieceObject: Piece) {
         var all = pieceObject.all_squares;
         var square;
 
@@ -161,7 +162,7 @@ export default class Grid {
     /**
      * Add a piece to the grid.
      */
-    addPiece(pieceObject, column, line) {
+    addPiece(pieceObject: Piece, column: number, line: number) {
         var other = pieceObject.other_squares;
         var pivot = pieceObject.pivot_square;
         var currentRotation = pieceObject.getCurrentRotation();
@@ -182,7 +183,7 @@ export default class Grid {
      * Move a piece to a different position.
      * Moves 'columnMove/lineMove' from the current position.
      */
-    movePiece(piece, columnMove, lineMove) {
+    movePiece(piece: Piece, columnMove: number, lineMove: number) {
         var all = piece.all_squares;
         var pivot = piece.pivot_square;
 
@@ -220,7 +221,7 @@ export default class Grid {
     /**
      * Rotate a piece to the next rotation.
      */
-    rotatePiece(piece, nextRotationPosition) {
+    rotatePiece(piece: Piece, nextRotationPosition: number) {
         var nextRotation = piece.args.possibleRotations[nextRotationPosition];
         var pivot = piece.pivot_square;
 
@@ -287,7 +288,7 @@ export default class Grid {
      * There's a line completed with squares in all positions.
      * We remove that line, and move what was on top of it 1 line down.
      */
-    clearLine(clearedLine) {
+    clearLine(clearedLine: number) {
         var square;
         var column, line;
 

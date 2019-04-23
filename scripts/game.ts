@@ -34,18 +34,18 @@ var CURRENT_LEVEL = 0;
 // number of cleared lines so far (count)
 var CLEARED_LINES = 0;
 
-var GAME_MENU_WIDTH; // in pixels
-var MESSAGE_COUNT; // reference to the message's count html element
-var MESSAGE_TEXT; // reference to the message's text html element
+var GAME_MENU_WIDTH = 0; // in pixels
+var MESSAGE_COUNT: HTMLElement; // reference to the message's count html element
+var MESSAGE_TEXT: HTMLElement; // reference to the message's text html element
 
 // current active piece on the map (falling)
-var ACTIVE_PIECE = null;
+var ACTIVE_PIECE: Piece | null = null;
 
 // has the next piece class (so, 'IPiece' or 'TPiece', etc)
-var NEXT_PIECE_ARGS: PieceArgs | null = null;
-var NEXT_PIECE = null; // has the next piece object
+var NEXT_PIECE_ARGS: PieceArgs;
+var NEXT_PIECE: Piece | null = null; // has the next piece object
 
-var GRID;
+var GRID: Grid;
 
 // keys being pressed/held
 var KEYS_HELD = {
@@ -66,9 +66,9 @@ export function start() {
 
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
 
-    GAME_MENU_WIDTH = $("#GameMenu").width();
-    MESSAGE_COUNT = document.getElementById("MessageCount");
-    MESSAGE_TEXT = document.getElementById("MessageText");
+    GAME_MENU_WIDTH = $("#GameMenu").width()!;
+    MESSAGE_COUNT = document.getElementById("MessageCount")!;
+    MESSAGE_TEXT = document.getElementById("MessageText")!;
 
     // resize the canvas, according to the grid's dimension
     CANVAS.width = GRID.width + GAME_MENU_WIDTH;
@@ -79,7 +79,7 @@ export function start() {
     newPiece();
     initGameMenu();
 
-    createjs.Ticker.addEventListener("tick", tick);
+    createjs.Ticker.addEventListener("tick", tick as (obj: Object) => void);
 
     document.addEventListener("keydown", keyDownListener);
     document.addEventListener("keyup", keyUpListener);
@@ -167,22 +167,21 @@ function chooseRandomPiece() {
  * Initialize the game menu elements.
  */
 function initGameMenu() {
-    var gameMenu = document.querySelector("#GameMenu");
+    var gameMenu = document.getElementById("GameMenu")!;
 
     // :: Cleared Lines :: //
 
-    var clearedLines = gameMenu.querySelector("#GameMenu-clearedLines span");
+    var clearedLines = gameMenu.querySelector("#GameMenu-clearedLines span")!;
     $(clearedLines).text("0");
 
     // :: Pause / Resume :: //
 
-    var pauseResume = gameMenu.querySelector("#GameMenu-pauseResume");
+    var pauseResume = document.getElementById("GameMenu-pauseResume")!;
     pauseResume.addEventListener("click", togglePaused);
 
     // :: Quit :: //
 
-    var quit = gameMenu.querySelector("#GameMenu-quit");
-
+    var quit = document.getElementById("GameMenu-quit")!;
     quit.addEventListener("click", function() {
         clear();
         MainMenu.open();
@@ -200,7 +199,7 @@ function initGameMenu() {
 /**
  * Shows an image of the next piece to fall, in the game menu.
  */
-function showNextPiece(nextPieceArgs) {
+function showNextPiece(nextPieceArgs: PieceArgs) {
     if (NEXT_PIECE) {
         NEXT_PIECE.remove();
         NEXT_PIECE = null;
@@ -234,7 +233,6 @@ function clear() {
     $("#GameMenu").addClass("hide");
 
     ACTIVE_PIECE = null;
-    GRID = null;
     SOFT_DROP_ACTIVE = false;
 
     STAGE.removeAllChildren();
@@ -280,15 +278,15 @@ export function oneMoreClearedLine() {
 /**
  * Set the current level. Will influence the difficulty of the game.
  */
-function setLevel(level) {
+function setLevel(level: number) {
     var maxLevel = DELAY_PER_LEVEL.length;
-    var text;
+    var text = "";
 
     if (level >= maxLevel - 1) {
         level = maxLevel - 1;
         text = "max";
     } else {
-        text = level + 1;
+        text = (level + 1).toString();
     }
 
     CURRENT_LEVEL = level;
@@ -296,7 +294,7 @@ function setLevel(level) {
 
     document.getElementById(
         "GameMenu-currentLevel"
-    ).lastElementChild.innerHTML = text;
+    )!.lastElementChild!.innerHTML = text;
 }
 
 /**
@@ -310,7 +308,7 @@ export function getMaxLevel() {
  * Show a message in the game menu.
  * When the same message is trying to be shown, it will show a counter of the times it was tried.
  */
-export function showMessage(text) {
+export function showMessage(text: string) {
     var currentText = $(MESSAGE_TEXT).text();
 
     // same message, add to the counter
@@ -365,7 +363,7 @@ function togglePaused() {
 /**
  * Pause/resume the game.
  */
-function setPaused(state) {
+function setPaused(state: boolean) {
     createjs.Ticker.paused = state;
 
     KEYS_HELD.leftArrow = false;
@@ -392,13 +390,9 @@ function isPaused() {
 /**
  * Deals with the keyboard shortcuts/controls.
  */
-function keyDownListener(event) {
+function keyDownListener(event: KeyboardEvent) {
     if (isPaused()) {
         return true;
-    }
-
-    if (!event) {
-        event = window.event;
     }
 
     switch (event.keyCode) {
@@ -421,13 +415,9 @@ function keyDownListener(event) {
 /**
  * Deals with the keyboard shortcuts/controls.
  */
-function keyUpListener(event) {
+function keyUpListener(event: KeyboardEvent) {
     if (isPaused()) {
         return true;
-    }
-
-    if (!event) {
-        event = window.event;
     }
 
     var activePiece = getActivePiece();
@@ -446,15 +436,21 @@ function keyUpListener(event) {
             return false;
 
         case Utilities.EVENT_KEY.space:
-            activePiece.hardDrop();
+            if (activePiece) {
+                activePiece.hardDrop();
+            }
             return false;
 
         case Utilities.EVENT_KEY.a:
-            activePiece.rotateLeft();
+            if (activePiece) {
+                activePiece.rotateLeft();
+            }
             return false;
 
         case Utilities.EVENT_KEY.d:
-            activePiece.rotateRight();
+            if (activePiece) {
+                activePiece.rotateRight();
+            }
             return false;
     }
 
@@ -473,7 +469,7 @@ export function getGrid() {
  * Checks when we need to add a new piece to the game.
  * Redraws the game.
  */
-function tick(event) {
+function tick(event: createjs.TickerEvent) {
     if (createjs.Ticker.paused) {
         return;
     }
@@ -491,7 +487,7 @@ function tick(event) {
         limit = 40;
     }
 
-    if (DELAY_COUNT >= limit) {
+    if (DELAY_COUNT >= limit && ACTIVE_PIECE) {
         DELAY_COUNT = 0;
 
         // move bottom
@@ -508,10 +504,10 @@ function tick(event) {
 /**
  * Deal with the horizontal movement of the active piece.
  */
-function movement_tick(deltaTime) {
+function movement_tick(deltaTime: number) {
     HORIZONTAL_COUNT += deltaTime;
 
-    if (HORIZONTAL_COUNT >= HORIZONTAL_LIMIT) {
+    if (HORIZONTAL_COUNT >= HORIZONTAL_LIMIT && ACTIVE_PIECE) {
         // move left
         if (KEYS_HELD.leftArrow) {
             HORIZONTAL_COUNT = 0;
