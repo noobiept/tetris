@@ -1,0 +1,7 @@
+build/
+images/
+libraries/
+release/
+node_modules/
+package-lock.json
+*.yml
