@@ -35,7 +35,7 @@ export default class Piece {
     /**
      * Add the piece squares to a container (can be the grid container element, or other element if its positioned outside of the grid).
      */
-    addToContainer(container) {
+    addToContainer(container: createjs.Container) {
         for (var a = 0; a < this.all_squares.length; a++) {
             container.addChild(this.all_squares[a].shape);
         }
@@ -44,7 +44,7 @@ export default class Piece {
     /**
      * Position a piece in a given x/y position (unrelated to the grid).
      */
-    positionIn(x, y) {
+    positionIn(x: number, y: number) {
         var pivot = this.pivot_square;
         var other = this.other_squares;
         var currentRotation = this.getCurrentRotation();
@@ -133,7 +133,6 @@ export default class Piece {
         }
 
         this.all_squares.length = 0;
-        this.pivot_square = null;
         this.other_squares.length = 0;
     }
 }

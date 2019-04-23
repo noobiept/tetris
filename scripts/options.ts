@@ -1,7 +1,14 @@
 import * as AppStorage from "./app_storage.js";
 
+export interface OptionsData {
+    numberOfColumns: number;
+    numberOfLines: number;
+    startingLevel: number;
+    linesToLevelUp: number;
+}
+
 // default options
-var OPTIONS = {
+var OPTIONS: OptionsData = {
     numberOfColumns: 10,
     numberOfLines: 20,
     startingLevel: 0,
@@ -18,7 +25,7 @@ export function save() {
 /**
  * Load the options from the local storage.
  */
-export function load(options) {
+export function load(options?: OptionsData) {
     if (options) {
         if ($.isNumeric(options.numberOfColumns)) {
             OPTIONS.numberOfColumns = options.numberOfColumns;
@@ -48,7 +55,7 @@ export function getNumberOfColumns() {
 /**
  * Change the number of columns of the grid.
  */
-export function setNumberOfColumns(columns) {
+export function setNumberOfColumns(columns: number) {
     OPTIONS.numberOfColumns = columns;
 }
 
@@ -62,7 +69,7 @@ export function getNumberOfLines() {
 /**
  * Change the number of lines of the grid.
  */
-export function setNumberOfLines(lines) {
+export function setNumberOfLines(lines: number) {
     OPTIONS.numberOfLines = lines;
 }
 
@@ -76,7 +83,7 @@ export function getStartingLevel() {
 /**
  * Change the starting level of the game.
  */
-export function setStartingLevel(level) {
+export function setStartingLevel(level: number) {
     OPTIONS.startingLevel = level;
 }
 
@@ -90,6 +97,6 @@ export function getLinesToLevelUp() {
 /**
  * Change the number of cleared lines necessary to level up.
  */
-export function setLinesToLevelUp(lines) {
+export function setLinesToLevelUp(lines: number) {
     OPTIONS.linesToLevelUp = lines;
 }

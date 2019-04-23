@@ -72,45 +72,25 @@ export const EVENT_KEY = {
 /**
  * Get a random integer between the minimum and maximum values provided (inclusive).
  */
-export function getRandomInt(min, max) {
+export function getRandomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
  * Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
  */
-export function centerElement(element) {
+export function centerElement(element: HTMLElement) {
     var canvasWidth = CANVAS.width;
     var canvasHeight = CANVAS.height;
 
     // the canvas may not be starting at 0,0 position, so we need to account for that
     var canvasPosition = $(CANVAS).position();
 
-    var left = canvasWidth / 2 - $(element).width() / 2 + canvasPosition.left;
-    var top = canvasHeight / 2 - $(element).height() / 2 + canvasPosition.top;
+    var left = canvasWidth / 2 - $(element).width()! / 2 + canvasPosition.left;
+    var top = canvasHeight / 2 - $(element).height()! / 2 + canvasPosition.top;
 
     $(element).css({
         top: top + "px",
         left: left + "px",
     });
-}
-
-/**
- * Used for 'class' inheritance (search prototypal inheritance).
- */
-function OBJECT(o) {
-    function F() {}
-    F.prototype = o;
-
-    return new F();
-}
-
-/**
- * Used for 'class' inheritance (search for parasitic combination inheritance).
- */
-export function INHERIT_PROTOTYPE(derivedClass, baseClass) {
-    var prototype = OBJECT(baseClass.prototype);
-
-    prototype.constructor = derivedClass;
-    derivedClass.prototype = prototype;
 }

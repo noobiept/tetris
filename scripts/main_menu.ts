@@ -4,13 +4,13 @@ import * as Utilities from "./utilities.js";
 import { CANVAS } from "./main.js";
 
 // reference to the html elements
-var MAIN_MENU;
-var OPTIONS_MENU;
-var HELP_MENU;
+var MAIN_MENU: HTMLElement;
+var OPTIONS_MENU: HTMLElement;
+var HELP_MENU: HTMLElement;
 
 // current active (shown) menu
 // either the main menu, options menu or the help menu
-var ACTIVE_MENU;
+var ACTIVE_MENU: HTMLElement | undefined;
 
 // the canvas dimensions (for the main menu only, it may change for the game)
 var CANVAS_WIDTH = 600;
@@ -20,9 +20,9 @@ var CANVAS_HEIGHT = 450;
  * Initialize the main menu.
  */
 export function init() {
-    MAIN_MENU = document.querySelector("#MainMenu");
-    OPTIONS_MENU = document.querySelector("#Options");
-    HELP_MENU = document.querySelector("#Help");
+    MAIN_MENU = document.getElementById("MainMenu")!;
+    OPTIONS_MENU = document.getElementById("Options")!;
+    HELP_MENU = document.getElementById("Help")!;
 
     CANVAS.width = CANVAS_WIDTH;
     CANVAS.height = CANVAS_HEIGHT;
@@ -40,13 +40,15 @@ export function open() {
     ACTIVE_MENU = MAIN_MENU;
     ACTIVE_MENU.classList.remove("hide");
 
-    var startGame = MAIN_MENU.querySelector("#MainMenu-startGame");
-    var options = MAIN_MENU.querySelector("#MainMenu-options");
-    var help = MAIN_MENU.querySelector("#MainMenu-help");
+    var startGame = document.getElementById("MainMenu-startGame")!;
+    var options = document.getElementById("MainMenu-options")!;
+    var help = document.getElementById("MainMenu-help")!;
 
     // set events
     startGame.onclick = function() {
-        ACTIVE_MENU.classList.add("hide");
+        if (ACTIVE_MENU) {
+            ACTIVE_MENU.classList.add("hide");
+        }
 
         Game.start();
     };
@@ -75,16 +77,16 @@ export function openOptions() {
 
     // :: number of columns :: //
 
-    var columns = OPTIONS_MENU.querySelector("#Options-numberOfColumns");
-    var columnsSpan = columns.querySelector("span");
+    var columns = document.getElementById("Options-numberOfColumns")!;
+    var columnsSpan = columns.querySelector("span")!;
 
     var numberOfColumns = Options.getNumberOfColumns();
 
     $(columnsSpan).text(numberOfColumns);
 
-    var columnsSlider = columns.querySelector(
-        "#Options-numberOfColumns-slider"
-    );
+    var columnsSlider = document.getElementById(
+        "Options-numberOfColumns-slider"
+    )!;
 
     $(columnsSlider).slider({
         min: 10,
@@ -93,23 +95,26 @@ export function openOptions() {
         value: numberOfColumns,
         range: "min",
         slide: function(event, ui) {
-            $(columnsSpan).text(ui.value);
+            const value = ui.value;
 
-            Options.setNumberOfColumns(Math.round(ui.value));
-            rePosition();
+            if (value) {
+                $(columnsSpan).text(value);
+
+                Options.setNumberOfColumns(Math.round(value));
+                rePosition();
+            }
         },
     });
 
     // :: number of lines :: //
 
-    var lines = OPTIONS_MENU.querySelector("#Options-numberOfLines");
-    var linesSpan = lines.querySelector("span");
-
+    var lines = document.getElementById("Options-numberOfLines")!;
+    var linesSpan = lines.querySelector("span")!;
     var numberOfLines = Options.getNumberOfLines();
 
     $(linesSpan).text(numberOfLines);
 
-    var linesSlider = lines.querySelector("#Options-numberOfLines-slider");
+    var linesSlider = document.getElementById("Options-numberOfLines-slider")!;
 
     $(linesSlider).slider({
         min: 15,
@@ -118,23 +123,26 @@ export function openOptions() {
         value: numberOfLines,
         range: "min",
         slide: function(event, ui) {
-            $(linesSpan).text(ui.value);
+            const value = ui.value;
 
-            Options.setNumberOfLines(Math.round(ui.value));
-            rePosition();
+            if (value) {
+                $(linesSpan).text(value);
+
+                Options.setNumberOfLines(Math.round(value));
+                rePosition();
+            }
         },
     });
 
     // :: starting level :: //
 
-    var level = OPTIONS_MENU.querySelector("#Options-startingLevel");
-    var levelSpan = level.querySelector("span");
-
+    var level = document.getElementById("Options-startingLevel")!;
+    var levelSpan = level.querySelector("span")!;
     var startingLevel = Options.getStartingLevel();
 
     $(levelSpan).text(startingLevel + 1);
 
-    var levelSlider = level.querySelector("#Options-startingLevel-slider");
+    var levelSlider = document.getElementById("Options-startingLevel-slider")!;
 
     $(levelSlider).slider({
         min: 1,
@@ -143,25 +151,28 @@ export function openOptions() {
         value: startingLevel + 1,
         range: "min",
         slide: function(event, ui) {
-            $(levelSpan).text(ui.value);
+            const value = ui.value;
 
-            Options.setStartingLevel(Math.round(ui.value) - 1);
-            rePosition();
+            if (value) {
+                $(levelSpan).text(value);
+
+                Options.setStartingLevel(Math.round(value) - 1);
+                rePosition();
+            }
         },
     });
 
     // :: Required Lines to Level Up :: //
 
-    var linesToLevel = OPTIONS_MENU.querySelector("#Options-linesToLevelUp");
-    var linesToLevelSpan = linesToLevel.querySelector("span");
-
+    var linesToLevel = document.getElementById("Options-linesToLevelUp")!;
+    var linesToLevelSpan = linesToLevel.querySelector("span")!;
     var linesToLevelValue = Options.getLinesToLevelUp();
 
     $(linesToLevelSpan).text(linesToLevelValue);
 
-    var linesToLevelSlider = linesToLevel.querySelector(
-        "#Options-linesToLevelUp-slider"
-    );
+    var linesToLevelSlider = document.getElementById(
+        "Options-linesToLevelUp-slider"
+    )!;
 
     $(linesToLevelSlider).slider({
         min: 1,
@@ -170,16 +181,20 @@ export function openOptions() {
         value: linesToLevelValue,
         range: "min",
         slide: function(event, ui) {
-            $(linesToLevelSpan).text(ui.value);
+            const value = ui.value;
 
-            Options.setLinesToLevelUp(Math.round(ui.value));
-            rePosition();
+            if (value) {
+                $(linesToLevelSpan).text(value);
+
+                Options.setLinesToLevelUp(Math.round(value));
+                rePosition();
+            }
         },
     });
 
     // :: Other :: //
 
-    var back = OPTIONS_MENU.querySelector("#Options-back");
+    var back = document.getElementById("Options-back")!;
 
     back.onclick = function() {
         Options.save();
@@ -193,8 +208,7 @@ export function openOptions() {
  * Open the help menu.
  */
 export function openHelp() {
-    var back = HELP_MENU.querySelector("#Help-back");
-
+    var back = document.getElementById("Help-back")!;
     back.onclick = function() {
         open();
     };
