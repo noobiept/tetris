@@ -2,6 +2,7 @@ import * as Options from "./options.js";
 import * as Game from "./game.js";
 import * as Utilities from "./utilities.js";
 import { CANVAS } from "./main.js";
+import { createSlider } from "./slider.js";
 
 // reference to the html elements
 var MAIN_MENU: HTMLElement;
@@ -26,6 +27,78 @@ export function init() {
 
     CANVAS.width = CANVAS_WIDTH;
     CANVAS.height = CANVAS_HEIGHT;
+
+    initOptions();
+}
+
+/**
+ * Initialize the options elements (sliders, etc).
+ */
+function initOptions() {
+    const optionsContainer = document.getElementById("Options-container")!;
+
+    // :: number of columns :: //
+    const columns = createSlider({
+        min: 10,
+        max: 20,
+        step: 1,
+        initialValue: Options.getNumberOfColumns(),
+        description: "Columns: ",
+        onSlide: (value: number) => {
+            Options.setNumberOfColumns(value);
+            rePosition();
+        },
+    });
+    optionsContainer.appendChild(columns);
+
+    // :: number of lines :: //
+    const lines = createSlider({
+        min: 15,
+        max: 25,
+        step: 1,
+        initialValue: Options.getNumberOfLines(),
+        description: "Lines: ",
+        onSlide: (value: number) => {
+            Options.setNumberOfLines(value);
+            rePosition();
+        },
+    });
+    optionsContainer.appendChild(lines);
+
+    // :: starting level :: //
+    const level = createSlider({
+        min: 1,
+        max: Game.getMaxLevel(),
+        step: 1,
+        initialValue: Options.getStartingLevel() + 1,
+        description: "Starting level: ",
+        onSlide: (value: number) => {
+            Options.setStartingLevel(value - 1);
+            rePosition();
+        },
+    });
+    optionsContainer.appendChild(level);
+
+    // :: required lines to level up :: //
+    const linesToLevelUp = createSlider({
+        min: 1,
+        max: 15,
+        step: 1,
+        initialValue: Options.getLinesToLevelUp(),
+        description: "Lines to level up: ",
+        onSlide: (value: number) => {
+            Options.setLinesToLevelUp(value);
+            rePosition();
+        },
+    });
+    optionsContainer.appendChild(linesToLevelUp);
+
+    // :: back :: //
+    var back = document.getElementById("Options-back")!;
+    back.onclick = function() {
+        Options.save();
+        open();
+    };
 }
 
 /**
@@ -67,139 +140,13 @@ export function open() {
 /**
  * Open the options menu.
  */
-export function openOptions() {
+function openOptions() {
     if (ACTIVE_MENU) {
         ACTIVE_MENU.classList.add("hide");
     }
 
     ACTIVE_MENU = OPTIONS_MENU;
     OPTIONS_MENU.classList.remove("hide");
-
-    // :: number of columns :: //
-
-    var columns = document.getElementById("Options-numberOfColumns")!;
-    var columnsSpan = columns.querySelector("span")!;
-
-    var numberOfColumns = Options.getNumberOfColumns();
-
-    $(columnsSpan).text(numberOfColumns);
-
-    var columnsSlider = document.getElementById(
-        "Options-numberOfColumns-slider"
-    )!;
-
-    $(columnsSlider).slider({
-        min: 10,
-        max: 20,
-        step: 1,
-        value: numberOfColumns,
-        range: "min",
-        slide: function(event, ui) {
-            const value = ui.value;
-
-            if (value) {
-                $(columnsSpan).text(value);
-
-                Options.setNumberOfColumns(Math.round(value));
-                rePosition();
-            }
-        },
-    });
-
-    // :: number of lines :: //
-
-    var lines = document.getElementById("Options-numberOfLines")!;
-    var linesSpan = lines.querySelector("span")!;
-    var numberOfLines = Options.getNumberOfLines();
-
-    $(linesSpan).text(numberOfLines);
-
-    var linesSlider = document.getElementById("Options-numberOfLines-slider")!;
-
-    $(linesSlider).slider({
-        min: 15,
-        max: 25,
-        step: 1,
-        value: numberOfLines,
-        range: "min",
-        slide: function(event, ui) {
-            const value = ui.value;
-
-            if (value) {
-                $(linesSpan).text(value);
-
-                Options.setNumberOfLines(Math.round(value));
-                rePosition();
-            }
-        },
-    });
-
-    // :: starting level :: //
-
-    var level = document.getElementById("Options-startingLevel")!;
-    var levelSpan = level.querySelector("span")!;
-    var startingLevel = Options.getStartingLevel();
-
-    $(levelSpan).text(startingLevel + 1);
-
-    var levelSlider = document.getElementById("Options-startingLevel-slider")!;
-
-    $(levelSlider).slider({
-        min: 1,
-        max: Game.getMaxLevel(),
-        step: 1,
-        value: startingLevel + 1,
-        range: "min",
-        slide: function(event, ui) {
-            const value = ui.value;
-
-            if (value) {
-                $(levelSpan).text(value);
-
-                Options.setStartingLevel(Math.round(value) - 1);
-                rePosition();
-            }
-        },
-    });
-
-    // :: Required Lines to Level Up :: //
-
-    var linesToLevel = document.getElementById("Options-linesToLevelUp")!;
-    var linesToLevelSpan = linesToLevel.querySelector("span")!;
-    var linesToLevelValue = Options.getLinesToLevelUp();
-
-    $(linesToLevelSpan).text(linesToLevelValue);
-
-    var linesToLevelSlider = document.getElementById(
-        "Options-linesToLevelUp-slider"
-    )!;
-
-    $(linesToLevelSlider).slider({
-        min: 1,
-        max: 15,
-        step: 1,
-        value: linesToLevelValue,
-        range: "min",
-        slide: function(event, ui) {
-            const value = ui.value;
-
-            if (value) {
-                $(linesToLevelSpan).text(value);
-
-                Options.setLinesToLevelUp(Math.round(value));
-                rePosition();
-            }
-        },
-    });
-
-    // :: Other :: //
-
-    var back = document.getElementById("Options-back")!;
-
-    back.onclick = function() {
-        Options.save();
-        open();
-    };
 
     rePosition();
 }
