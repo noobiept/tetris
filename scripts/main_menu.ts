@@ -28,7 +28,9 @@ export function init() {
     CANVAS.width = CANVAS_WIDTH;
     CANVAS.height = CANVAS_HEIGHT;
 
+    initMainMenu();
     initOptions();
+    initHelp();
 }
 
 /**
@@ -102,17 +104,19 @@ function initOptions() {
 }
 
 /**
- * Open the main menu.
- * You can start the game, open the options or the help menu from this.
+ * Initialize the help menu elements.
  */
-export function open() {
-    if (ACTIVE_MENU) {
-        ACTIVE_MENU.classList.add("hide");
-    }
+function initHelp() {
+    var back = document.getElementById("Help-back")!;
+    back.onclick = function() {
+        open();
+    };
+}
 
-    ACTIVE_MENU = MAIN_MENU;
-    ACTIVE_MENU.classList.remove("hide");
-
+/**
+ * Initialize the main menu elements.
+ */
+function initMainMenu() {
     var startGame = document.getElementById("MainMenu-startGame")!;
     var options = document.getElementById("MainMenu-options")!;
     var help = document.getElementById("MainMenu-help")!;
@@ -133,6 +137,19 @@ export function open() {
     help.onclick = function() {
         openHelp();
     };
+}
+
+/**
+ * Open the main menu.
+ * You can start the game, open the options or the help menu from this.
+ */
+export function open() {
+    if (ACTIVE_MENU) {
+        ACTIVE_MENU.classList.add("hide");
+    }
+
+    ACTIVE_MENU = MAIN_MENU;
+    ACTIVE_MENU.classList.remove("hide");
 
     rePosition();
 }
@@ -155,11 +172,6 @@ function openOptions() {
  * Open the help menu.
  */
 export function openHelp() {
-    var back = document.getElementById("Help-back")!;
-    back.onclick = function() {
-        open();
-    };
-
     if (ACTIVE_MENU) {
         ACTIVE_MENU.classList.add("hide");
     }
