@@ -323,16 +323,17 @@ export function getMaxLevel() {
  * When the same message is trying to be shown, it will show a counter of the times it was tried.
  */
 export function showMessage(text: string) {
-    var currentText = MESSAGE_TEXT.innerText;
+    const currentText = MESSAGE_TEXT.innerText;
 
     // same message, add to the counter
     if (text === currentText) {
-        var count = Number(MESSAGE_COUNT.getAttribute("data-count")) + 1;
+        const dataCount = MESSAGE_COUNT.getAttribute("data-count")!;
+        const count = parseInt(dataCount, 10) + 1;
 
         MESSAGE_COUNT.setAttribute("data-count", count.toString());
         MESSAGE_COUNT.innerText = count + "x";
     } else {
-        MESSAGE_COUNT.setAttribute("data-count", "0");
+        MESSAGE_COUNT.setAttribute("data-count", "1");
         MESSAGE_COUNT.innerText = "";
         MESSAGE_TEXT.innerText = text;
     }
