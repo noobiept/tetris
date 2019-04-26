@@ -62,23 +62,26 @@ export function start() {
     var numberOfLines = Options.getNumberOfLines();
 
     setLevel(Options.getStartingLevel());
-    initGameMenu();
 
     CLEARED_LINES = 0;
-
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
 
     MESSAGE_COUNT = document.getElementById("MessageCount")!;
     MESSAGE_TEXT = document.getElementById("MessageText")!;
 
+    // initialize the game menu
+    const canvasHeight = GRID.height;
+    initGameMenu(canvasHeight);
+
     // figure out the game menu width
+    // needs to be called after the game menu has been initialized
     const gameMenu = document.getElementById("GameMenu")!;
     const rect = gameMenu.getBoundingClientRect();
     GAME_MENU_WIDTH = rect.width;
 
-    // resize the canvas, according to the grid's dimension
+    // resize the canvas, according to the 'grid' + 'game menu' dimensions
     CANVAS.width = GRID.width + GAME_MENU_WIDTH;
-    CANVAS.height = GRID.height;
+    CANVAS.height = canvasHeight;
 
     NEXT_PIECE_ARGS = chooseRandomPiece();
 
@@ -171,7 +174,7 @@ function chooseRandomPiece() {
 /**
  * Initialize the game menu elements.
  */
-function initGameMenu() {
+function initGameMenu(canvasHeight: number) {
     var gameMenu = document.getElementById("GameMenu")!;
 
     // :: Cleared Lines :: //
@@ -200,7 +203,7 @@ function initGameMenu() {
     gameMenu.classList.remove("hide");
 
     // need to set the height of the menu to the same height of the canvas, so that it is position correctly
-    gameMenu.style.height = CANVAS.height + "px";
+    gameMenu.style.height = canvasHeight + "px";
 }
 
 /**
