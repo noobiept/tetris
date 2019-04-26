@@ -62,14 +62,19 @@ export function start() {
     var numberOfLines = Options.getNumberOfLines();
 
     setLevel(Options.getStartingLevel());
+    initGameMenu();
 
     CLEARED_LINES = 0;
 
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
 
-    GAME_MENU_WIDTH = $("#GameMenu").width()!;
     MESSAGE_COUNT = document.getElementById("MessageCount")!;
     MESSAGE_TEXT = document.getElementById("MessageText")!;
+
+    // figure out the game menu width
+    const gameMenu = document.getElementById("GameMenu")!;
+    const rect = gameMenu.getBoundingClientRect();
+    GAME_MENU_WIDTH = rect.width;
 
     // resize the canvas, according to the grid's dimension
     CANVAS.width = GRID.width + GAME_MENU_WIDTH;
@@ -78,7 +83,6 @@ export function start() {
     NEXT_PIECE_ARGS = chooseRandomPiece();
 
     newPiece();
-    initGameMenu();
 
     createjs.Ticker.addEventListener("tick", tick as (obj: Object) => void);
 
@@ -172,8 +176,10 @@ function initGameMenu() {
 
     // :: Cleared Lines :: //
 
-    var clearedLines = gameMenu.querySelector("#GameMenu-clearedLines span")!;
-    $(clearedLines).text("0");
+    var clearedLines = gameMenu.querySelector(
+        "#GameMenu-clearedLines span"
+    ) as HTMLElement;
+    clearedLines.innerText = "0";
 
     // :: Pause / Resume :: //
 
@@ -191,10 +197,10 @@ function initGameMenu() {
     // :: Game Menu :: //
 
     // show the menu
-    $(gameMenu).removeClass("hide");
+    gameMenu.classList.remove("hide");
 
     // need to set the height of the menu to the same height of the canvas, so that it is position correctly
-    $(gameMenu).css("height", CANVAS.height + "px");
+    gameMenu.style.height = CANVAS.height + "px";
 }
 
 /**
@@ -231,7 +237,8 @@ function clear() {
     clearEvents();
     setPaused(false);
 
-    $("#GameMenu").addClass("hide");
+    const gameMenu = document.getElementById("GameMenu")!;
+    gameMenu.classList.add("hide");
 
     ACTIVE_PIECE = null;
     SOFT_DROP_ACTIVE = false;
@@ -268,7 +275,10 @@ function getActivePiece() {
 export function oneMoreClearedLine() {
     CLEARED_LINES++;
 
-    $("#GameMenu-clearedLines span").text(CLEARED_LINES);
+    const clearedLinesSpan = document.querySelector(
+        "#GameMenu-clearedLines span"
+    ) as HTMLElement;
+    clearedLinesSpan.innerText = CLEARED_LINES.toString();
 
     // move up one level, once the number of cleared lines is reached
     if (CLEARED_LINES % Options.getLinesToLevelUp() === 0) {
@@ -310,18 +320,18 @@ export function getMaxLevel() {
  * When the same message is trying to be shown, it will show a counter of the times it was tried.
  */
 export function showMessage(text: string) {
-    var currentText = $(MESSAGE_TEXT).text();
+    var currentText = MESSAGE_TEXT.innerText;
 
     // same message, add to the counter
     if (text === currentText) {
         var count = Number(MESSAGE_COUNT.getAttribute("data-count")) + 1;
 
         MESSAGE_COUNT.setAttribute("data-count", count.toString());
-        $(MESSAGE_COUNT).text(count + "x");
+        MESSAGE_COUNT.innerText = count + "x";
     } else {
         MESSAGE_COUNT.setAttribute("data-count", "0");
-        $(MESSAGE_COUNT).text("");
-        $(MESSAGE_TEXT).text(text);
+        MESSAGE_COUNT.innerText = "";
+        MESSAGE_TEXT.innerText = text;
     }
 }
 
@@ -370,10 +380,12 @@ function setPaused(state: boolean) {
         stopSoftDrop();
     }
 
+    const pauseResume = document.getElementById("GameMenu-pauseResume")!;
+
     if (state) {
-        $("#GameMenu-pauseResume").text("Resume");
+        pauseResume.innerText = "Resume";
     } else {
-        $("#GameMenu-pauseResume").text("Pause");
+        pauseResume.innerText = "Pause";
     }
 }
 

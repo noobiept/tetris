@@ -27,19 +27,19 @@ export function save() {
  */
 export function load(options?: OptionsData) {
     if (options) {
-        if ($.isNumeric(options.numberOfColumns)) {
+        if (Number.isInteger(options.numberOfColumns)) {
             OPTIONS.numberOfColumns = options.numberOfColumns;
         }
 
-        if ($.isNumeric(options.numberOfLines)) {
+        if (Number.isInteger(options.numberOfLines)) {
             OPTIONS.numberOfLines = options.numberOfLines;
         }
 
-        if ($.isNumeric(options.startingLevel)) {
+        if (Number.isInteger(options.startingLevel)) {
             OPTIONS.startingLevel = options.startingLevel;
         }
 
-        if ($.isNumeric(options.linesToLevelUp)) {
+        if (Number.isInteger(options.linesToLevelUp)) {
             OPTIONS.linesToLevelUp = options.linesToLevelUp;
         }
     }
