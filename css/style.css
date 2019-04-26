@@ -5,6 +5,9 @@ body {
     color: white;
     text-align: center;
     font-size: 24px;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
 }
 
 em,
@@ -80,6 +83,7 @@ em,
     justify-content: center;
     align-items: center;
     align-content: stretch;
+    height: 100%;
 }
 
 #mainCanvas {
