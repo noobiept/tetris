@@ -91,11 +91,9 @@ export function start() {
     CANVAS.height = canvasHeight;
 
     NEXT_PIECE_ARGS = chooseRandomPiece();
-
     newPiece();
 
     createjs.Ticker.addEventListener("tick", tick as (obj: Object) => void);
-
     document.addEventListener("keydown", keyDownListener);
     document.addEventListener("keyup", keyUpListener);
 }
@@ -201,8 +199,8 @@ function showNextPiece(nextPieceArgs: PieceArgs) {
 function clearEvents() {
     createjs.Ticker.removeEventListener("tick", tick);
 
-    document.addEventListener("keydown", keyDownListener);
-    document.addEventListener("keyup", keyUpListener);
+    document.removeEventListener("keydown", keyDownListener);
+    document.removeEventListener("keyup", keyUpListener);
 }
 
 /**
