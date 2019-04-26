@@ -74,6 +74,8 @@ export function start() {
     setLevel(Options.getStartingLevel());
 
     CLEARED_LINES = 0;
+    GameMenu.setClearedLines(CLEARED_LINES);
+
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
 
     MESSAGE_COUNT = document.getElementById("MessageCount")!;
@@ -209,9 +211,7 @@ function clearEvents() {
 function clear() {
     clearEvents();
     setPaused(false);
-
-    const gameMenu = document.getElementById("GameMenu")!;
-    gameMenu.classList.add("hide");
+    GameMenu.hide();
 
     ACTIVE_PIECE = null;
     SOFT_DROP_ACTIVE = false;
@@ -247,11 +247,7 @@ function getActivePiece() {
  */
 export function oneMoreClearedLine() {
     CLEARED_LINES++;
-
-    const clearedLinesSpan = document.querySelector(
-        "#GameMenu-clearedLines span"
-    ) as HTMLElement;
-    clearedLinesSpan.innerText = CLEARED_LINES.toString();
+    GameMenu.setClearedLines(CLEARED_LINES);
 
     // move up one level, once the number of cleared lines is reached
     if (CLEARED_LINES % Options.getLinesToLevelUp() === 0) {
@@ -263,22 +259,16 @@ export function oneMoreClearedLine() {
  * Set the current level. Will influence the difficulty of the game.
  */
 function setLevel(level: number) {
-    var maxLevel = DELAY_PER_LEVEL.length;
-    var text = "";
+    var maxLevel = getMaxLevel();
 
     if (level >= maxLevel - 1) {
         level = maxLevel - 1;
-        text = "max";
-    } else {
-        text = (level + 1).toString();
     }
 
     CURRENT_LEVEL = level;
     DELAY_LIMIT = DELAY_PER_LEVEL[CURRENT_LEVEL];
 
-    document.getElementById(
-        "GameMenu-currentLevel"
-    )!.lastElementChild!.innerHTML = text;
+    GameMenu.setCurrentLevel(CURRENT_LEVEL, maxLevel);
 }
 
 /**
@@ -354,13 +344,7 @@ function setPaused(state: boolean) {
         stopSoftDrop();
     }
 
-    const pauseResume = document.getElementById("GameMenu-pauseResume")!;
-
-    if (state) {
-        pauseResume.innerText = "Resume";
-    } else {
-        pauseResume.innerText = "Pause";
-    }
+    GameMenu.updatePauseResume(state);
 }
 
 /**
