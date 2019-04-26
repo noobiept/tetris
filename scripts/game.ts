@@ -14,6 +14,7 @@ import {
     LPiece,
 } from "./all_pieces.js";
 import Piece, { PieceArgs } from "./piece.js";
+import { createDialog } from "./dialog.js";
 
 // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;
@@ -331,15 +332,11 @@ function end() {
     clearEvents();
     setPaused(true);
 
-    $("#DialogMessage").dialog({
-        modal: true,
-        buttons: {
-            Ok: function() {
-                $(this).dialog("close");
-
-                clear();
-                start();
-            },
+    createDialog({
+        body: "Game Over!",
+        onClose: () => {
+            clear();
+            start();
         },
     });
 }
