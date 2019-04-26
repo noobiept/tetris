@@ -1,6 +1,7 @@
 import * as AppStorage from "./app_storage.js";
 import * as Options from "./options.js";
 import * as MainMenu from "./main_menu.js";
+import * as Game from "./game.js";
 
 export var STAGE: createjs.Stage;
 export var CANVAS: HTMLCanvasElement;
@@ -18,6 +19,7 @@ function initApp(data: AppStorage.StorageData) {
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
     MainMenu.init();
+    Game.init();
 
     if (!data["tetris_has_run_before"]) {
         AppStorage.setData({ tetris_has_run_before: true });

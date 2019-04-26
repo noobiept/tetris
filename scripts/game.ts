@@ -1,6 +1,6 @@
 import * as Options from "./options.js";
-import * as MainMenu from "./main_menu.js";
 import * as Utilities from "./utilities.js";
+import * as GameMenu from "./game_menu.js";
 import Grid from "./grid.js";
 import Square from "./square.js";
 import { STAGE, CANVAS } from "./main.js";
@@ -55,6 +55,16 @@ var KEYS_HELD = {
 };
 
 /**
+ * Initialize the game module (call only once at the start).
+ */
+export function init() {
+    GameMenu.init({
+        togglePaused: togglePaused,
+        clearGame: clear,
+    });
+}
+
+/**
  * Start a new game.
  */
 export function start() {
@@ -69,15 +79,12 @@ export function start() {
     MESSAGE_COUNT = document.getElementById("MessageCount")!;
     MESSAGE_TEXT = document.getElementById("MessageText")!;
 
-    // initialize the game menu
+    // re-position the game menu
     const canvasHeight = GRID.height;
-    initGameMenu(canvasHeight);
+    GameMenu.rePosition(canvasHeight);
 
-    // figure out the game menu width
-    // needs to be called after the game menu has been initialized
-    const gameMenu = document.getElementById("GameMenu")!;
-    const rect = gameMenu.getBoundingClientRect();
-    GAME_MENU_WIDTH = rect.width;
+    // get the game width
+    GAME_MENU_WIDTH = GameMenu.getWidth();
 
     // resize the canvas, according to the 'grid' + 'game menu' dimensions
     CANVAS.width = GRID.width + GAME_MENU_WIDTH;
@@ -169,41 +176,6 @@ function chooseRandomPiece() {
     var choose = Utilities.getRandomInt(0, possiblePieces.length - 1);
 
     return possiblePieces[choose];
-}
-
-/**
- * Initialize the game menu elements.
- */
-function initGameMenu(canvasHeight: number) {
-    var gameMenu = document.getElementById("GameMenu")!;
-
-    // :: Cleared Lines :: //
-
-    var clearedLines = gameMenu.querySelector(
-        "#GameMenu-clearedLines span"
-    ) as HTMLElement;
-    clearedLines.innerText = "0";
-
-    // :: Pause / Resume :: //
-
-    var pauseResume = document.getElementById("GameMenu-pauseResume")!;
-    pauseResume.addEventListener("click", togglePaused);
-
-    // :: Quit :: //
-
-    var quit = document.getElementById("GameMenu-quit")!;
-    quit.addEventListener("click", function() {
-        clear();
-        MainMenu.open();
-    });
-
-    // :: Game Menu :: //
-
-    // show the menu
-    gameMenu.classList.remove("hide");
-
-    // need to set the height of the menu to the same height of the canvas, so that it is position correctly
-    gameMenu.style.height = canvasHeight + "px";
 }
 
 /**
