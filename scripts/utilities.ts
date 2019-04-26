@@ -1,5 +1,3 @@
-import { CANVAS } from "./main.js";
-
 /**
  * Keys code for the keyboard events.
  */
@@ -74,23 +72,4 @@ export const EVENT_KEY = {
  */
 export function getRandomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-/**
- * Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
- */
-export function centerElement(element: HTMLElement) {
-    var canvasWidth = CANVAS.width;
-    var canvasHeight = CANVAS.height;
-
-    // the canvas may not be starting at 0,0 position, so we need to account for that
-    var canvasPosition = $(CANVAS).position();
-
-    var left = canvasWidth / 2 - $(element).width()! / 2 + canvasPosition.left;
-    var top = canvasHeight / 2 - $(element).height()! / 2 + canvasPosition.top;
-
-    $(element).css({
-        top: top + "px",
-        left: left + "px",
-    });
 }

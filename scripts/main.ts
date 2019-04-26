@@ -26,7 +26,3 @@ function initApp(data: AppStorage.StorageData) {
         MainMenu.open();
     }
 }
-
-window.onresize = function() {
-    MainMenu.rePosition();
-};

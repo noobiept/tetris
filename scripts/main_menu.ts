@@ -48,7 +48,6 @@ function initOptions() {
         description: "Columns: ",
         onSlide: (value: number) => {
             Options.setNumberOfColumns(value);
-            rePosition();
         },
     });
     optionsContainer.appendChild(columns);
@@ -62,7 +61,6 @@ function initOptions() {
         description: "Lines: ",
         onSlide: (value: number) => {
             Options.setNumberOfLines(value);
-            rePosition();
         },
     });
     optionsContainer.appendChild(lines);
@@ -76,7 +74,6 @@ function initOptions() {
         description: "Starting level: ",
         onSlide: (value: number) => {
             Options.setStartingLevel(value - 1);
-            rePosition();
         },
     });
     optionsContainer.appendChild(level);
@@ -90,7 +87,6 @@ function initOptions() {
         description: "Lines to level up: ",
         onSlide: (value: number) => {
             Options.setLinesToLevelUp(value);
-            rePosition();
         },
     });
     optionsContainer.appendChild(linesToLevelUp);
@@ -150,8 +146,6 @@ export function open() {
 
     ACTIVE_MENU = MAIN_MENU;
     ACTIVE_MENU.classList.remove("hide");
-
-    rePosition();
 }
 
 /**
@@ -164,8 +158,6 @@ function openOptions() {
 
     ACTIVE_MENU = OPTIONS_MENU;
     OPTIONS_MENU.classList.remove("hide");
-
-    rePosition();
 }
 
 /**
@@ -178,15 +170,4 @@ export function openHelp() {
 
     ACTIVE_MENU = HELP_MENU;
     ACTIVE_MENU.classList.remove("hide");
-
-    rePosition();
-}
-
-/**
- * Re-center the menu elements.
- */
-export function rePosition() {
-    if (ACTIVE_MENU) {
-        Utilities.centerElement(ACTIVE_MENU);
-    }
 }
