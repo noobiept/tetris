@@ -1,31 +1,43 @@
-module.exports = function(grunt) {
-    var root = "./";
-    var dest = "./release/<%= pkg.name %>_<%= pkg.version %>/";
+const Fs = require("fs");
+const Path = require("path");
 
+const PACKAGE = JSON.parse(Fs.readFileSync("package.json", "utf8"));
+const ROOT = "./";
+const DEST = `./release/${PACKAGE.name}_${PACKAGE.version}/`;
+
+module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
-        // remove the destination folder first
+        // remove some files
         clean: {
-            options: {
-                force: true,
-            },
-
-            release: [dest],
+            release: [DEST, Path.join(ROOT, "build/**/*")],
+            libraries: [Path.join(ROOT, "libraries/*.js")],
         },
 
         // copy the necessary files
         copy: {
+            libraries: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: Path.join(ROOT, "node_modules/easeljs/lib/"),
+                        src: "easeljs.min.js",
+                        dest: Path.join(ROOT, "libraries/"),
+                    },
+                ],
+            },
+
             release: {
                 expand: true,
-                cwd: root,
+                cwd: ROOT,
                 src: [
                     "libraries/**",
                     "images/**",
-                    "background.js",
-                    "manifest.json",
+                    "index.html",
+                    "package.json",
                 ],
-                dest: dest,
+                dest: DEST,
             },
         },
 
@@ -35,11 +47,11 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src: [
-                            root + "scripts/utilities.js",
-                            root + "scripts/piece.js",
-                            root + "scripts/*.js",
+                            ROOT + "scripts/utilities.js",
+                            ROOT + "scripts/piece.js",
+                            ROOT + "scripts/*.js",
                         ],
-                        dest: dest + "min.js",
+                        dest: DEST + "min.js",
                     },
                 ],
             },
@@ -51,29 +63,15 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: root + "css/",
+                        cwd: ROOT + "css/",
                         src: "*.css",
-                        dest: dest + "css/",
+                        dest: DEST + "css/",
                     },
                 ],
             },
             options: {
                 advanced: false,
             },
-        },
-
-        // update the html file to load the min.js file
-        processhtml: {
-            release: {
-                expand: true,
-                cwd: root,
-                src: "index.html",
-                dest: dest,
-            },
-        },
-
-        eslint: {
-            target: [root + "scripts/**"],
         },
     });
 
@@ -82,10 +80,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
-    grunt.loadNpmTasks("grunt-processhtml");
-    grunt.loadNpmTasks("grunt-eslint");
 
     // tasks
+    grunt.registerTask("update_libraries", [
+        "clean:libraries",
+        "copy:libraries",
+    ]);
     grunt.registerTask("default", [
         "eslint",
         "clean",

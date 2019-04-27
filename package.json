@@ -2,6 +2,9 @@
     "name": "tetris",
     "description": "A tetris game, where you can specify the number of columns/lines of the grid.",
     "version": "2.0.0",
+    "dependencies": {
+        "easeljs": "~1.0.2"
+    },
     "devDependencies": {
         "@types/createjs": "0.0.29",
         "grunt": "~1.0.4",
@@ -28,6 +31,7 @@
     "scripts": {
         "dev": "npm-run-all --parallel dev:*",
         "dev:ts": "tsc -w",
+        "dev:update_libraries": "grunt update_libraries",
         "dev:server": "http-server -p 8000 --silent",
         "formatting:check": "prettier --check \"**/*.{html,css,json,js,ts,md}\"",
         "formatting:run": "prettier --write \"**/*.{html,css,json,js,ts,md}\"",
