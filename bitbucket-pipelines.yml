@@ -21,7 +21,9 @@ pipelines:
                 - VERSION=$(json -f ./package.json version)
 
                 # zip the output
-                - zip $NAME_$VERSION.zip ./release/$NAME_$VERSION/**
+                - pushd "./release/${NAME}_${VERSION}"
+                - zip -r "../../${NAME}_${VERSION}.zip" *
+                - popd
 
                 # upload to the 'downloads' section of the bitbucket project
-                - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/drk4/tetris/downloads" --form files=@"$NAME_$VERSION.zip"
+                - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/drk4/tetris/downloads" --form files=@"${NAME}_${VERSION}.zip"
