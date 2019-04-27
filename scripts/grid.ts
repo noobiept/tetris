@@ -1,7 +1,6 @@
 import * as Game from "./game.js";
 import Square from "./square.js";
 import Piece from "./piece.js";
-import { STAGE } from "./main.js";
 
 export interface GridArgs {
     columns: number;
@@ -80,7 +79,7 @@ export default class Grid {
         g.beginFill("white");
         g.drawRect(0, -thickness, innerWidth, thickness);
 
-        STAGE.addChild(top);
+        Game.addToStage(top);
 
         // bottom line
         var bottom = new createjs.Shape();
@@ -93,7 +92,7 @@ export default class Grid {
         g.beginFill("white");
         g.drawRect(0, 0, innerWidth, thickness);
 
-        STAGE.addChild(bottom);
+        Game.addToStage(bottom);
 
         // left line
         var left = new createjs.Shape();
@@ -106,7 +105,7 @@ export default class Grid {
         g.beginFill("white");
         g.drawRect(0, 0, thickness, innerHeight + 2 * thickness);
 
-        STAGE.addChild(left);
+        Game.addToStage(left);
 
         // right line
         var right = new createjs.Shape();
@@ -119,7 +118,7 @@ export default class Grid {
         g.beginFill("white");
         g.drawRect(0, 0, thickness, innerHeight + 2 * thickness);
 
-        STAGE.addChild(right);
+        Game.addToStage(right);
 
         // container
         var container = new createjs.Container();
@@ -127,7 +126,7 @@ export default class Grid {
         container.x = 0;
         container.y = 0;
 
-        STAGE.addChild(container);
+        Game.addToStage(container);
 
         return container;
     }

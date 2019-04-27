@@ -3,7 +3,7 @@ import * as Utilities from "./utilities.js";
 import * as GameMenu from "./game_menu.js";
 import Grid from "./grid.js";
 import Square from "./square.js";
-import { STAGE, CANVAS } from "./main.js";
+import { resizeCanvas } from "./main.js";
 import {
     IPiece,
     SPiece,
@@ -47,6 +47,7 @@ var NEXT_PIECE_ARGS: PieceArgs;
 var NEXT_PIECE: Piece | null = null; // has the next piece object
 
 var GRID: Grid;
+var STAGE: createjs.Stage;
 
 // keys being pressed/held
 var KEYS_HELD = {
@@ -57,11 +58,12 @@ var KEYS_HELD = {
 /**
  * Initialize the game module (call only once at the start).
  */
-export function init() {
+export function init(canvas: HTMLCanvasElement) {
     GameMenu.init({
         togglePaused: togglePaused,
         clearGame: clear,
     });
+    STAGE = new createjs.Stage(canvas);
 }
 
 /**
@@ -89,8 +91,7 @@ export function start() {
     GAME_MENU_WIDTH = GameMenu.getWidth();
 
     // resize the canvas, according to the 'grid' + 'game menu' dimensions
-    CANVAS.width = GRID.width + GAME_MENU_WIDTH;
-    CANVAS.height = canvasHeight;
+    resizeCanvas(GRID.width + GAME_MENU_WIDTH, canvasHeight);
 
     NEXT_PIECE_ARGS = chooseRandomPiece();
     newPiece();
@@ -216,8 +217,7 @@ function clear() {
     ACTIVE_PIECE = null;
     SOFT_DROP_ACTIVE = false;
 
-    STAGE.removeAllChildren();
-    STAGE.update();
+    cleanStage();
 }
 
 /**
@@ -429,6 +429,21 @@ function keyUpListener(event: KeyboardEvent) {
  */
 export function getGrid() {
     return GRID;
+}
+
+/**
+ * Add an element to the stage (to be displayed in the canvas).
+ */
+export function addToStage(element: createjs.DisplayObject) {
+    STAGE.addChild(element);
+}
+
+/**
+ * Remove all the elements in the stage.
+ */
+function cleanStage() {
+    STAGE.removeAllChildren();
+    STAGE.update();
 }
 
 /**

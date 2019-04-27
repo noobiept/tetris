@@ -1,7 +1,5 @@
 import * as Options from "./options.js";
 import * as Game from "./game.js";
-import * as Utilities from "./utilities.js";
-import { CANVAS } from "./main.js";
 import { createSlider } from "./slider.js";
 
 // reference to the html elements
@@ -13,10 +11,6 @@ var HELP_MENU: HTMLElement;
 // either the main menu, options menu or the help menu
 var ACTIVE_MENU: HTMLElement | undefined;
 
-// the canvas dimensions (for the main menu only, it may change for the game)
-var CANVAS_WIDTH = 600;
-var CANVAS_HEIGHT = 450;
-
 /**
  * Initialize the main menu.
  */
@@ -24,9 +18,6 @@ export function init() {
     MAIN_MENU = document.getElementById("MainMenu")!;
     OPTIONS_MENU = document.getElementById("Options")!;
     HELP_MENU = document.getElementById("Help")!;
-
-    CANVAS.width = CANVAS_WIDTH;
-    CANVAS.height = CANVAS_HEIGHT;
 
     initMainMenu();
     initOptions();
