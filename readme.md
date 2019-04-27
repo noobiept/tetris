@@ -26,15 +26,3 @@
 
 -   `npm run dev`: Run the typescript compiler and a local server (in `localhost:8000`).
 -   `npm run build`: Run the release build (output located at `/release/(name)_(version)/`).
-
-# Dependencies
-
--   jquery : 2.2
--   jqueryui : 1.11
-
-    -   slider
-    -   dialog
-    -   blitzer theme
-
--   createjs
-    -   easeljs : 0.8
