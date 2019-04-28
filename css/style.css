@@ -189,6 +189,10 @@ em,
     border-color: rgba(255, 255, 255, 0.3);
 }
 
+.dialogTitle {
+    font-weight: bold;
+}
+
 .dialogBody {
     margin: 20px 0;
 }

@@ -1,4 +1,5 @@
 export interface DialogArgs {
+    title: string;
     body: string;
     onClose: () => void;
 }
@@ -6,11 +7,13 @@ export interface DialogArgs {
 export function createDialog(args: DialogArgs) {
     const overlay = document.createElement("div");
     const container = document.createElement("div");
+    const title = document.createElement("div");
     const body = document.createElement("div");
     const horizontalRule = document.createElement("hr");
     const buttons = document.createElement("div");
     const ok = document.createElement("button");
 
+    title.className = "dialogTitle";
     body.className = "dialogBody";
     overlay.className = "dialogOverlay";
     container.className = "dialog";
@@ -33,8 +36,10 @@ export function createDialog(args: DialogArgs) {
     ok.innerText = "Ok";
     ok.onclick = removeDialog;
     body.innerHTML = args.body;
+    title.innerHTML = args.title;
 
     buttons.appendChild(ok);
+    container.appendChild(title);
     container.appendChild(body);
     container.appendChild(horizontalRule);
     container.appendChild(buttons);

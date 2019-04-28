@@ -306,8 +306,14 @@ function end() {
     clearEvents();
     setPaused(true);
 
+    const endMessage = `
+        Level: ${CURRENT_LEVEL}<br />
+        Lines cleared: ${CLEARED_LINES}
+    `;
+
     createDialog({
-        body: "Game Over!",
+        title: "Game Over!",
+        body: endMessage,
         onClose: () => {
             clear();
             start();
