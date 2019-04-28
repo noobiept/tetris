@@ -11,7 +11,7 @@ export interface OptionsData {
 var OPTIONS: OptionsData = {
     numberOfColumns: 10,
     numberOfLines: 20,
-    startingLevel: 0,
+    startingLevel: 1,
     linesToLevelUp: 5,
 };
 

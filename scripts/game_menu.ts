@@ -81,10 +81,10 @@ export function setClearedLines(value: number) {
 export function setCurrentLevel(level: number, maxLevel: number) {
     var text = "";
 
-    if (level >= maxLevel - 1) {
+    if (level >= maxLevel) {
         text = "max";
     } else {
-        text = (level + 1).toString();
+        text = level.toString();
     }
 
     CURRENT_LEVEL.innerHTML = text;

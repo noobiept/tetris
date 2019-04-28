@@ -191,6 +191,7 @@ em,
 
 .dialogTitle {
     font-weight: bold;
+    margin: 10px;
 }
 
 .dialogBody {

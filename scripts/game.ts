@@ -30,7 +30,7 @@ var HORIZONTAL_COUNT = 0;
 var DELAY_PER_LEVEL = [600, 480, 384, 307, 246, 197, 157, 126, 101, 81];
 
 var SOFT_DROP_ACTIVE = false;
-var CURRENT_LEVEL = 0;
+var CURRENT_LEVEL = 1; // starts at 1 instead of 0
 
 // number of cleared lines so far (count)
 var CLEARED_LINES = 0;
@@ -259,14 +259,18 @@ export function oneMoreClearedLine() {
  * Set the current level. Will influence the difficulty of the game.
  */
 function setLevel(level: number) {
+    if (level < 1) {
+        level = 1;
+    }
+
     var maxLevel = getMaxLevel();
 
-    if (level >= maxLevel - 1) {
-        level = maxLevel - 1;
+    if (level >= maxLevel) {
+        level = maxLevel;
     }
 
     CURRENT_LEVEL = level;
-    DELAY_LIMIT = DELAY_PER_LEVEL[CURRENT_LEVEL];
+    DELAY_LIMIT = DELAY_PER_LEVEL[CURRENT_LEVEL - 1];
 
     GameMenu.setCurrentLevel(CURRENT_LEVEL, maxLevel);
 }
