@@ -325,7 +325,8 @@ function end() {
 
     const endMessage = `
         Level: ${CURRENT_LEVEL}<br />
-        Lines cleared: ${CLEARED_LINES}
+        Lines cleared: ${CLEARED_LINES}<br />
+        Time: ${Utilities.timeToString(TIMER.getCount())}
     `;
 
     createDialog({

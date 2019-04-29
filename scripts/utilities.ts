@@ -73,3 +73,11 @@ export const EVENT_KEY = {
 export function getRandomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+/**
+ * Convert a time value into a displayable string.
+ */
+export function timeToString(milliseconds: number) {
+    const seconds = milliseconds / 1000;
+    return seconds.toFixed(1) + "s";
+}

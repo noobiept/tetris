@@ -30,4 +30,8 @@ export default class Timer {
         this.count = 0;
         this.args.onChange(0);
     }
+
+    getCount() {
+        return this.count;
+    }
 }

@@ -1,4 +1,5 @@
 import * as MainMenu from "./main_menu.js";
+import { timeToString } from "./utilities.js";
 
 export interface InitArgs {
     togglePaused: () => void;
@@ -105,6 +106,5 @@ export function updatePauseResume(paused: boolean) {
  * Update the timer UI. We receive the time value in milliseconds.
  */
 export function updateTimer(timeMilliseconds: number) {
-    const seconds = timeMilliseconds / 1000;
-    TIMER.innerText = seconds.toFixed(1) + "s";
+    TIMER.innerText = timeToString(timeMilliseconds);
 }
