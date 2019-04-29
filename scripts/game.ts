@@ -128,7 +128,6 @@ export function newPiece() {
         // the previous active piece now is part of the stack
         for (i = 0; i < ACTIVE_PIECE.all_squares.length; i++) {
             square = ACTIVE_PIECE.all_squares[i];
-
             square.isInStack = true;
         }
 

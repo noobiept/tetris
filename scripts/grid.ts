@@ -139,9 +139,10 @@ export default class Grid {
 
         square.column = column;
         square.line = line;
-
-        square.shape.x = this.separation_length + column * Square.size;
-        square.shape.y = this.separation_length + line * Square.size;
+        square.moveTo(
+            this.separation_length + column * Square.size,
+            this.separation_length + line * Square.size
+        );
     }
 
     /**
@@ -205,7 +206,7 @@ export default class Grid {
             // check if it doesn't collide with the stacked squares
             var nextSquare = this.grid_array[nextColumn][nextLine];
 
-            if (nextSquare && nextSquare.pieceObject !== piece) {
+            if (nextSquare && !nextSquare.isPartOfPiece(piece)) {
                 return false;
             }
         }
@@ -242,7 +243,7 @@ export default class Grid {
 
             var square = this.grid_array[column][line];
 
-            if (square && square.pieceObject !== piece) {
+            if (square && !square.isPartOfPiece(piece)) {
                 return false;
             }
         }
@@ -296,8 +297,7 @@ export default class Grid {
 
             // we should have a complete line in this point?...
             if (square) {
-                this.container.removeChild(square.shape);
-
+                square.remove();
                 this.grid_array[column][clearedLine] = null;
             }
         }
@@ -308,7 +308,7 @@ export default class Grid {
                 square = this.grid_array[column][line];
 
                 if (square && square.isInStack) {
-                    square.shape.y += Square.size;
+                    square.moveBottom();
 
                     this.grid_array[column][line + 1] = this.grid_array[column][
                         line

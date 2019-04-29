@@ -18,12 +18,27 @@ export default class Piece {
     other_squares: Square[];
 
     constructor(args: PieceArgs) {
-        var color = args.color;
+        const color = args.color;
+        const isPartOfPiece = (piece: Piece) => {
+            return piece === this;
+        };
 
-        var pivot = new Square({ piece: this, color: args.pivotColor });
-        var square1 = new Square({ piece: this, color: color });
-        var square2 = new Square({ piece: this, color: color });
-        var square3 = new Square({ piece: this, color: color });
+        var pivot = new Square({
+            color: args.pivotColor,
+            isPartOfPiece: isPartOfPiece,
+        });
+        var square1 = new Square({
+            color: color,
+            isPartOfPiece: isPartOfPiece,
+        });
+        var square2 = new Square({
+            color: color,
+            isPartOfPiece: isPartOfPiece,
+        });
+        var square3 = new Square({
+            color: color,
+            isPartOfPiece: isPartOfPiece,
+        });
 
         this.args = args;
         this.current_rotation = 0;
@@ -37,7 +52,8 @@ export default class Piece {
      */
     addToContainer(container: createjs.Container) {
         for (var a = 0; a < this.all_squares.length; a++) {
-            container.addChild(this.all_squares[a].shape);
+            const square = this.all_squares[a];
+            square.addTo(container);
         }
     }
 
@@ -49,15 +65,16 @@ export default class Piece {
         var other = this.other_squares;
         var currentRotation = this.getCurrentRotation();
 
-        pivot.shape.x = x;
-        pivot.shape.y = y;
+        pivot.moveTo(x, y);
 
         for (var a = 0; a < currentRotation.length; a++) {
             var rotation = currentRotation[a];
             var square = other[a];
 
-            square.shape.x = x + rotation.column * Square.size;
-            square.shape.y = y + rotation.line * Square.size;
+            square.moveTo(
+                x + rotation.column * Square.size,
+                y + rotation.line * Square.size
+            );
         }
     }
 
@@ -122,14 +139,9 @@ export default class Piece {
      * Remove this piece from the game.
      */
     remove() {
-        var parent = this.pivot_square.shape.parent;
-        var all = this.all_squares;
-
-        // check if it is currently part of the canvas/stage
-        if (parent) {
-            for (var a = 0; a < all.length; a++) {
-                parent.removeChild(all[a].shape);
-            }
+        for (let a = 0; a < this.all_squares.length; a++) {
+            const square = this.all_squares[a];
+            square.remove();
         }
 
         this.all_squares.length = 0;
