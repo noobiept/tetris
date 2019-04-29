@@ -19,14 +19,10 @@ export function init(args: InitArgs) {
     GAME_MENU = document.getElementById("GameMenu")!;
 
     // :: Cleared Lines :: //
-    CLEARED_LINES = GAME_MENU.querySelector(
-        "#GameMenu-clearedLines span"
-    ) as HTMLElement;
+    CLEARED_LINES = document.getElementById("GameMenu-clearedLines")!;
 
     // :: Current Level :: //
-    CURRENT_LEVEL = GAME_MENU.querySelector(
-        "#GameMenu-currentLevel span"
-    ) as HTMLElement;
+    CURRENT_LEVEL = document.getElementById("GameMenu-currentLevel")!;
 
     // :: Timer :: //
     TIMER = document.getElementById("GameMenu-timer")!;
