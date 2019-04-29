@@ -15,6 +15,7 @@ import {
 } from "./all_pieces.js";
 import Piece, { PieceArgs } from "./piece.js";
 import { createDialog } from "./dialog.js";
+import Timer from "./timer.js";
 
 // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;
@@ -48,6 +49,7 @@ var NEXT_PIECE: Piece | null = null; // has the next piece object
 
 var GRID: Grid;
 var STAGE: createjs.Stage;
+var TIMER: Timer;
 
 // keys being pressed/held
 var KEYS_HELD = {
@@ -64,6 +66,13 @@ export function init(canvas: HTMLCanvasElement) {
         clearGame: clear,
     });
     STAGE = new createjs.Stage(canvas);
+
+    TIMER = new Timer({
+        interval: 100,
+        onChange: (time) => {
+            GameMenu.updateTimer(time);
+        },
+    });
 }
 
 /**
@@ -95,6 +104,9 @@ export function start() {
 
     NEXT_PIECE_ARGS = chooseRandomPiece();
     newPiece();
+
+    TIMER.reset();
+    TIMER.start();
 
     createjs.Ticker.addEventListener("tick", tick as (obj: Object) => void);
     document.addEventListener("keydown", keyDownListener);
@@ -214,6 +226,7 @@ function clear() {
     setPaused(false);
     GameMenu.hide();
 
+    TIMER.reset();
     ACTIVE_PIECE = null;
     SOFT_DROP_ACTIVE = false;
 
@@ -352,6 +365,13 @@ function setPaused(state: boolean) {
 
     if (ACTIVE_PIECE) {
         stopSoftDrop();
+    }
+
+    // stop/resume the timer
+    if (state === true) {
+        TIMER.stop();
+    } else {
+        TIMER.start();
     }
 
     GameMenu.updatePauseResume(state);

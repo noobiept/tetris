@@ -9,6 +9,7 @@ let GAME_MENU: HTMLElement; // the container of the game menu
 let CLEARED_LINES: HTMLElement;
 let CURRENT_LEVEL: HTMLElement;
 let PAUSE_RESUME: HTMLElement;
+let TIMER: HTMLElement;
 
 /**
  * Initialize the game menu elements.
@@ -17,24 +18,23 @@ export function init(args: InitArgs) {
     GAME_MENU = document.getElementById("GameMenu")!;
 
     // :: Cleared Lines :: //
-
     CLEARED_LINES = GAME_MENU.querySelector(
         "#GameMenu-clearedLines span"
     ) as HTMLElement;
 
     // :: Current Level :: //
-
     CURRENT_LEVEL = GAME_MENU.querySelector(
         "#GameMenu-currentLevel span"
     ) as HTMLElement;
 
-    // :: Pause / Resume :: //
+    // :: Timer :: //
+    TIMER = document.getElementById("GameMenu-timer")!;
 
+    // :: Pause / Resume :: //
     PAUSE_RESUME = document.getElementById("GameMenu-pauseResume")!;
     PAUSE_RESUME.addEventListener("click", args.togglePaused);
 
     // :: Quit :: //
-
     var quit = document.getElementById("GameMenu-quit")!;
     quit.addEventListener("click", function() {
         args.clearGame();
@@ -99,4 +99,12 @@ export function updatePauseResume(paused: boolean) {
     } else {
         PAUSE_RESUME.innerText = "Pause";
     }
+}
+
+/**
+ * Update the timer UI. We receive the time value in milliseconds.
+ */
+export function updateTimer(timeMilliseconds: number) {
+    const seconds = timeMilliseconds / 1000;
+    TIMER.innerText = seconds.toFixed(1) + "s";
 }
