@@ -11,7 +11,7 @@ export class Score {
     }
 
     lineCleared(level: number) {
-        this.score += 100 * level;
+        this.score += 50 * level;
         this.args.onChange(this.score);
     }
 
@@ -25,6 +25,7 @@ export class Score {
 
     reset() {
         this.score = 0;
+        this.args.onChange(0);
     }
 
     getCurrentScore() {

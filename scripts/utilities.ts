@@ -78,6 +78,6 @@ export function getRandomInt(min: number, max: number) {
  * Convert a time value into a displayable string.
  */
 export function timeToString(milliseconds: number) {
-    const seconds = milliseconds / 1000;
-    return seconds.toFixed(1) + "s";
+    const seconds = Math.round(milliseconds / 1000);
+    return seconds + "s";
 }

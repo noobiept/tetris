@@ -73,7 +73,7 @@ export function init(canvas: HTMLCanvasElement) {
         onChange: GameMenu.updateScore,
     });
 
-    const interval = 100;
+    const interval = 1000;
 
     TIMER = new Timer({
         interval: interval,
@@ -97,7 +97,6 @@ export function start() {
     GameMenu.setClearedLines(CLEARED_LINES);
 
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
-    SCORE.reset();
 
     MESSAGE_COUNT = document.getElementById("MessageCount")!;
     MESSAGE_TEXT = document.getElementById("MessageText")!;
@@ -117,6 +116,7 @@ export function start() {
 
     TIMER.reset();
     TIMER.start();
+    SCORE.reset();
 
     createjs.Ticker.addEventListener("tick", tick as (obj: Object) => void);
     document.addEventListener("keydown", keyDownListener);
