@@ -1,6 +1,7 @@
 import * as Options from "./options.js";
 import * as Utilities from "./utilities.js";
 import * as GameMenu from "./game_menu.js";
+import * as HighScore from "./high_score.js";
 import Grid from "./grid.js";
 import Square from "./square.js";
 import { resizeCanvas } from "./main.js";
@@ -50,6 +51,7 @@ var NEXT_PIECE: Piece | null = null; // has the next piece object
 var GRID: Grid;
 var STAGE: createjs.Stage;
 var TIMER: Timer;
+var SCORE: HighScore.Score;
 
 // keys being pressed/held
 var KEYS_HELD = {
@@ -67,10 +69,13 @@ export function init(canvas: HTMLCanvasElement) {
     });
     STAGE = new createjs.Stage(canvas);
 
+    const interval = 100;
+
     TIMER = new Timer({
-        interval: 100,
+        interval: interval,
         onChange: (time) => {
             GameMenu.updateTimer(time);
+            SCORE.timePassed(interval);
         },
     });
 }
@@ -88,6 +93,7 @@ export function start() {
     GameMenu.setClearedLines(CLEARED_LINES);
 
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
+    SCORE = new HighScore.Score();
 
     MESSAGE_COUNT = document.getElementById("MessageCount")!;
     MESSAGE_TEXT = document.getElementById("MessageText")!;
@@ -261,6 +267,8 @@ export function oneMoreClearedLine() {
     CLEARED_LINES++;
     GameMenu.setClearedLines(CLEARED_LINES);
 
+    SCORE.lineCleared(CURRENT_LEVEL);
+
     // move up one level, once the number of cleared lines is reached
     if (CLEARED_LINES % Options.getLinesToLevelUp() === 0) {
         setLevel(CURRENT_LEVEL + 1);
@@ -325,7 +333,8 @@ function end() {
     const endMessage = `
         Level: ${CURRENT_LEVEL}<br />
         Lines cleared: ${CLEARED_LINES}<br />
-        Time: ${Utilities.timeToString(TIMER.getCount())}
+        Time: ${Utilities.timeToString(TIMER.getCount())}<br />
+        Score: ${SCORE.getCurrentScore()}
     `;
 
     createDialog({
