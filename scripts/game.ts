@@ -67,7 +67,11 @@ export function init(canvas: HTMLCanvasElement) {
         togglePaused: togglePaused,
         clearGame: clear,
     });
+
     STAGE = new createjs.Stage(canvas);
+    SCORE = new HighScore.Score({
+        onChange: GameMenu.updateScore,
+    });
 
     const interval = 100;
 
@@ -93,7 +97,7 @@ export function start() {
     GameMenu.setClearedLines(CLEARED_LINES);
 
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
-    SCORE = new HighScore.Score();
+    SCORE.reset();
 
     MESSAGE_COUNT = document.getElementById("MessageCount")!;
     MESSAGE_TEXT = document.getElementById("MessageText")!;

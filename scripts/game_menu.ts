@@ -11,6 +11,7 @@ let CLEARED_LINES: HTMLElement;
 let CURRENT_LEVEL: HTMLElement;
 let PAUSE_RESUME: HTMLElement;
 let TIMER: HTMLElement;
+let SCORE: HTMLElement;
 
 /**
  * Initialize the game menu elements.
@@ -26,6 +27,9 @@ export function init(args: InitArgs) {
 
     // :: Timer :: //
     TIMER = document.getElementById("GameMenu-timer")!;
+
+    // :: Score :: //
+    SCORE = document.getElementById("GameMenu-score")!;
 
     // :: Pause / Resume :: //
     PAUSE_RESUME = document.getElementById("GameMenu-pauseResume")!;
@@ -103,4 +107,11 @@ export function updatePauseResume(paused: boolean) {
  */
 export function updateTimer(timeMilliseconds: number) {
     TIMER.innerText = timeToString(timeMilliseconds);
+}
+
+/**
+ * Update the score UI.
+ */
+export function updateScore(score: number) {
+    SCORE.innerText = score.toString();
 }
