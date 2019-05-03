@@ -1,34 +1,57 @@
-export interface ScoreArgs {
-    onChange: (score: number) => void;
+export interface ScoreData {
+    score: number;
+    linesCleared: number;
+    time: number;
 }
 
-export class Score {
-    private score = 0;
-    private args: ScoreArgs;
+let SCORES: ScoreData[] = []; // sorted by the 'score' property
+const MAX_SCORES = 10;
 
-    constructor(args: ScoreArgs) {
-        this.args = args;
+/**
+ * Load the given high-scores.
+ */
+export function load(scores?: ScoreData[]) {
+    if (scores) {
+        SCORES = scores;
+    }
+}
+
+/**
+ * Try to add a score to the high-score list. Its only added if there's an empty spot or if the new score is higher than existing ones.
+ * Returns wether the score was actually added or not.
+ */
+export function add(score: ScoreData) {
+    let added = false;
+
+    // haven't reached the limit yet, so just add the score
+    if (SCORES.length < MAX_SCORES) {
+        SCORES.push(score);
+        added = true;
     }
 
-    lineCleared(level: number) {
-        this.score += 50 * level;
-        this.args.onChange(this.score);
+    // delete an existing score if this score happens to be better than the worse score saved so far
+    else {
+        const worseScore = SCORES[SCORES.length - 1];
+
+        if (worseScore.score < score.score) {
+            SCORES.pop();
+            SCORES.push(score);
+            added = true;
+        }
     }
 
-    timePassed(milliseconds: number) {
-        const score = this.score - milliseconds / 1000;
-        const round = Math.round(score * 100) / 100;
-
-        this.score = round;
-        this.args.onChange(this.score);
+    if (added) {
+        SCORES.sort((a, b) => {
+            return a.score - b.score;
+        });
     }
 
-    reset() {
-        this.score = 0;
-        this.args.onChange(0);
-    }
+    return added;
+}
 
-    getCurrentScore() {
-        return this.score;
-    }
+/**
+ * Get the high-scores list.
+ */
+export function getHighScores() {
+    return SCORES;
 }

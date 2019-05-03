@@ -2,6 +2,7 @@ import * as Options from "./options.js";
 import * as Utilities from "./utilities.js";
 import * as GameMenu from "./game_menu.js";
 import * as HighScore from "./high_score.js";
+import Score from "./score.js";
 import Grid from "./grid.js";
 import Square from "./square.js";
 import { resizeCanvas } from "./main.js";
@@ -51,7 +52,7 @@ var NEXT_PIECE: Piece | null = null; // has the next piece object
 var GRID: Grid;
 var STAGE: createjs.Stage;
 var TIMER: Timer;
-var SCORE: HighScore.Score;
+var SCORE: Score;
 
 // keys being pressed/held
 var KEYS_HELD = {
@@ -69,7 +70,7 @@ export function init(canvas: HTMLCanvasElement) {
     });
 
     STAGE = new createjs.Stage(canvas);
-    SCORE = new HighScore.Score({
+    SCORE = new Score({
         onChange: GameMenu.updateScore,
     });
 
