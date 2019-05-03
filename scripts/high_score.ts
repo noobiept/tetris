@@ -18,7 +18,7 @@ export function load(scores?: ScoreData[]) {
 
 /**
  * Try to add a score to the high-score list. Its only added if there's an empty spot or if the new score is higher than existing ones.
- * Returns wether the score was actually added or not.
+ * If a score was actually added, it returns the position in the high-score list.
  */
 export function add(score: ScoreData) {
     let added = false;
@@ -42,11 +42,16 @@ export function add(score: ScoreData) {
 
     if (added) {
         SCORES.sort((a, b) => {
-            return a.score - b.score;
+            return b.score - a.score;
         });
-    }
 
-    return added;
+        // find the position of the score in the list
+        for (let a = 0; a < SCORES.length; a++) {
+            if (SCORES[a].score === score.score) {
+                return a + 1;
+            }
+        }
+    }
 }
 
 /**

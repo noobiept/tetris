@@ -335,11 +335,20 @@ function end() {
     clearEvents();
     setPaused(true);
 
+    const score = SCORE.getCurrentScore();
+    const time = TIMER.getCount();
+
+    const added = HighScore.add({
+        score: score,
+        linesCleared: CLEARED_LINES,
+        time: time,
+    });
+
     const endMessage = `
         Level: ${CURRENT_LEVEL}<br />
         Lines cleared: ${CLEARED_LINES}<br />
-        Time: ${Utilities.timeToString(TIMER.getCount())}<br />
-        Score: ${SCORE.getCurrentScore()}
+        Time: ${Utilities.timeToString(time)}<br />
+        Score: ${score} ${added && `(${Utilities.cardinalToOrdinal(added)})`}
     `;
 
     createDialog({
