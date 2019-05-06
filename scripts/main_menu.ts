@@ -2,10 +2,14 @@ import * as Options from "./options.js";
 import * as Game from "./game.js";
 import { createSlider } from "./slider.js";
 
-// reference to the html elements
-var MAIN_MENU: HTMLElement;
-var OPTIONS_MENU: HTMLElement;
-var HELP_MENU: HTMLElement;
+interface MenuPages {
+    main: HTMLElement;
+    options: HTMLElement;
+    highScores: HTMLElement;
+    help: HTMLElement;
+}
+
+var PAGES: MenuPages;
 
 // current active (shown) menu
 // either the main menu, options menu or the help menu
@@ -15,12 +19,16 @@ var ACTIVE_MENU: HTMLElement | undefined;
  * Initialize the main menu.
  */
 export function init() {
-    MAIN_MENU = document.getElementById("MainMenu")!;
-    OPTIONS_MENU = document.getElementById("Options")!;
-    HELP_MENU = document.getElementById("Help")!;
+    PAGES = {
+        main: document.getElementById("MainMenu")!,
+        options: document.getElementById("Options")!,
+        highScores: document.getElementById("HighScores")!,
+        help: document.getElementById("Help")!,
+    };
 
     initMainMenu();
     initOptions();
+    initHighScores();
     initHelp();
 }
 
@@ -86,7 +94,17 @@ function initOptions() {
     var back = document.getElementById("Options-back")!;
     back.onclick = function() {
         Options.save();
-        open();
+        open("main");
+    };
+}
+
+/**
+ * Initialize the high-scores menu elements.
+ */
+function initHighScores() {
+    const back = document.getElementById("HighScores-back")!;
+    back.onclick = function() {
+        open("main");
     };
 }
 
@@ -96,7 +114,7 @@ function initOptions() {
 function initHelp() {
     var back = document.getElementById("Help-back")!;
     back.onclick = function() {
-        open();
+        open("main");
     };
 }
 
@@ -104,9 +122,10 @@ function initHelp() {
  * Initialize the main menu elements.
  */
 function initMainMenu() {
-    var startGame = document.getElementById("MainMenu-startGame")!;
-    var options = document.getElementById("MainMenu-options")!;
-    var help = document.getElementById("MainMenu-help")!;
+    const startGame = document.getElementById("MainMenu-startGame")!;
+    const options = document.getElementById("MainMenu-options")!;
+    const highScores = document.getElementById("MainMenu-highScores")!;
+    const help = document.getElementById("MainMenu-help")!;
 
     // set events
     startGame.onclick = function() {
@@ -118,47 +137,26 @@ function initMainMenu() {
     };
 
     options.onclick = function() {
-        openOptions();
+        open("options");
+    };
+
+    highScores.onclick = function() {
+        open("highScores");
     };
 
     help.onclick = function() {
-        openHelp();
+        open("help");
     };
 }
 
 /**
- * Open the main menu.
- * You can start the game, open the options or the help menu from this.
+ * Open the given page in the main menu.
  */
-export function open() {
+export function open(pageName: keyof MenuPages) {
     if (ACTIVE_MENU) {
         ACTIVE_MENU.classList.add("hide");
     }
 
-    ACTIVE_MENU = MAIN_MENU;
-    ACTIVE_MENU.classList.remove("hide");
-}
-
-/**
- * Open the options menu.
- */
-function openOptions() {
-    if (ACTIVE_MENU) {
-        ACTIVE_MENU.classList.add("hide");
-    }
-
-    ACTIVE_MENU = OPTIONS_MENU;
-    OPTIONS_MENU.classList.remove("hide");
-}
-
-/**
- * Open the help menu.
- */
-export function openHelp() {
-    if (ACTIVE_MENU) {
-        ACTIVE_MENU.classList.add("hide");
-    }
-
-    ACTIVE_MENU = HELP_MENU;
+    ACTIVE_MENU = PAGES[pageName];
     ACTIVE_MENU.classList.remove("hide");
 }

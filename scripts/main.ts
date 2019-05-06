@@ -28,9 +28,9 @@ function initApp(data: AppStorage.StorageData) {
 
     if (!data["tetris_has_run_before"]) {
         AppStorage.setData({ tetris_has_run_before: true });
-        MainMenu.openHelp();
+        MainMenu.open("help");
     } else {
-        MainMenu.open();
+        MainMenu.open("main");
     }
 }
 

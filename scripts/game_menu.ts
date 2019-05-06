@@ -39,7 +39,7 @@ export function init(args: InitArgs) {
     var quit = document.getElementById("GameMenu-quit")!;
     quit.addEventListener("click", function() {
         args.clearGame();
-        MainMenu.open();
+        MainMenu.open("main");
     });
 }
 
