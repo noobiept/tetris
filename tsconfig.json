@@ -3,7 +3,8 @@
         "strict": true,
         "target": "es2017",
         "module": "es2015",
-        "outDir": "build"
+        "outDir": "build",
+        "sourceMap": true
     },
     "include": ["scripts/**/*"]
 }
