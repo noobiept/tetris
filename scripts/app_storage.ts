@@ -1,7 +1,9 @@
 import { OptionsData } from "./options.js";
+import { ScoreData } from "./high_score.js";
 
 export interface StorageData {
     tetris_options?: OptionsData;
+    tetris_high_score?: ScoreData[];
     tetris_has_run_before?: boolean;
 }
 

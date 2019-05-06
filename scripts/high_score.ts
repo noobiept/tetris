@@ -1,3 +1,5 @@
+import * as AppStorage from "./app_storage.js";
+
 export interface ScoreData {
     score: number;
     linesCleared: number;
@@ -44,6 +46,7 @@ export function add(score: ScoreData) {
         SCORES.sort((a, b) => {
             return b.score - a.score;
         });
+        save();
 
         // find the position of the score in the list
         for (let a = 0; a < SCORES.length; a++) {
@@ -59,4 +62,13 @@ export function add(score: ScoreData) {
  */
 export function getHighScores() {
     return SCORES;
+}
+
+/**
+ * Save the current high-scores to the storage.
+ */
+function save() {
+    AppStorage.setData({
+        tetris_high_score: SCORES,
+    });
 }
