@@ -91,7 +91,7 @@ function initOptions() {
     optionsContainer.appendChild(linesToLevelUp);
 
     // :: back :: //
-    var back = document.getElementById("Options-back")!;
+    var back = PAGES.options.querySelector(".backButton") as HTMLElement;
     back.onclick = function() {
         Options.save();
         open("main");
@@ -102,7 +102,7 @@ function initOptions() {
  * Initialize the high-scores menu elements.
  */
 function initHighScores() {
-    const back = document.getElementById("HighScores-back")!;
+    const back = PAGES.highScores.querySelector(".backButton") as HTMLElement;
     back.onclick = function() {
         open("main");
     };
@@ -112,7 +112,7 @@ function initHighScores() {
  * Initialize the help menu elements.
  */
 function initHelp() {
-    var back = document.getElementById("Help-back")!;
+    var back = PAGES.help.querySelector(".backButton") as HTMLElement;
     back.onclick = function() {
         open("main");
     };
@@ -129,10 +129,7 @@ function initMainMenu() {
 
     // set events
     startGame.onclick = function() {
-        if (ACTIVE_MENU) {
-            ACTIVE_MENU.classList.add("hide");
-        }
-
+        hideMenu();
         Game.start();
     };
 
@@ -153,10 +150,17 @@ function initMainMenu() {
  * Open the given page in the main menu.
  */
 export function open(pageName: keyof MenuPages) {
-    if (ACTIVE_MENU) {
-        ACTIVE_MENU.classList.add("hide");
-    }
+    hideMenu();
 
     ACTIVE_MENU = PAGES[pageName];
     ACTIVE_MENU.classList.remove("hide");
+}
+
+/**
+ * Hide the currently active menu.
+ */
+function hideMenu() {
+    if (ACTIVE_MENU) {
+        ACTIVE_MENU.classList.add("hide");
+    }
 }

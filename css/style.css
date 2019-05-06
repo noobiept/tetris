@@ -40,18 +40,14 @@ em,
     width: 200px;
 }
 
-#MainMenu,
-#Options,
-#Help,
-#HighScores {
+.menuPage {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-#Options-back,
-#Help-back {
+.backButton {
     width: 200px;
     margin: auto;
 }
