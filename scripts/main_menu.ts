@@ -1,6 +1,8 @@
 import * as Options from "./options.js";
 import * as Game from "./game.js";
 import { createSlider } from "./slider.js";
+import { getHighScores } from "./high_score.js";
+import { timeToString } from "./utilities.js";
 
 interface MenuPages {
     main: HTMLElement;
@@ -138,6 +140,7 @@ function initMainMenu() {
     };
 
     highScores.onclick = function() {
+        updateHighScoreTable();
         open("highScores");
     };
 
@@ -162,5 +165,52 @@ export function open(pageName: keyof MenuPages) {
 function hideMenu() {
     if (ACTIVE_MENU) {
         ACTIVE_MENU.classList.add("hide");
+    }
+}
+
+/**
+ * Update the high-score table with the most recent scores.
+ */
+function updateHighScoreTable() {
+    const scores = getHighScores();
+    const container = document.getElementById("HighScores-table")!;
+
+    // clear the previous table
+    container.innerHTML = "";
+
+    // add the headers
+    const headers = ["", "Score", "Lines Cleared", "Time"];
+    const tr = document.createElement("tr");
+
+    for (let a = 0; a < headers.length; a++) {
+        const name = headers[a];
+        const th = document.createElement("th");
+
+        th.innerText = name;
+        tr.appendChild(th);
+    }
+
+    container.appendChild(tr);
+
+    // add the scores
+    for (let a = 0; a < scores.length; a++) {
+        const score = scores[a];
+        const tr = document.createElement("tr");
+        const position = document.createElement("td");
+        const scoreTd = document.createElement("td");
+        const linesCleared = document.createElement("td");
+        const time = document.createElement("td");
+
+        position.innerText = (a + 1).toString();
+        scoreTd.innerText = score.score.toString();
+        linesCleared.innerText = score.linesCleared.toString();
+        time.innerText = timeToString(score.time);
+
+        tr.appendChild(position);
+        tr.appendChild(scoreTd);
+        tr.appendChild(linesCleared);
+        tr.appendChild(time);
+
+        container.appendChild(tr);
     }
 }
