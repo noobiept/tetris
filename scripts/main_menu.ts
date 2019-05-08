@@ -173,24 +173,10 @@ function hideMenu() {
  */
 function updateHighScoreTable() {
     const scores = getHighScores();
-    const container = document.getElementById("HighScores-table")!;
+    const container = document.getElementById("HighScores-tbody")!;
 
     // clear the previous table
     container.innerHTML = "";
-
-    // add the headers
-    const headers = ["", "Score", "Lines Cleared", "Time"];
-    const tr = document.createElement("tr");
-
-    for (let a = 0; a < headers.length; a++) {
-        const name = headers[a];
-        const th = document.createElement("th");
-
-        th.innerText = name;
-        tr.appendChild(th);
-    }
-
-    container.appendChild(tr);
 
     // add the scores
     for (let a = 0; a < scores.length; a++) {

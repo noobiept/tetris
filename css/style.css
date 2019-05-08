@@ -208,7 +208,7 @@ em,
 
 /* :: High-score page :: */
 
-#HighScores-table tr:nth-child(odd) {
+#HighScores-tbody tr:nth-child(odd) {
     background-color: rgba(252, 211, 161, 0.2);
 }
 
