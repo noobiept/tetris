@@ -170,7 +170,7 @@ export function newPiece() {
     }
 
     // we randomly get a new piece, for next time
-    NEXT_PIECE_ARGS = chooseRandomPiece();
+    NEXT_PIECE_ARGS = chooseRandomPiece(pieceArgs);
 
     // and show it in the game menu
     showNextPiece(NEXT_PIECE_ARGS);
@@ -186,7 +186,7 @@ export function newPiece() {
 /**
  * Randomly choose the class of a piece.
  */
-function chooseRandomPiece() {
+function chooseRandomPiece(ignore?: PieceArgs) {
     var possiblePieces = [
         IPiece,
         SPiece,
@@ -196,6 +196,12 @@ function chooseRandomPiece() {
         JPiece,
         LPiece,
     ];
+
+    // remove the given ignore piece (so it doesn't appear again)
+    if (ignore) {
+        possiblePieces = possiblePieces.filter((piece) => piece !== ignore);
+    }
+
     var choose = Utilities.getRandomInt(0, possiblePieces.length - 1);
 
     return possiblePieces[choose];
