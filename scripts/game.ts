@@ -66,7 +66,7 @@ var KEYS_HELD = {
 export function init(canvas: HTMLCanvasElement) {
     GameMenu.init({
         togglePaused: togglePaused,
-        clearGame: clear,
+        quitGame: quitGame,
     });
 
     STAGE = new createjs.Stage(canvas);
@@ -359,6 +359,22 @@ function end() {
             start();
         },
     });
+}
+
+/**
+ * Save the current score and clear the game state.
+ */
+function quitGame() {
+    const score = SCORE.getCurrentScore();
+    const time = TIMER.getCount();
+
+    HighScore.add({
+        score: score,
+        linesCleared: CLEARED_LINES,
+        time: time,
+    });
+
+    clear();
 }
 
 /**

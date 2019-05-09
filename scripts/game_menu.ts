@@ -3,7 +3,7 @@ import { timeToString } from "./utilities.js";
 
 export interface InitArgs {
     togglePaused: () => void;
-    clearGame: () => void;
+    quitGame: () => void;
 }
 
 let GAME_MENU: HTMLElement; // the container of the game menu
@@ -38,7 +38,7 @@ export function init(args: InitArgs) {
     // :: Quit :: //
     var quit = document.getElementById("GameMenu-quit")!;
     quit.addEventListener("click", function() {
-        args.clearGame();
+        args.quitGame();
         MainMenu.open("main");
     });
 }
