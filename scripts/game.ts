@@ -354,7 +354,9 @@ function end() {
         Level: ${CURRENT_LEVEL}<br />
         Lines cleared: ${CLEARED_LINES}<br />
         Time: ${Utilities.timeToString(time)}<br />
-        Score: ${score} ${added && `(${Utilities.cardinalToOrdinal(added)})`}
+        Score: ${score} ${
+        added ? `(${Utilities.cardinalToOrdinal(added)})` : ""
+    }
     `;
 
     createDialog({
