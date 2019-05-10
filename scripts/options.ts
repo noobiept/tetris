@@ -5,6 +5,7 @@ export interface OptionsData {
     numberOfLines: number;
     startingLevel: number;
     linesToLevelUp: number;
+    ghostPiece: boolean;
 }
 
 // default options
@@ -13,6 +14,7 @@ var OPTIONS: OptionsData = {
     numberOfLines: 20,
     startingLevel: 1,
     linesToLevelUp: 5,
+    ghostPiece: true,
 };
 
 /**
@@ -41,6 +43,10 @@ export function load(options?: OptionsData) {
 
         if (Number.isInteger(options.linesToLevelUp)) {
             OPTIONS.linesToLevelUp = options.linesToLevelUp;
+        }
+
+        if (typeof options.ghostPiece === "boolean") {
+            OPTIONS.ghostPiece = options.ghostPiece;
         }
     }
 }
@@ -99,4 +105,12 @@ export function getLinesToLevelUp() {
  */
 export function setLinesToLevelUp(lines: number) {
     OPTIONS.linesToLevelUp = lines;
+}
+
+export function getGhostPiece() {
+    return OPTIONS.ghostPiece;
+}
+
+export function setGhostPiece(value: boolean) {
+    OPTIONS.ghostPiece = value;
 }

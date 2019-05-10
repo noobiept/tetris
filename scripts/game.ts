@@ -182,11 +182,13 @@ export function newPiece() {
     }
 
     // add the ghost piece
-    GHOST_PIECE = new Piece({
-        ...pieceArgs,
-        ...GhostPiece,
-    });
-    GHOST_PIECE.addToContainer(GRID.container);
+    if (Options.getGhostPiece()) {
+        GHOST_PIECE = new Piece({
+            ...pieceArgs,
+            ...GhostPiece,
+        });
+        GHOST_PIECE.addToContainer(GRID.container);
+    }
 
     // add the active piece (added after the ghost piece so it is drawn on top of it (if matching the same space)
     ACTIVE_PIECE = new Piece(pieceArgs);
@@ -285,6 +287,7 @@ function clear() {
 
     TIMER.reset();
     ACTIVE_PIECE = null;
+    GHOST_PIECE = null;
     SOFT_DROP_ACTIVE = false;
 
     cleanStage();

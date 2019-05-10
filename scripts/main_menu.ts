@@ -92,6 +92,15 @@ function initOptions() {
     });
     optionsContainer.appendChild(linesToLevelUp);
 
+    // :: ghost piece :: //
+    const ghostPiece = document.getElementById(
+        "Options-ghostPiece"
+    ) as HTMLInputElement;
+    ghostPiece.checked = Options.getGhostPiece();
+    ghostPiece.onchange = function() {
+        Options.setGhostPiece(ghostPiece.checked);
+    };
+
     // :: back :: //
     var back = PAGES.options.querySelector(".backButton") as HTMLElement;
     back.onclick = function() {
