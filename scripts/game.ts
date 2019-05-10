@@ -14,6 +14,7 @@ import {
     OPiece,
     JPiece,
     LPiece,
+    GhostPiece,
 } from "./all_pieces.js";
 import Piece, { PieceArgs } from "./piece.js";
 import { createDialog } from "./dialog.js";
@@ -175,17 +176,24 @@ export function newPiece() {
     // and show it in the game menu
     showNextPiece(NEXT_PIECE_ARGS);
 
-    ACTIVE_PIECE = new Piece(pieceArgs);
-    ACTIVE_PIECE.addToContainer(GRID.container);
-    GRID.addPiece(ACTIVE_PIECE, pivotColumn, pivotLine);
-
     // only one ghost piece in the game
     if (GHOST_PIECE) {
         GHOST_PIECE.remove();
     }
 
-    GHOST_PIECE = new Piece(pieceArgs);
+    // add the ghost piece
+    GHOST_PIECE = new Piece({
+        ...pieceArgs,
+        ...GhostPiece,
+    });
     GHOST_PIECE.addToContainer(GRID.container);
+
+    // add the active piece (added after the ghost piece so it is drawn on top of it (if matching the same space)
+    ACTIVE_PIECE = new Piece(pieceArgs);
+    ACTIVE_PIECE.addToContainer(GRID.container);
+    GRID.addPiece(ACTIVE_PIECE, pivotColumn, pivotLine);
+
+    // needs to be updated after we add the active piece
     updateGhostPiecePosition();
 
     // reset the counter that deals with the movement of the active piece (since we added a new one)

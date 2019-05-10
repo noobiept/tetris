@@ -1,5 +1,11 @@
 import { PieceArgs } from "./piece.js";
 
+// used to help the player to know where the active piece will end up at
+export const GhostPiece = Object.freeze({
+    color: "rgb(128, 128, 128)",
+    pivotColor: "rgba(128, 128, 128, 0.8)",
+});
+
 export const IPiece: PieceArgs = Object.freeze({
     possibleRotations: [
         // its relative to the pivot square
