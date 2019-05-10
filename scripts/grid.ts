@@ -321,4 +321,45 @@ export default class Grid {
 
         Game.oneMoreClearedLine();
     }
+
+    /**
+     * Find the last/bottom position this piece can be at, before it reaches the stack or the bottom of the grid.
+     */
+    findLastPossiblePosition(piece: Piece) {
+        let count = 0; // how far we gone down
+        let positions = piece.all_squares.map((square) => {
+            return square.getPosition();
+        });
+        let stop = false;
+
+        while (!stop) {
+            for (let a = 0; a < positions.length; a++) {
+                const position = positions[a];
+                const nextLine = position.line + count + 1;
+                const nextSquare = this.grid_array[position.column][nextLine];
+
+                // check if we're not past the grid's limits
+                // we're only changing the line value, so don't need to check for columns
+                if (nextLine < 0 || nextLine >= this.numberOfLines) {
+                    stop = true;
+                    break;
+                }
+
+                // check if
+                if (nextSquare && nextSquare.isInStack) {
+                    stop = true;
+                    break;
+                }
+            }
+
+            if (!stop) {
+                count++;
+            }
+        }
+
+        return {
+            column: piece.pivot_square.column,
+            line: piece.pivot_square.line + count,
+        };
+    }
 }

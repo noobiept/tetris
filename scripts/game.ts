@@ -225,6 +225,16 @@ function showNextPiece(nextPieceArgs: PieceArgs) {
 }
 
 /**
+ * Move this piece downward continuously until it reaches either the stack, or the bottom of the grid.
+ */
+function hardDrop(piece: Piece) {
+    const position = GRID.findLastPossiblePosition(piece);
+
+    GRID.clearPiece(piece);
+    GRID.addPiece(piece, position.column, position.line);
+}
+
+/**
  * Remove the tick and keyboard listeners.
  */
 function clearEvents() {
@@ -481,7 +491,7 @@ function keyUpListener(event: KeyboardEvent) {
 
         case Utilities.EVENT_KEY.space:
             if (activePiece) {
-                activePiece.hardDrop();
+                hardDrop(activePiece);
             }
             return false;
 

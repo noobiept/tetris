@@ -124,18 +124,6 @@ export default class Piece {
     }
 
     /**
-     * Move this piece downward continuously until it reaches either the stack, or the bottom of the grid.
-     */
-    hardDrop() {
-        var grid = Game.getGrid();
-
-        // move the piece bottom continuously until it can't move anymore
-        while (grid.movePiece(this, 0, 1)) {
-            // empty
-        }
-    }
-
-    /**
      * Remove this piece from the game.
      */
     remove() {

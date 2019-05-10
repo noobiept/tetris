@@ -99,4 +99,11 @@ export default class Square {
             parent.removeChild(this.shape);
         }
     }
+
+    getPosition() {
+        return {
+            column: this.column,
+            line: this.line,
+        };
+    }
 }
