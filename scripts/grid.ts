@@ -134,11 +134,13 @@ export default class Grid {
     /**
      * Add a square to the grid, given it column/line position.
      */
-    addSquare(square: Square, column: number, line: number) {
-        this.grid_array[column][line] = square;
+    addSquare(square: Square, column: number, line: number, addToGrid = true) {
+        if (addToGrid) {
+            this.grid_array[column][line] = square;
+            square.column = column;
+            square.line = line;
+        }
 
-        square.column = column;
-        square.line = line;
         square.moveTo(
             this.separation_length + column * Square.size,
             this.separation_length + line * Square.size
@@ -162,12 +164,17 @@ export default class Grid {
     /**
      * Add a piece to the grid.
      */
-    addPiece(pieceObject: Piece, column: number, line: number) {
+    addPiece(
+        pieceObject: Piece,
+        column: number,
+        line: number,
+        addToGrid = true
+    ) {
         var other = pieceObject.other_squares;
         var pivot = pieceObject.pivot_square;
         var currentRotation = pieceObject.getCurrentRotation();
 
-        this.addSquare(pivot, column, line);
+        this.addSquare(pivot, column, line, addToGrid);
 
         for (var a = 0; a < currentRotation.length; a++) {
             var rotation = currentRotation[a];
@@ -175,7 +182,7 @@ export default class Grid {
             var squareColumn = column + rotation.column;
             var squareLine = line + rotation.line;
 
-            this.addSquare(square, squareColumn, squareLine);
+            this.addSquare(square, squareColumn, squareLine, addToGrid);
         }
     }
 

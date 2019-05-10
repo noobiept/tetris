@@ -42,8 +42,8 @@ var GAME_MENU_WIDTH = 0; // in pixels
 var MESSAGE_COUNT: HTMLElement; // reference to the message's count html element
 var MESSAGE_TEXT: HTMLElement; // reference to the message's text html element
 
-// current active piece on the map (falling)
-var ACTIVE_PIECE: Piece | null = null;
+var ACTIVE_PIECE: Piece | null = null; // current active piece on the map (falling)
+var GHOST_PIECE: Piece | null = null; // shows where the active piece will end up at if no change is made
 
 // has the next piece class (so, 'IPiece' or 'TPiece', etc)
 var NEXT_PIECE_ARGS: PieceArgs;
@@ -179,6 +179,15 @@ export function newPiece() {
     ACTIVE_PIECE.addToContainer(GRID.container);
     GRID.addPiece(ACTIVE_PIECE, pivotColumn, pivotLine);
 
+    // only one ghost piece in the game
+    if (GHOST_PIECE) {
+        GHOST_PIECE.remove();
+    }
+
+    GHOST_PIECE = new Piece(pieceArgs);
+    GHOST_PIECE.addToContainer(GRID.container);
+    updateGhostPiecePosition();
+
     // reset the counter that deals with the movement of the active piece (since we added a new one)
     DELAY_COUNT = 0;
 }
@@ -222,6 +231,20 @@ function showNextPiece(nextPieceArgs: PieceArgs) {
     piece.addToContainer(STAGE);
 
     NEXT_PIECE = piece;
+}
+
+/**
+ * The 'ghost piece' is always mirroring the 'active piece', but its positioned in the last possible position (close to the stack or the end of the grid).
+ */
+function updateGhostPiecePosition() {
+    if (!ACTIVE_PIECE || !GHOST_PIECE) {
+        return;
+    }
+
+    const position = GRID.findLastPossiblePosition(ACTIVE_PIECE);
+
+    GHOST_PIECE.current_rotation = ACTIVE_PIECE.current_rotation;
+    GRID.addPiece(GHOST_PIECE, position.column, position.line, false);
 }
 
 /**
@@ -498,12 +521,14 @@ function keyUpListener(event: KeyboardEvent) {
         case Utilities.EVENT_KEY.a:
             if (activePiece) {
                 activePiece.rotateLeft();
+                updateGhostPiecePosition();
             }
             return false;
 
         case Utilities.EVENT_KEY.d:
             if (activePiece) {
                 activePiece.rotateRight();
+                updateGhostPiecePosition();
             }
             return false;
     }
@@ -581,12 +606,14 @@ function movement_tick(deltaTime: number) {
         if (KEYS_HELD.leftArrow) {
             HORIZONTAL_COUNT = 0;
             GRID.movePiece(ACTIVE_PIECE, -1, 0);
+            updateGhostPiecePosition();
         }
 
         // move right
         else if (KEYS_HELD.rightArrow) {
             HORIZONTAL_COUNT = 0;
             GRID.movePiece(ACTIVE_PIECE, 1, 0);
+            updateGhostPiecePosition();
         }
     }
 }
