@@ -90,10 +90,10 @@ export function init(canvas: HTMLCanvasElement) {
  * Start a new game.
  */
 export function start() {
-    var numberOfColumns = Options.getNumberOfColumns();
-    var numberOfLines = Options.getNumberOfLines();
+    var numberOfColumns = Options.get("numberOfColumns");
+    var numberOfLines = Options.get("numberOfLines");
 
-    setLevel(Options.getStartingLevel());
+    setLevel(Options.get("startingLevel"));
 
     CLEARED_LINES = 0;
     GameMenu.setClearedLines(CLEARED_LINES);
@@ -182,7 +182,7 @@ export function newPiece() {
     }
 
     // add the ghost piece
-    if (Options.getGhostPiece()) {
+    if (Options.get("ghostPiece")) {
         GHOST_PIECE = new Piece({
             ...pieceArgs,
             ...GhostPiece,
@@ -325,7 +325,7 @@ export function oneMoreClearedLine() {
     SCORE.lineCleared(CURRENT_LEVEL);
 
     // move up one level, once the number of cleared lines is reached
-    if (CLEARED_LINES % Options.getLinesToLevelUp() === 0) {
+    if (CLEARED_LINES % Options.get("linesToLevelUp") === 0) {
         setLevel(CURRENT_LEVEL + 1);
     }
 }

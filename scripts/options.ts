@@ -52,65 +52,18 @@ export function load(options?: OptionsData) {
 }
 
 /**
- * Return the grid's number of columns.
+ * Get the current value of the given option.
  */
-export function getNumberOfColumns() {
-    return OPTIONS.numberOfColumns;
+export function get<T extends keyof OptionsData>(option: T) {
+    return OPTIONS[option];
 }
 
 /**
- * Change the number of columns of the grid.
+ * Change the given option to a new value.
  */
-export function setNumberOfColumns(columns: number) {
-    OPTIONS.numberOfColumns = columns;
-}
-
-/**
- * Return the grid's number of lines.
- */
-export function getNumberOfLines() {
-    return OPTIONS.numberOfLines;
-}
-
-/**
- * Change the number of lines of the grid.
- */
-export function setNumberOfLines(lines: number) {
-    OPTIONS.numberOfLines = lines;
-}
-
-/**
- * Return the starting level of the game.
- */
-export function getStartingLevel() {
-    return OPTIONS.startingLevel;
-}
-
-/**
- * Change the starting level of the game.
- */
-export function setStartingLevel(level: number) {
-    OPTIONS.startingLevel = level;
-}
-
-/**
- * Return the number of cleared lines necessary to level up.
- */
-export function getLinesToLevelUp() {
-    return OPTIONS.linesToLevelUp;
-}
-
-/**
- * Change the number of cleared lines necessary to level up.
- */
-export function setLinesToLevelUp(lines: number) {
-    OPTIONS.linesToLevelUp = lines;
-}
-
-export function getGhostPiece() {
-    return OPTIONS.ghostPiece;
-}
-
-export function setGhostPiece(value: boolean) {
-    OPTIONS.ghostPiece = value;
+export function set<T extends keyof OptionsData>(
+    option: T,
+    value: OptionsData[T]
+) {
+    OPTIONS[option] = value;
 }

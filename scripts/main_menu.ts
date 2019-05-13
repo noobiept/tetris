@@ -45,10 +45,10 @@ function initOptions() {
         min: 10,
         max: 20,
         step: 1,
-        initialValue: Options.getNumberOfColumns(),
+        initialValue: Options.get("numberOfColumns"),
         description: "Columns: ",
         onSlide: (value: number) => {
-            Options.setNumberOfColumns(value);
+            Options.set("numberOfColumns", value);
         },
     });
     optionsContainer.appendChild(columns);
@@ -58,10 +58,10 @@ function initOptions() {
         min: 15,
         max: 25,
         step: 1,
-        initialValue: Options.getNumberOfLines(),
+        initialValue: Options.get("numberOfLines"),
         description: "Lines: ",
         onSlide: (value: number) => {
-            Options.setNumberOfLines(value);
+            Options.set("numberOfLines", value);
         },
     });
     optionsContainer.appendChild(lines);
@@ -71,10 +71,10 @@ function initOptions() {
         min: 1,
         max: Game.getMaxLevel(),
         step: 1,
-        initialValue: Options.getStartingLevel() + 1,
+        initialValue: Options.get("startingLevel") + 1,
         description: "Starting level: ",
         onSlide: (value: number) => {
-            Options.setStartingLevel(value - 1);
+            Options.set("startingLevel", value - 1);
         },
     });
     optionsContainer.appendChild(level);
@@ -84,10 +84,10 @@ function initOptions() {
         min: 1,
         max: 15,
         step: 1,
-        initialValue: Options.getLinesToLevelUp(),
+        initialValue: Options.get("linesToLevelUp"),
         description: "Lines to level up: ",
         onSlide: (value: number) => {
-            Options.setLinesToLevelUp(value);
+            Options.set("linesToLevelUp", value);
         },
     });
     optionsContainer.appendChild(linesToLevelUp);
@@ -96,9 +96,9 @@ function initOptions() {
     const ghostPiece = document.getElementById(
         "Options-ghostPiece"
     ) as HTMLInputElement;
-    ghostPiece.checked = Options.getGhostPiece();
+    ghostPiece.checked = Options.get("ghostPiece");
     ghostPiece.onchange = function() {
-        Options.setGhostPiece(ghostPiece.checked);
+        Options.set("ghostPiece", ghostPiece.checked);
     };
 
     // :: back :: //
