@@ -213,7 +213,7 @@ export default class Grid {
             // check if it doesn't collide with the stacked squares
             var nextSquare = this.grid_array[nextColumn][nextLine];
 
-            if (nextSquare && !nextSquare.isPartOfPiece(piece)) {
+            if (nextSquare && nextSquare.isInStack) {
                 return false;
             }
         }
@@ -250,7 +250,7 @@ export default class Grid {
 
             var square = this.grid_array[column][line];
 
-            if (square && !square.isPartOfPiece(piece)) {
+            if (square && square.isInStack) {
                 return false;
             }
         }

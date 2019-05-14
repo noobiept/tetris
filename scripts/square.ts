@@ -2,7 +2,6 @@ import Piece from "./piece.js";
 
 export interface SquareArgs {
     color: string;
-    isPartOfPiece: (piece: Piece) => boolean;
 }
 
 /**
@@ -16,7 +15,6 @@ export default class Square {
     column: number;
     line: number;
     private shape: createjs.Shape;
-    private args: SquareArgs;
 
     constructor(args: SquareArgs) {
         // width/height
@@ -28,15 +26,10 @@ export default class Square {
         g.beginFill(args.color);
         g.drawRoundRect(0, 0, size, size, 2);
 
-        this.args = args;
         this.isInStack = false;
         this.shape = shape;
         this.column = -1;
         this.line = -1;
-    }
-
-    isPartOfPiece(piece: Piece) {
-        return this.args.isPartOfPiece(piece);
     }
 
     /**

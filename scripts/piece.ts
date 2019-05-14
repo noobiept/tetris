@@ -19,25 +19,18 @@ export default class Piece {
 
     constructor(args: PieceArgs) {
         const color = args.color;
-        const isPartOfPiece = (piece: Piece) => {
-            return piece === this;
-        };
 
         var pivot = new Square({
             color: args.pivotColor,
-            isPartOfPiece: isPartOfPiece,
         });
         var square1 = new Square({
             color: color,
-            isPartOfPiece: isPartOfPiece,
         });
         var square2 = new Square({
             color: color,
-            isPartOfPiece: isPartOfPiece,
         });
         var square3 = new Square({
             color: color,
-            isPartOfPiece: isPartOfPiece,
         });
 
         this.args = args;
