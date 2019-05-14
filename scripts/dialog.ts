@@ -21,8 +21,11 @@ export function createDialog(args: DialogArgs) {
     ok.className = "dialogButton";
 
     const keyUp = (event: KeyboardEvent) => {
-        if (event.key === "Escape") {
-            removeDialog();
+        switch (event.key) {
+            case "Escape":
+            case "Enter":
+                removeDialog();
+                break;
         }
     };
     const removeDialog = () => {
