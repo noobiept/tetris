@@ -4,6 +4,7 @@ export interface ScoreArgs {
 
 export default class Score {
     private score = 0;
+    private multiplier = 1;
     private args: ScoreArgs;
 
     constructor(args: ScoreArgs) {
@@ -11,7 +12,7 @@ export default class Score {
     }
 
     lineCleared(level: number) {
-        this.score += 50 * level;
+        this.score += 50 * level * this.multiplier;
         this.args.onChange(this.score);
     }
 
@@ -21,6 +22,17 @@ export default class Score {
 
         this.score = round;
         this.args.onChange(this.score);
+    }
+
+    /**
+     * The score multiplier reduces the normal score gain in the game, based on the options that are currently set.
+     */
+    updateMultiplier(ghostPiece: boolean) {
+        if (ghostPiece) {
+            this.multiplier = 0.8;
+        } else {
+            this.multiplier = 1;
+        }
     }
 
     reset() {

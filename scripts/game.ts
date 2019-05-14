@@ -118,6 +118,7 @@ export function start() {
 
     TIMER.reset();
     TIMER.start();
+    SCORE.updateMultiplier(Options.get("ghostPiece"));
     SCORE.reset();
 
     createjs.Ticker.addEventListener("tick", tick as (obj: Object) => void);
