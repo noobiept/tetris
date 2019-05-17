@@ -31,7 +31,8 @@ var HORIZONTAL_COUNT = 0;
 // time between the downward movement of the active piece
 // it is reduced as the current level increases
 // value is in milliseconds (drops 20% per level)
-var DELAY_PER_LEVEL = [600, 480, 384, 307, 246, 197, 157, 126, 101, 81];
+const DELAY_PER_LEVEL = [600, 480, 384, 307, 246, 197, 157, 126, 101, 81];
+const SOFT_DROP_DELAY = 40; // downward movement when the 'soft drop' is active
 
 var SOFT_DROP_ACTIVE = false;
 var CURRENT_LEVEL = 1; // starts at 1 instead of 0
@@ -266,6 +267,9 @@ function hardDrop(piece: Piece) {
 
     GRID.clearPiece(piece);
     GRID.addPiece(piece, position.column, position.line);
+
+    // force the count to the limit so a new piece is added immediately after
+    DELAY_COUNT = DELAY_LIMIT;
 }
 
 /**
@@ -580,28 +584,16 @@ function tick(event: createjs.TickerEvent) {
         return;
     }
 
-    // move the active piece to the left/right
-    movement_tick(event.delta);
+    const delta = event.delta;
 
-    // move the active piece to the bottom (if the limit has been reached)
-    DELAY_COUNT += event.delta;
+    // move the piece to the position below
+    const moved = tickDownMovement(delta);
 
-    var limit = DELAY_LIMIT;
-
-    // move faster if the soft drop is active
-    if (SOFT_DROP_ACTIVE) {
-        limit = 40;
-    }
-
-    if (DELAY_COUNT >= limit && ACTIVE_PIECE) {
-        DELAY_COUNT = 0;
-
-        // move bottom
-        var successful = GRID.movePiece(ACTIVE_PIECE, 0, 1);
-
-        if (!successful) {
-            newPiece();
-        }
+    if (!moved) {
+        newPiece();
+    } else {
+        // move the active piece to the left/right
+        tickHorizontalMovement(delta);
     }
 
     STAGE.update();
@@ -610,7 +602,7 @@ function tick(event: createjs.TickerEvent) {
 /**
  * Deal with the horizontal movement of the active piece.
  */
-function movement_tick(deltaTime: number) {
+function tickHorizontalMovement(deltaTime: number) {
     HORIZONTAL_COUNT += deltaTime;
 
     if (HORIZONTAL_COUNT >= HORIZONTAL_LIMIT && ACTIVE_PIECE) {
@@ -628,4 +620,29 @@ function movement_tick(deltaTime: number) {
             updateGhostPiecePosition();
         }
     }
+}
+
+/**
+ * Move the active piece to the position below, at a given interval (based on the delay count/limit).
+ * Returns a boolean that tells whether the active piece was able to move down or not.
+ */
+function tickDownMovement(delta: number) {
+    let limit = DELAY_LIMIT;
+
+    // move the active piece to the bottom (if the limit has been reached)
+    DELAY_COUNT += delta;
+
+    // move faster if the soft drop is active
+    if (SOFT_DROP_ACTIVE) {
+        limit = SOFT_DROP_DELAY;
+    }
+
+    if (DELAY_COUNT >= limit && ACTIVE_PIECE) {
+        DELAY_COUNT = 0;
+
+        // move bottom
+        return GRID.movePiece(ACTIVE_PIECE, 0, 1);
+    }
+
+    return true;
 }
