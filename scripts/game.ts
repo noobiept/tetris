@@ -195,7 +195,7 @@ export function newPiece() {
     // add the active piece (added after the ghost piece so it is drawn on top of it (if matching the same space)
     ACTIVE_PIECE = new Piece(pieceArgs);
     ACTIVE_PIECE.addToContainer(GRID.container);
-    GRID.addPiece(ACTIVE_PIECE, pivotColumn, pivotLine);
+    GRID.addPiece(ACTIVE_PIECE, { column: pivotColumn, line: pivotLine });
 
     // needs to be updated after we add the active piece
     updateGhostPiecePosition();
@@ -256,7 +256,7 @@ function updateGhostPiecePosition() {
     const position = GRID.findLastPossiblePosition(ACTIVE_PIECE);
 
     GHOST_PIECE.current_rotation = ACTIVE_PIECE.current_rotation;
-    GRID.addPiece(GHOST_PIECE, position.column, position.line, false);
+    GRID.addPiece(GHOST_PIECE, position, false);
 }
 
 /**
@@ -266,7 +266,7 @@ function hardDrop(piece: Piece) {
     const position = GRID.findLastPossiblePosition(piece);
 
     GRID.clearPiece(piece);
-    GRID.addPiece(piece, position.column, position.line);
+    GRID.addPiece(piece, position);
 
     // force the count to the limit so a new piece is added immediately after
     DELAY_COUNT = DELAY_LIMIT;

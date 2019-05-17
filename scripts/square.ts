@@ -1,4 +1,4 @@
-import Piece from "./piece.js";
+import { GridPosition } from "./grid.js";
 
 export interface SquareArgs {
     color: string;
@@ -12,8 +12,7 @@ export default class Square {
     static size = 20;
 
     isInStack: boolean;
-    column: number;
-    line: number;
+    private position: GridPosition;
     private shape: createjs.Shape;
 
     constructor(args: SquareArgs) {
@@ -28,8 +27,10 @@ export default class Square {
 
         this.isInStack = false;
         this.shape = shape;
-        this.column = -1;
-        this.line = -1;
+        this.position = {
+            column: -1,
+            line: -1,
+        };
     }
 
     /**
@@ -93,10 +94,17 @@ export default class Square {
         }
     }
 
+    /**
+     * Set a new position in the grid for this square.
+     */
+    setPosition(position: GridPosition) {
+        this.position = position;
+    }
+
+    /**
+     * Get the current square position in the grid.
+     */
     getPosition() {
-        return {
-            column: this.column,
-            line: this.line,
-        };
+        return { ...this.position };
     }
 }

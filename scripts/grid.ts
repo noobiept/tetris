@@ -2,6 +2,11 @@ import * as Game from "./game.js";
 import Square from "./square.js";
 import Piece from "./piece.js";
 
+export interface GridPosition {
+    column: number;
+    line: number;
+}
+
 export interface GridArgs {
     columns: number;
     lines: number;
@@ -134,11 +139,13 @@ export default class Grid {
     /**
      * Add a square to the grid, given it column/line position.
      */
-    addSquare(square: Square, column: number, line: number, addToGrid = true) {
+    addSquare(square: Square, position: GridPosition, addToGrid = true) {
+        const column = position.column;
+        const line = position.line;
+
         if (addToGrid) {
             this.grid_array[column][line] = square;
-            square.column = column;
-            square.line = line;
+            square.setPosition(position);
         }
 
         square.moveTo(
@@ -150,39 +157,36 @@ export default class Grid {
     /**
      * Remove a piece from the grid.
      */
-    clearPiece(pieceObject: Piece) {
-        var all = pieceObject.all_squares;
-        var square;
+    clearPiece(piece: Piece) {
+        const all = piece.all_squares;
 
-        for (var i = 0; i < all.length; i++) {
-            square = all[i];
+        for (let i = 0; i < all.length; i++) {
+            const square = all[i];
+            const position = square.getPosition();
 
-            this.grid_array[square.column][square.line] = null;
+            this.grid_array[position.column][position.line] = null;
         }
     }
 
     /**
      * Add a piece to the grid.
      */
-    addPiece(
-        pieceObject: Piece,
-        column: number,
-        line: number,
-        addToGrid = true
-    ) {
-        var other = pieceObject.other_squares;
-        var pivot = pieceObject.pivot_square;
-        var currentRotation = pieceObject.getCurrentRotation();
+    addPiece(piece: Piece, position: GridPosition, addToGrid = true) {
+        var other = piece.other_squares;
+        var pivot = piece.pivot_square;
+        var currentRotation = piece.getCurrentRotation();
 
-        this.addSquare(pivot, column, line, addToGrid);
+        this.addSquare(pivot, position, addToGrid);
 
-        for (var a = 0; a < currentRotation.length; a++) {
-            var rotation = currentRotation[a];
-            var square = other[a];
-            var squareColumn = column + rotation.column;
-            var squareLine = line + rotation.line;
+        for (let a = 0; a < currentRotation.length; a++) {
+            const rotation = currentRotation[a];
+            const square = other[a];
+            const newPosition = {
+                column: position.column + rotation.column,
+                line: position.line + rotation.line,
+            };
 
-            this.addSquare(square, squareColumn, squareLine, addToGrid);
+            this.addSquare(square, newPosition, addToGrid);
         }
     }
 
@@ -195,10 +199,11 @@ export default class Grid {
         var pivot = piece.pivot_square;
 
         // check if we can move the piece
-        for (var a = 0; a < all.length; a++) {
-            var square = all[a];
-            var nextColumn = square.column + columnMove;
-            var nextLine = square.line + lineMove;
+        for (let a = 0; a < all.length; a++) {
+            const square = all[a];
+            const position = square.getPosition();
+            const nextColumn = position.column + columnMove;
+            const nextLine = position.line + lineMove;
 
             // check if we're not at the grid's limits
             if (
@@ -218,9 +223,15 @@ export default class Grid {
             }
         }
 
+        const pivotPosition = pivot.getPosition();
+        const newPosition = {
+            column: pivotPosition.column + columnMove,
+            line: pivotPosition.line + lineMove,
+        };
+
         // clear the previous position
         this.clearPiece(piece);
-        this.addPiece(piece, pivot.column + columnMove, pivot.line + lineMove);
+        this.addPiece(piece, newPosition);
 
         return true;
     }
@@ -229,14 +240,15 @@ export default class Grid {
      * Rotate a piece to the next rotation.
      */
     rotatePiece(piece: Piece, nextRotationPosition: number) {
-        var nextRotation = piece.args.possibleRotations[nextRotationPosition];
-        var pivot = piece.pivot_square;
+        const nextRotation = piece.args.possibleRotations[nextRotationPosition];
+        const pivot = piece.pivot_square;
+        const pivotPosition = pivot.getPosition();
 
         // check if you can rotate the piece
-        for (var a = 0; a < nextRotation.length; a++) {
-            var position = nextRotation[a];
-            var column = pivot.column + position.column;
-            var line = pivot.line + position.line;
+        for (let a = 0; a < nextRotation.length; a++) {
+            const position = nextRotation[a];
+            const column = pivotPosition.column + position.column;
+            const line = pivotPosition.line + position.line;
 
             // check if its within the grid's limits
             if (
@@ -257,7 +269,7 @@ export default class Grid {
 
         this.clearPiece(piece);
         piece.current_rotation = nextRotationPosition;
-        this.addPiece(piece, pivot.column, pivot.line);
+        this.addPiece(piece, pivotPosition);
 
         return true;
     }
@@ -333,6 +345,7 @@ export default class Grid {
      * Find the last/bottom position this piece can be at, before it reaches the stack or the bottom of the grid.
      */
     findLastPossiblePosition(piece: Piece) {
+        const pivotPosition = piece.pivot_square.getPosition();
         let count = 0; // how far we gone down
         let positions = piece.all_squares.map((square) => {
             return square.getPosition();
@@ -365,8 +378,8 @@ export default class Grid {
         }
 
         return {
-            column: piece.pivot_square.column,
-            line: piece.pivot_square.line + count,
+            column: pivotPosition.column,
+            line: pivotPosition.line + count,
         };
     }
 }
