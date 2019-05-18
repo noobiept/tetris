@@ -135,13 +135,10 @@ export function start() {
 export function newPiece() {
     clearMessage();
 
-    var i;
-    var square;
-
     if (ACTIVE_PIECE) {
         // the previous active piece now is part of the stack
-        for (i = 0; i < ACTIVE_PIECE.all_squares.length; i++) {
-            square = ACTIVE_PIECE.all_squares[i];
+        for (let i = 0; i < ACTIVE_PIECE.all_squares.length; i++) {
+            const square = ACTIVE_PIECE.all_squares[i];
             square.isInStack = true;
         }
 
@@ -155,12 +152,12 @@ export function newPiece() {
 
     // center the element in the grid
     var pivotColumn = Math.floor(GRID.numberOfColumns / 2);
-    var pivotLine = 0;
+    var pivotLine = Grid.extraLines; // spawn past the extra lines (at the start of the playable grid)
     var gridSquare;
     var column, line;
 
     // check if the piece will collide with an existing square in the stack (if so, its game over, the stack has reached the top)
-    for (i = 0; i < rotation.length; i++) {
+    for (let i = 0; i < rotation.length; i++) {
         column = pivotColumn + rotation[i].column;
         line = pivotLine + rotation[i].line;
 

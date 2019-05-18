@@ -17,8 +17,10 @@ export interface GridArgs {
  * Also add a border around the playable area, and have some margin around it.
  */
 export default class Grid {
-    margin: number;
-    border_thickness: number;
+    static margin = 20;
+    static borderThickness = 5;
+    static extraLines = 2; // we add some extra lines above the grid's specified dimensions to make it possible to rotate the pieces as they are spawned
+
     numberOfColumns: number;
     numberOfLines: number;
     inner_width: number;
@@ -31,10 +33,8 @@ export default class Grid {
 
     constructor(args: GridArgs) {
         const numberOfColumns = args.columns;
-        const numberOfLines = args.lines;
+        const numberOfLines = args.lines + Grid.extraLines;
 
-        this.margin = 20;
-        this.border_thickness = 5;
         this.numberOfColumns = numberOfColumns;
         this.numberOfLines = numberOfLines;
 
@@ -43,7 +43,7 @@ export default class Grid {
         this.inner_height = numberOfLines * Square.size;
 
         // margin + border
-        this.separation_length = this.margin + this.border_thickness;
+        this.separation_length = Grid.margin + Grid.borderThickness;
 
         // full width/height (margin + border + inner area + border + margin)
         this.width = 2 * this.separation_length + this.inner_width;
@@ -67,17 +67,19 @@ export default class Grid {
      * Draw the grid lines.
      */
     draw() {
-        var margin = this.margin;
-        var thickness = this.border_thickness;
+        var margin = Grid.margin;
+        var thickness = Grid.borderThickness;
         var separation = this.separation_length;
         var innerWidth = this.inner_width;
         var innerHeight = this.inner_height;
+        const extraLinesHeight = Grid.extraLines * Square.size;
+        const sideLength = innerHeight + 2 * thickness - extraLinesHeight;
 
         // top line
         var top = new createjs.Shape();
 
         top.x = separation;
-        top.y = separation;
+        top.y = separation + extraLinesHeight;
 
         var g = top.graphics;
 
@@ -103,12 +105,12 @@ export default class Grid {
         var left = new createjs.Shape();
 
         left.x = margin;
-        left.y = margin;
+        left.y = margin + extraLinesHeight;
 
         g = left.graphics;
 
         g.beginFill("white");
-        g.drawRect(0, 0, thickness, innerHeight + 2 * thickness);
+        g.drawRect(0, 0, thickness, sideLength);
 
         Game.addToStage(left);
 
@@ -116,12 +118,12 @@ export default class Grid {
         var right = new createjs.Shape();
 
         right.x = this.separation_length + innerWidth;
-        right.y = margin;
+        right.y = margin + extraLinesHeight;
 
         g = right.graphics;
 
         g.beginFill("white");
-        g.drawRect(0, 0, thickness, innerHeight + 2 * thickness);
+        g.drawRect(0, 0, thickness, sideLength);
 
         Game.addToStage(right);
 
