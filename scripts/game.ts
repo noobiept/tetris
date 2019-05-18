@@ -186,12 +186,12 @@ export function newPiece() {
             ...pieceArgs,
             ...GhostPiece,
         });
-        GHOST_PIECE.addToContainer(GRID.container);
+        GRID.addToContainer(GHOST_PIECE);
     }
 
     // add the active piece (added after the ghost piece so it is drawn on top of it (if matching the same space)
     ACTIVE_PIECE = new Piece(pieceArgs);
-    ACTIVE_PIECE.addToContainer(GRID.container);
+    GRID.addToContainer(ACTIVE_PIECE);
     GRID.addPiece(ACTIVE_PIECE, { column: pivotColumn, line: pivotLine });
 
     // needs to be updated after we add the active piece

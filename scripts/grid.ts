@@ -29,7 +29,8 @@ export default class Grid {
     width: number;
     height: number;
     grid_array: (Square | null)[][];
-    container: createjs.Container;
+    private container!: createjs.Container;
+    private piecesContainer!: createjs.Container;
 
     constructor(args: GridArgs) {
         const numberOfColumns = args.columns;
@@ -60,82 +61,93 @@ export default class Grid {
             }
         }
 
-        this.container = this.draw();
+        this.draw();
     }
 
     /**
      * Draw the grid lines.
      */
     draw() {
-        var margin = Grid.margin;
-        var thickness = Grid.borderThickness;
-        var separation = this.separation_length;
-        var innerWidth = this.inner_width;
-        var innerHeight = this.inner_height;
+        const margin = Grid.margin;
+        const thickness = Grid.borderThickness;
+        const separation = this.separation_length;
+        const innerWidth = this.inner_width;
+        const innerHeight = this.inner_height;
         const extraLinesHeight = Grid.extraLines * Square.size;
         const sideLength = innerHeight + 2 * thickness - extraLinesHeight;
 
+        // top background
+        const background = new createjs.Shape();
+        background.x = 0;
+        background.y = 0;
+
+        var g = background.graphics;
+        g.beginFill("black");
+        g.drawRect(0, 0, this.width, margin + extraLinesHeight);
+
         // top line
         var top = new createjs.Shape();
-
         top.x = separation;
         top.y = separation + extraLinesHeight;
 
-        var g = top.graphics;
-
+        g = top.graphics;
         g.beginFill("white");
         g.drawRect(0, -thickness, innerWidth, thickness);
 
-        Game.addToStage(top);
-
         // bottom line
         var bottom = new createjs.Shape();
-
         bottom.x = separation;
         bottom.y = separation + innerHeight;
 
         g = bottom.graphics;
-
         g.beginFill("white");
         g.drawRect(0, 0, innerWidth, thickness);
 
-        Game.addToStage(bottom);
-
         // left line
         var left = new createjs.Shape();
-
         left.x = margin;
         left.y = margin + extraLinesHeight;
 
-        g = left.graphics;
-
+        var g = left.graphics;
         g.beginFill("white");
         g.drawRect(0, 0, thickness, sideLength);
 
-        Game.addToStage(left);
-
         // right line
         var right = new createjs.Shape();
-
         right.x = this.separation_length + innerWidth;
         right.y = margin + extraLinesHeight;
 
         g = right.graphics;
-
         g.beginFill("white");
         g.drawRect(0, 0, thickness, sideLength);
 
-        Game.addToStage(right);
-
         // container
         var container = new createjs.Container();
-
         container.x = 0;
         container.y = 0;
 
-        Game.addToStage(container);
+        const piecesContainer = new createjs.Container();
+        piecesContainer.x = 0;
+        piecesContainer.y = 0;
 
-        return container;
+        container.addChild(piecesContainer);
+        container.addChild(background);
+        container.addChild(top);
+        container.addChild(bottom);
+        container.addChild(left);
+        container.addChild(right);
+
+        this.container = container;
+        this.piecesContainer = piecesContainer;
+
+        Game.addToStage(container);
+    }
+
+    /**
+     * Add a piece to the grid's container.
+     */
+    addToContainer(piece: Piece) {
+        piece.addToContainer(this.piecesContainer);
     }
 
     /**
