@@ -1,6 +1,7 @@
 import * as Game from "./game.js";
 import Square from "./square.js";
 import Piece from "./piece.js";
+import { PieceRotation } from "./all_pieces.js";
 
 export interface GridPosition {
     column: number;
@@ -189,7 +190,7 @@ export default class Grid {
     addPiece(piece: Piece, position: GridPosition, addToGrid = true) {
         var other = piece.other_squares;
         var pivot = piece.pivot_square;
-        var currentRotation = piece.getCurrentRotation();
+        var currentRotation = piece.getCurrentRotationInfo();
 
         this.addSquare(pivot, position, addToGrid);
 
@@ -254,13 +255,16 @@ export default class Grid {
     /**
      * Rotate a piece to the next rotation.
      */
-    rotatePiece(piece: Piece, nextRotationPosition: number) {
-        const nextRotation = piece.args.possibleRotations[nextRotationPosition];
+    rotatePiece(
+        piece: Piece,
+        nextRotation: { index: number; rotation: PieceRotation }
+    ) {
         const pivotPosition = piece.getPivotPosition();
+        const rotationInfo = nextRotation.rotation;
 
         // check if you can rotate the piece
-        for (let a = 0; a < nextRotation.length; a++) {
-            const position = nextRotation[a];
+        for (let a = 0; a < rotationInfo.length; a++) {
+            const position = rotationInfo[a];
             const column = pivotPosition.column + position.column;
             const line = pivotPosition.line + position.line;
 
@@ -282,7 +286,7 @@ export default class Grid {
         }
 
         this.clearPiece(piece);
-        piece.current_rotation = nextRotationPosition;
+        piece.setRotation(nextRotation.index);
         this.addPiece(piece, pivotPosition);
 
         return true;

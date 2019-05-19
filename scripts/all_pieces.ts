@@ -1,5 +1,7 @@
 import { PieceArgs } from "./piece.js";
 
+export type PieceRotation = { column: number; line: number }[];
+
 // used to help the player to know where the active piece will end up at
 export const GhostPiece = Object.freeze({
     color: "rgb(128, 128, 128)",

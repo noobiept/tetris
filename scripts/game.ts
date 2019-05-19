@@ -249,7 +249,7 @@ function updateGhostPiecePosition() {
 
     const position = GRID.findLastPossiblePosition(ACTIVE_PIECE);
 
-    GHOST_PIECE.current_rotation = ACTIVE_PIECE.current_rotation;
+    GHOST_PIECE.setRotation(ACTIVE_PIECE.getRotation());
     GRID.addPiece(GHOST_PIECE, position, false);
 }
 
@@ -530,15 +530,29 @@ function keyUpListener(event: KeyboardEvent) {
 
         case Utilities.EVENT_KEY.a:
             if (activePiece) {
-                activePiece.rotateLeft();
-                updateGhostPiecePosition();
+                const rotation = activePiece.getLeftRotation();
+                const rotated = GRID.rotatePiece(activePiece, rotation);
+
+                if (rotated) {
+                    clearMessage();
+                    updateGhostPiecePosition();
+                } else {
+                    showMessage("Couldn't rotate left!");
+                }
             }
             return false;
 
         case Utilities.EVENT_KEY.d:
             if (activePiece) {
-                activePiece.rotateRight();
-                updateGhostPiecePosition();
+                const rotation = activePiece.getRightRotation();
+                const rotated = GRID.rotatePiece(activePiece, rotation);
+
+                if (rotated) {
+                    clearMessage();
+                    updateGhostPiecePosition();
+                } else {
+                    showMessage("Couldn't rotate right!");
+                }
             }
             return false;
     }

@@ -1,18 +1,18 @@
-import * as Game from "./game.js";
 import Square from "./square.js";
+import { PieceRotation } from "./all_pieces.js";
 
 export interface PieceArgs {
     color: string;
     pivotColor: string;
-    possibleRotations: { column: number; line: number }[][];
+    possibleRotations: PieceRotation[];
 }
 
 /**
  * Base class for all the pieces.
  */
 export default class Piece {
-    args: PieceArgs;
-    current_rotation: number;
+    private args: PieceArgs;
+    private current_rotation: number;
     all_squares: Square[];
     pivot_square: Square;
     other_squares: Square[];
@@ -56,7 +56,7 @@ export default class Piece {
     positionIn(x: number, y: number) {
         var pivot = this.pivot_square;
         var other = this.other_squares;
-        var currentRotation = this.getCurrentRotation();
+        var currentRotation = this.getCurrentRotationInfo();
 
         pivot.moveTo(x, y);
 
@@ -74,46 +74,54 @@ export default class Piece {
     /**
      * Get the current rotation of this piece (where the squares are positioned around the pivot).
      */
-    getCurrentRotation() {
+    getCurrentRotationInfo() {
         return this.args.possibleRotations[this.current_rotation];
     }
 
     /**
-     * Rotate this piece to the left (anti-clockwise).
+     * Return the current rotation index.
      */
-    rotateLeft() {
+    getRotation() {
+        return this.current_rotation;
+    }
+
+    /**
+     * Change the current rotation to a new value.
+     */
+    setRotation(index: number) {
+        this.current_rotation = index;
+    }
+
+    /**
+     * Return the next left rotation (anti-clockwise).
+     */
+    getLeftRotation() {
         var nextPosition = this.current_rotation - 1;
 
         if (nextPosition < 0) {
             nextPosition = this.args.possibleRotations.length - 1;
         }
 
-        var rotated = Game.getGrid().rotatePiece(this, nextPosition);
-
-        if (rotated === false) {
-            Game.showMessage("Couldn't rotate left!");
-        } else {
-            Game.clearMessage();
-        }
+        return {
+            index: nextPosition,
+            rotation: this.args.possibleRotations[nextPosition],
+        };
     }
 
     /**
-     * Rotate this piece to the right (clockwise).
+     * Return the next right rotation (clockwise).
      */
-    rotateRight() {
+    getRightRotation() {
         var nextPosition = this.current_rotation + 1;
 
         if (nextPosition >= this.args.possibleRotations.length) {
             nextPosition = 0;
         }
 
-        var rotated = Game.getGrid().rotatePiece(this, nextPosition);
-
-        if (rotated === false) {
-            Game.showMessage("Couldn't rotate right!");
-        } else {
-            Game.clearMessage();
-        }
+        return {
+            index: nextPosition,
+            rotation: this.args.possibleRotations[nextPosition],
+        };
     }
 
     /**
