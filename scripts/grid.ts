@@ -392,4 +392,30 @@ export default class Grid {
             line: pivotPosition.line + count,
         };
     }
+
+    /**
+     * Check if the given piece rotation collides with other squares in the grid.
+     */
+    collideWithStack(pivotPosition: GridPosition, rotation: PieceRotation) {
+        const pivotColumn = pivotPosition.column;
+        const pivotLine = pivotPosition.line;
+
+        // check the pivot position
+        if (this.grid_array[pivotColumn][pivotLine]) {
+            return true;
+        }
+
+        // check the other positions
+        for (let a = 0; a < rotation.length; a++) {
+            const column = pivotColumn + rotation[a].column;
+            const line = pivotLine + rotation[a].line;
+            const square = this.grid_array[column][line];
+
+            if (square) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

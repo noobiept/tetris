@@ -147,23 +147,16 @@ export function newPiece() {
     var pieceArgs = NEXT_PIECE_ARGS;
     var rotation = pieceArgs.possibleRotations[0];
 
-    // center the element in the grid
-    var pivotColumn = Math.floor(GRID.numberOfColumns / 2);
-    var pivotLine = Grid.extraLines; // spawn past the extra lines (at the start of the playable grid)
-    var gridSquare;
-    var column, line;
+    // the start position
+    const pivotPosition = {
+        column: Math.floor(GRID.numberOfColumns / 2), // center in the middle
+        line: Grid.extraLines, // spawn past the extra lines (at the start of the playable grid)
+    };
 
     // check if the piece will collide with an existing square in the stack (if so, its game over, the stack has reached the top)
-    for (let i = 0; i < rotation.length; i++) {
-        column = pivotColumn + rotation[i].column;
-        line = pivotLine + rotation[i].line;
-
-        gridSquare = GRID.grid_array[column][line];
-
-        if (gridSquare) {
-            end();
-            return;
-        }
+    if (GRID.collideWithStack(pivotPosition, rotation)) {
+        end();
+        return;
     }
 
     // we randomly get a new piece, for next time
@@ -189,7 +182,7 @@ export function newPiece() {
     // add the active piece (added after the ghost piece so it is drawn on top of it (if matching the same space)
     ACTIVE_PIECE = new Piece(pieceArgs);
     GRID.addToContainer(ACTIVE_PIECE);
-    GRID.addPiece(ACTIVE_PIECE, { column: pivotColumn, line: pivotLine });
+    GRID.addPiece(ACTIVE_PIECE, pivotPosition);
 
     // needs to be updated after we add the active piece
     updateGhostPiecePosition();
@@ -558,13 +551,6 @@ function keyUpListener(event: KeyboardEvent) {
     }
 
     return true;
-}
-
-/**
- * Get the grid object. You can use it to add/move/rotate pieces, etc.
- */
-export function getGrid() {
-    return GRID;
 }
 
 /**
