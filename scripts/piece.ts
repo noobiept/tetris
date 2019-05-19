@@ -13,9 +13,9 @@ export interface PieceArgs {
 export default class Piece {
     private args: PieceArgs;
     private current_rotation: number;
-    all_squares: Square[];
-    pivot_square: Square;
-    other_squares: Square[];
+    private all_squares: Square[];
+    private pivot_square: Square;
+    private other_squares: Square[];
 
     constructor(args: PieceArgs) {
         const color = args.color;
@@ -161,5 +161,19 @@ export default class Piece {
         return this.all_squares.map((square) => {
             return square.getPosition();
         });
+    }
+
+    /**
+     * Return the pivot square.
+     */
+    getPivotSquare() {
+        return this.pivot_square;
+    }
+
+    /**
+     * Return the other squares (apart from the pivot).
+     */
+    getOtherSquares() {
+        return this.other_squares;
     }
 }

@@ -30,8 +30,7 @@ export default class Grid {
     private inner_width: number;
     private inner_height: number;
     private separation_length: number;
-    grid_array: (Square | null)[][];
-    private container!: createjs.Container;
+    private grid_array: (Square | null)[][];
     private piecesContainer!: createjs.Container;
 
     constructor(args: GridArgs) {
@@ -139,7 +138,6 @@ export default class Grid {
         container.addChild(left);
         container.addChild(right);
 
-        this.container = container;
         this.piecesContainer = piecesContainer;
 
         Game.addToStage(container);
@@ -174,12 +172,10 @@ export default class Grid {
      * Remove a piece from the grid.
      */
     clearPiece(piece: Piece) {
-        const all = piece.all_squares;
+        const positions = piece.getAllPositions();
 
-        for (let i = 0; i < all.length; i++) {
-            const square = all[i];
-            const position = square.getPosition();
-
+        for (let i = 0; i < positions.length; i++) {
+            const position = positions[i];
             this.grid_array[position.column][position.line] = null;
         }
     }
@@ -188,8 +184,8 @@ export default class Grid {
      * Add a piece to the grid.
      */
     addPiece(piece: Piece, position: GridPosition, addToGrid = true) {
-        var other = piece.other_squares;
-        var pivot = piece.pivot_square;
+        var other = piece.getOtherSquares();
+        var pivot = piece.getPivotSquare();
         var currentRotation = piece.getCurrentRotationInfo();
 
         this.addSquare(pivot, position, addToGrid);
@@ -211,13 +207,12 @@ export default class Grid {
      * Moves 'columnMove/lineMove' from the current position.
      */
     movePiece(piece: Piece, columnMove: number, lineMove: number) {
-        var all = piece.all_squares;
-        var pivot = piece.pivot_square;
+        const positions = piece.getAllPositions();
+        const pivotPosition = piece.getPivotPosition();
 
         // check if we can move the piece
-        for (let a = 0; a < all.length; a++) {
-            const square = all[a];
-            const position = square.getPosition();
+        for (let a = 0; a < positions.length; a++) {
+            const position = positions[a];
             const nextColumn = position.column + columnMove;
             const nextLine = position.line + lineMove;
 
@@ -239,7 +234,6 @@ export default class Grid {
             }
         }
 
-        const pivotPosition = pivot.getPosition();
         const newPosition = {
             column: pivotPosition.column + columnMove,
             line: pivotPosition.line + lineMove,
