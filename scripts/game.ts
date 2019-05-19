@@ -137,10 +137,7 @@ export function newPiece() {
 
     if (ACTIVE_PIECE) {
         // the previous active piece now is part of the stack
-        for (let i = 0; i < ACTIVE_PIECE.all_squares.length; i++) {
-            const square = ACTIVE_PIECE.all_squares[i];
-            square.isInStack = true;
-        }
+        ACTIVE_PIECE.markInStack();
 
         // check if any line is cleared (since we're adding a new piece, means the previous one is part of the stack, so the right moment to clear the lines)
         GRID.checkClearedLines();

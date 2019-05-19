@@ -21,13 +21,14 @@ export default class Grid {
     static borderThickness = 5;
     static extraLines = 2; // we add some extra lines above the grid's specified dimensions to make it possible to rotate the pieces as they are spawned
 
-    numberOfColumns: number;
-    numberOfLines: number;
-    inner_width: number;
-    inner_height: number;
-    separation_length: number;
-    width: number;
-    height: number;
+    readonly width: number;
+    readonly height: number;
+    readonly numberOfColumns: number;
+    readonly numberOfLines: number;
+
+    private inner_width: number;
+    private inner_height: number;
+    private separation_length: number;
     grid_array: (Square | null)[][];
     private container!: createjs.Container;
     private piecesContainer!: createjs.Container;
@@ -232,7 +233,7 @@ export default class Grid {
             // check if it doesn't collide with the stacked squares
             var nextSquare = this.grid_array[nextColumn][nextLine];
 
-            if (nextSquare && nextSquare.isInStack) {
+            if (nextSquare && nextSquare.inStack()) {
                 return false;
             }
         }
@@ -255,8 +256,7 @@ export default class Grid {
      */
     rotatePiece(piece: Piece, nextRotationPosition: number) {
         const nextRotation = piece.args.possibleRotations[nextRotationPosition];
-        const pivot = piece.pivot_square;
-        const pivotPosition = pivot.getPosition();
+        const pivotPosition = piece.getPivotPosition();
 
         // check if you can rotate the piece
         for (let a = 0; a < nextRotation.length; a++) {
@@ -276,7 +276,7 @@ export default class Grid {
 
             var square = this.grid_array[column][line];
 
-            if (square && square.isInStack) {
+            if (square && square.inStack()) {
                 return false;
             }
         }
@@ -340,7 +340,7 @@ export default class Grid {
             for (line = clearedLine - 1; line >= 0; line--) {
                 square = this.grid_array[column][line];
 
-                if (square && square.isInStack) {
+                if (square && square.inStack()) {
                     square.moveBottom();
 
                     this.grid_array[column][line + 1] = this.grid_array[column][
@@ -359,11 +359,9 @@ export default class Grid {
      * Find the last/bottom position this piece can be at, before it reaches the stack or the bottom of the grid.
      */
     findLastPossiblePosition(piece: Piece) {
-        const pivotPosition = piece.pivot_square.getPosition();
+        const pivotPosition = piece.getPivotPosition();
         let count = 0; // how far we gone down
-        let positions = piece.all_squares.map((square) => {
-            return square.getPosition();
-        });
+        let positions = piece.getAllPositions();
         let stop = false;
 
         while (!stop) {
@@ -380,7 +378,7 @@ export default class Grid {
                 }
 
                 // check if
-                if (nextSquare && nextSquare.isInStack) {
+                if (nextSquare && nextSquare.inStack()) {
                     stop = true;
                     break;
                 }

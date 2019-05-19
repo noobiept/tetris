@@ -128,4 +128,30 @@ export default class Piece {
         this.all_squares.length = 0;
         this.other_squares.length = 0;
     }
+
+    /**
+     * Mark the piece as part of the stack.
+     */
+    markInStack() {
+        for (let a = 0; a < this.all_squares.length; a++) {
+            const square = this.all_squares[a];
+            square.inStack(true);
+        }
+    }
+
+    /**
+     * Get the current position of the pivot square.
+     */
+    getPivotPosition() {
+        return this.pivot_square.getPosition();
+    }
+
+    /**
+     * Get a list with all the square positions.
+     */
+    getAllPositions() {
+        return this.all_squares.map((square) => {
+            return square.getPosition();
+        });
+    }
 }

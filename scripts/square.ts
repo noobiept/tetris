@@ -11,7 +11,7 @@ export interface SquareArgs {
 export default class Square {
     static size = 20;
 
-    isInStack: boolean;
+    private isInStack: boolean;
     private position: GridPosition;
     private shape: createjs.Shape;
 
@@ -106,5 +106,13 @@ export default class Square {
      */
     getPosition() {
         return { ...this.position };
+    }
+
+    inStack(newValue?: boolean) {
+        if (typeof newValue === "boolean") {
+            this.isInStack = newValue;
+        }
+
+        return this.isInStack;
     }
 }
