@@ -182,10 +182,21 @@ function hideMenu() {
  */
 function updateHighScoreTable() {
     const scores = getHighScores();
-    const container = document.getElementById("HighScores-tbody")!;
+    const table = document.getElementById("HighScores-table")!;
+    const noScores = document.getElementById("HighScores-notYet")!;
+
+    // show either the table with the scores or a message saying that there are no scores yet
+    if (scores.length === 0) {
+        noScores.classList.remove("hide");
+        table.classList.add("hide");
+    } else {
+        noScores.classList.add("hide");
+        table.classList.remove("hide");
+    }
 
     // clear the previous table
-    container.innerHTML = "";
+    const tbody = document.getElementById("HighScores-tbody")!;
+    tbody.innerHTML = "";
 
     // add the scores
     for (let a = 0; a < scores.length; a++) {
@@ -206,6 +217,6 @@ function updateHighScoreTable() {
         tr.appendChild(linesCleared);
         tr.appendChild(time);
 
-        container.appendChild(tr);
+        tbody.appendChild(tr);
     }
 }
