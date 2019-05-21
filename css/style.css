@@ -72,6 +72,11 @@ em,
     margin: 20px;
 }
 
+#Options-ghostPieceContainer,
+#Options-ghostPiece {
+    cursor: pointer;
+}
+
 #Options-ghostPiece {
     vertical-align: middle;
 }
