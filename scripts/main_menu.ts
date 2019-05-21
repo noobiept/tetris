@@ -71,10 +71,10 @@ function initOptions() {
         min: 1,
         max: Game.getMaxLevel(),
         step: 1,
-        initialValue: Options.get("startingLevel") + 1,
+        initialValue: Options.get("startingLevel"),
         description: "Starting level: ",
         onSlide: (value: number) => {
-            Options.set("startingLevel", value - 1);
+            Options.set("startingLevel", value);
         },
     });
     optionsContainer.appendChild(level);
