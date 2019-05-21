@@ -83,13 +83,15 @@ export function timeToString(milliseconds: number) {
     const seconds = totalSeconds % 60;
 
     let str = "";
+    let minutesAdded = false;
 
     if (minutes !== 0) {
         str += minutes + "m";
+        minutesAdded = true;
     }
 
-    if (seconds !== 0) {
-        if (str !== "") {
+    if (seconds !== 0 || !minutesAdded) {
+        if (minutesAdded) {
             str += " ";
         }
 
