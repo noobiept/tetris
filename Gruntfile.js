@@ -65,22 +65,19 @@ module.exports = function (grunt) {
     /**
      * Run the javascript minimizer task.
      */
-    grunt.registerTask("terser", function () {
+    grunt.registerTask("terser", async function () {
+        const done = this.async();
         const files = Glob.sync(ROOT + "build/**/*.js");
 
         for (let a = 0; a < files.length; a++) {
             const filePath = files[a];
             const destPath = Path.join(DEST, filePath);
             const directoryPath = Path.dirname(destPath);
-
             const code = Fs.readFileSync(filePath, "utf8");
-            const result = Terser.minify(code, {
+
+            const result = await Terser.minify(code, {
                 ecma: 8,
             });
-
-            if (result.error) {
-                throw new Error(result.error.message);
-            }
 
             if (!Fs.existsSync(directoryPath)) {
                 Fs.mkdirSync(directoryPath, { recursive: true });
@@ -88,6 +85,8 @@ module.exports = function (grunt) {
 
             Fs.writeFileSync(destPath, result.code);
         }
+
+        done();
     });
 
     /**
