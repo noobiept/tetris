@@ -97,13 +97,13 @@ function initOptions() {
         "Options-ghostPiece"
     ) as HTMLInputElement;
     ghostPiece.checked = Options.get("ghostPiece");
-    ghostPiece.onchange = function() {
+    ghostPiece.onchange = function () {
         Options.set("ghostPiece", ghostPiece.checked);
     };
 
     // :: back :: //
     var back = PAGES.options.querySelector(".backButton") as HTMLElement;
-    back.onclick = function() {
+    back.onclick = function () {
         Options.save();
         open("main");
     };
@@ -114,7 +114,7 @@ function initOptions() {
  */
 function initHighScores() {
     const back = PAGES.highScores.querySelector(".backButton") as HTMLElement;
-    back.onclick = function() {
+    back.onclick = function () {
         open("main");
     };
 }
@@ -124,7 +124,7 @@ function initHighScores() {
  */
 function initHelp() {
     var back = PAGES.help.querySelector(".backButton") as HTMLElement;
-    back.onclick = function() {
+    back.onclick = function () {
         open("main");
     };
 }
@@ -139,21 +139,21 @@ function initMainMenu() {
     const help = document.getElementById("MainMenu-help")!;
 
     // set events
-    startGame.onclick = function() {
+    startGame.onclick = function () {
         hideMenu();
         Game.start();
     };
 
-    options.onclick = function() {
+    options.onclick = function () {
         open("options");
     };
 
-    highScores.onclick = function() {
+    highScores.onclick = function () {
         updateHighScoreTable();
         open("highScores");
     };
 
-    help.onclick = function() {
+    help.onclick = function () {
         open("help");
     };
 }

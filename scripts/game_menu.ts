@@ -37,7 +37,7 @@ export function init(args: InitArgs) {
 
     // :: Quit :: //
     var quit = document.getElementById("GameMenu-quit")!;
-    quit.addEventListener("click", function() {
+    quit.addEventListener("click", function () {
         args.quitGame();
         MainMenu.open("main");
     });

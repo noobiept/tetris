@@ -341,9 +341,8 @@ export default class Grid {
                 if (square && square.inStack()) {
                     square.moveBottom();
 
-                    this.grid_array[column][line + 1] = this.grid_array[column][
-                        line
-                    ];
+                    this.grid_array[column][line + 1] =
+                        this.grid_array[column][line];
 
                     this.grid_array[column][line] = null;
                 }

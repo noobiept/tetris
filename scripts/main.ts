@@ -6,7 +6,7 @@ import * as HighScore from "./high_score.js";
 
 var CANVAS: HTMLCanvasElement;
 
-window.onload = function() {
+window.onload = function () {
     AppStorage.getData(
         ["tetris_options", "tetris_high_score", "tetris_has_run_before"],
         initApp

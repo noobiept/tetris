@@ -21,7 +21,7 @@ export function createSlider(args: SliderArgs) {
     rangeInput.max = args.max.toString();
     rangeInput.step = args.step.toString();
     rangeInput.value = args.initialValue.toString();
-    rangeInput.oninput = function() {
+    rangeInput.oninput = function () {
         const valueStr = rangeInput.value;
         const value = parseInt(valueStr);
         currentValue.innerText = valueStr;
