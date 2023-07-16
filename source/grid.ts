@@ -1,7 +1,7 @@
-import * as Game from "./game.js";
-import Square from "./square.js";
-import Piece from "./piece.js";
-import { PieceRotation } from "./all_pieces.js";
+import * as Game from "./game";
+import Square from "./square";
+import Piece from "./piece";
+import { PieceRotation } from "./all_pieces";
 
 export interface GridPosition {
     column: number;

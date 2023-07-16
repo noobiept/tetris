@@ -4,7 +4,8 @@
         "target": "es2017",
         "module": "es2015",
         "outDir": "build",
-        "sourceMap": true
+        "sourceMap": true,
+        "jsx": "react-jsx"
     },
-    "include": ["scripts/**/*"]
+    "include": ["source/**/*"]
 }

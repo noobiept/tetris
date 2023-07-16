@@ -1,4 +1,4 @@
-import * as AppStorage from "./app_storage.js";
+import * as AppStorage from "./app_storage";
 
 export interface ScoreData {
     score: number;

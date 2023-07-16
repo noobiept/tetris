@@ -1,5 +1,5 @@
-import * as MainMenu from "./main_menu.js";
-import { timeToString } from "./utilities.js";
+import * as MainMenu from "./main_menu";
+import { timeToString } from "./utilities";
 
 export interface InitArgs {
     togglePaused: () => void;

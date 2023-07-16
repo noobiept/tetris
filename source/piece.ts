@@ -1,5 +1,5 @@
-import Square from "./square.js";
-import { PieceRotation } from "./all_pieces.js";
+import Square from "./square";
+import { PieceRotation } from "./all_pieces";
 
 export interface PieceArgs {
     color: string;

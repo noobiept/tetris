@@ -1,4 +1,4 @@
-import { PieceArgs } from "./piece.js";
+import { PieceArgs } from "./piece";
 
 export type PieceRotation = { column: number; line: number }[];
 

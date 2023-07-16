@@ -1,11 +1,11 @@
-import * as Options from "./options.js";
-import * as Utilities from "./utilities.js";
-import * as GameMenu from "./game_menu.js";
-import * as HighScore from "./high_score.js";
-import Score from "./score.js";
-import Grid from "./grid.js";
-import Square from "./square.js";
-import { resizeCanvas } from "./main.js";
+import * as Options from "./options";
+import * as Utilities from "./utilities";
+import * as GameMenu from "./game_menu";
+import * as HighScore from "./high_score";
+import Score from "./score";
+import Grid from "./grid";
+import Square from "./square";
+import { resizeCanvas } from "./index";
 import {
     IPiece,
     SPiece,
@@ -15,10 +15,10 @@ import {
     JPiece,
     LPiece,
     GhostPiece,
-} from "./all_pieces.js";
-import Piece, { PieceArgs } from "./piece.js";
-import { createDialog } from "./dialog.js";
-import Timer from "./timer.js";
+} from "./all_pieces";
+import Piece, { PieceArgs } from "./piece";
+import { createDialog } from "./dialog";
+import Timer from "./timer";
 
 // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;

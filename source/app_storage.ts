@@ -1,5 +1,5 @@
-import { OptionsData } from "./options.js";
-import { ScoreData } from "./high_score.js";
+import { OptionsData } from "./options";
+import { ScoreData } from "./high_score";
 
 export interface StorageData {
     tetris_options?: OptionsData;

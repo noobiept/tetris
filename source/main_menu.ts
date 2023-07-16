@@ -1,8 +1,8 @@
-import * as Options from "./options.js";
-import * as Game from "./game.js";
-import { createSlider } from "./slider.js";
-import { getHighScores } from "./high_score.js";
-import { timeToString } from "./utilities.js";
+import * as Options from "./options";
+import * as Game from "./game";
+import { createSlider } from "./slider";
+import { getHighScores } from "./high_score";
+import { timeToString } from "./utilities";
 
 interface MenuPages {
     main: HTMLElement;

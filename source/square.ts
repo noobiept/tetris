@@ -1,4 +1,4 @@
-import { GridPosition } from "./grid.js";
+import { GridPosition } from "./grid";
 
 export interface SquareArgs {
     color: string;

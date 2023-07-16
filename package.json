@@ -1,22 +1,20 @@
 {
     "name": "tetris",
     "description": "A tetris game, where you can specify the number of columns/lines of the grid.",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "dependencies": {
         "easeljs": "~1.0.2"
     },
     "devDependencies": {
         "@types/createjs": "~0.0.29",
-        "glob": "^10",
-        "grunt": "^1.6",
-        "grunt-contrib-clean": "^2",
-        "grunt-contrib-copy": "^1",
-        "grunt-contrib-cssmin": "^5",
-        "light-server": "^2",
-        "npm-run-all": "^4",
-        "prettier": "^2",
-        "terser": "^5",
-        "typescript": "^5"
+        "copy-webpack-plugin": "^11.0.0",
+        "html-webpack-plugin": "^5.5.3",
+        "prettier": "^3",
+        "ts-loader": "^9.4.4",
+        "typescript": "^5",
+        "webpack": "^5.88.1",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
     },
     "prettier": {
         "printWidth": 80,
@@ -31,12 +29,9 @@
         "endOfLine": "lf"
     },
     "scripts": {
-        "dev": "npm-run-all --parallel dev:*",
-        "dev:ts": "tsc -w",
-        "dev:update_libraries": "grunt update_libraries",
-        "dev:server": "light-server --serve . --port 8000 --quiet",
+        "start": "webpack serve --mode=development",
+        "build": "webpack --mode=production",
         "formatting:check": "prettier --check \"**/*.{html,css,json,js,ts,md}\"",
-        "formatting:run": "prettier --write \"**/*.{html,css,json,js,ts,md}\"",
-        "build": "grunt"
+        "formatting:run": "prettier --write \"**/*.{html,css,json,js,ts,md}\""
     }
 }

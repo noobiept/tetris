@@ -1,8 +1,8 @@
-import * as AppStorage from "./app_storage.js";
-import * as Options from "./options.js";
-import * as MainMenu from "./main_menu.js";
-import * as Game from "./game.js";
-import * as HighScore from "./high_score.js";
+import * as AppStorage from "./app_storage";
+import * as Options from "./options";
+import * as MainMenu from "./main_menu";
+import * as Game from "./game";
+import * as HighScore from "./high_score";
 
 var CANVAS: HTMLCanvasElement;
 
