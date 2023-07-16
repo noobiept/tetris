@@ -391,8 +391,8 @@ function end() {
         Lines cleared: ${CLEARED_LINES}<br />
         Time: ${Utilities.timeToString(time)}<br />
         Score: ${score} ${
-        added ? `(${Utilities.cardinalToOrdinal(added)})` : ""
-    }
+            added ? `(${Utilities.cardinalToOrdinal(added)})` : ""
+        }
     `;
 
     createDialog({
