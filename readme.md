@@ -24,5 +24,5 @@
 
 # Development
 
--   `npm run start`: Run the typescript compiler and a local server (in `localhost:8080`).
+-   `npm run start`: Run the typescript compiler and a local server (in `localhost:8000`).
 -   `npm run build`: Run the release build (output located at `/release/(name)_(version)/`).

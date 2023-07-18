@@ -16,6 +16,8 @@
         <script type="text/javascript" src="libraries/easeljs.min.js"></script>
     </head>
     <body>
+        <div id="App"></div>
+
         <div id="CanvasContainer">
             <canvas id="mainCanvas"></canvas>
 
@@ -51,13 +53,6 @@
 
         <div id="DialogMessage">Game Over!</div>
 
-        <div id="MainMenu" class="menuPage hide">
-            <div id="MainMenu-startGame" class="button">Start Game</div>
-            <div id="MainMenu-options" class="button">Options</div>
-            <div id="MainMenu-highScores" class="button">High Scores</div>
-            <div id="MainMenu-help" class="button">Help</div>
-        </div>
-
         <div id="Options" class="menuPage hide">
             <h2>Options</h2>
 
@@ -85,26 +80,6 @@
                 <tbody id="HighScores-tbody"></tbody>
             </table>
             <div id="HighScores-notYet">No scores yet.</div>
-
-            <div class="buttonsContainer">
-                <div class="button backButton">Back</div>
-            </div>
-        </div>
-
-        <div id="Help" class="menuPage hide">
-            <h2>Help</h2>
-
-            <div id="Help-keyboard">
-                <h4>Keyboard</h4>
-                <ul>
-                    <li>move left : <em>left arrow</em></li>
-                    <li>move right : <em>right arrow</em></li>
-                    <li>soft drop : <em>down arrow</em></li>
-                    <li>hard drop : <em>space</em></li>
-                    <li>rotate left : <em>a</em></li>
-                    <li>rotate right : <em>d</em></li>
-                </ul>
-            </div>
 
             <div class="buttonsContainer">
                 <div class="button backButton">Back</div>

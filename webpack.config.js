@@ -4,7 +4,7 @@ const path = require("path");
 const package = require("./package.json");
 
 module.exports = {
-    entry: "./source/index.ts",
+    entry: "./source/index.tsx",
     module: {
         rules: [
             {
@@ -25,6 +25,10 @@ module.exports = {
             `${package.name}_${package.version}`
         ),
         clean: true,
+    },
+    devServer: {
+        port: 8000,
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({

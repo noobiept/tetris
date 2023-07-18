@@ -3,10 +3,17 @@
     "description": "A tetris game, where you can specify the number of columns/lines of the grid.",
     "version": "2.2.0",
     "dependencies": {
-        "easeljs": "~1.0.2"
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "easeljs": "~1.0.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.14.1"
     },
     "devDependencies": {
         "@types/createjs": "~0.0.29",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
         "copy-webpack-plugin": "^11.0.0",
         "html-webpack-plugin": "^5.5.3",
         "prettier": "^3",

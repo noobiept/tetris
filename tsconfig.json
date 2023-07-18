@@ -5,7 +5,8 @@
         "module": "es2015",
         "outDir": "build",
         "sourceMap": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "moduleResolution": "Node"
     },
     "include": ["source/**/*"]
 }
