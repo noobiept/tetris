@@ -1,5 +1,5 @@
 import * as Options from "./options";
-import * as Game from "./game";
+import * as Game from "./features/game/game";
 import { createSlider } from "./slider";
 import { getHighScores } from "./high_score";
 import { timeToString } from "./utilities";

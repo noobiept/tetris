@@ -1,4 +1,4 @@
-import * as Game from "./game";
+import * as Game from "./features/game/game";
 import Square from "./square";
 import Piece from "./piece";
 import { PieceRotation } from "./all_pieces";

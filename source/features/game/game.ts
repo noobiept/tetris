@@ -1,11 +1,10 @@
-import * as Options from "./options";
-import * as Utilities from "./utilities";
-import * as GameMenu from "./game_menu";
-import * as HighScore from "./high_score";
-import Score from "./score";
-import Grid from "./grid";
-import Square from "./square";
-import { resizeCanvas } from "./index";
+import * as Options from "../../options";
+import * as Utilities from "../../utilities";
+import * as GameMenu from "../../game_menu";
+import * as HighScore from "../../high_score";
+import Score from "../../score";
+import Grid from "../../grid";
+import Square from "../../square";
 import {
     IPiece,
     SPiece,
@@ -15,10 +14,10 @@ import {
     JPiece,
     LPiece,
     GhostPiece,
-} from "./all_pieces";
-import Piece, { PieceArgs } from "./piece";
-import { createDialog } from "./dialog";
-import Timer from "./timer";
+} from "../../all_pieces";
+import Piece, { PieceArgs } from "../../piece";
+import { createDialog } from "../../dialog";
+import Timer from "../../timer";
 
 // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;
@@ -66,11 +65,6 @@ var KEYS_HELD = {
  * Initialize the game module (call only once at the start).
  */
 export function init(canvas: HTMLCanvasElement) {
-    GameMenu.init({
-        togglePaused: togglePaused,
-        quitGame: quitGame,
-    });
-
     STAGE = new createjs.Stage(canvas);
     SCORE = new Score({
         onChange: GameMenu.updateScore,
@@ -111,9 +105,6 @@ export function start() {
     // get the game width
     GAME_MENU_WIDTH = GameMenu.getWidth();
 
-    // resize the canvas, according to the 'grid' + 'game menu' dimensions
-    resizeCanvas(GRID.width + GAME_MENU_WIDTH, canvasHeight);
-
     NEXT_PIECE_ARGS = chooseRandomPiece();
     newPiece();
 
@@ -125,6 +116,12 @@ export function start() {
     createjs.Ticker.addEventListener("tick", tick as (obj: Object) => void);
     document.addEventListener("keydown", keyDownListener);
     document.addEventListener("keyup", keyUpListener);
+
+    // return the canvas dimension, according to the 'grid' + 'game menu' dimensions
+    return {
+        width: GRID.width + GAME_MENU_WIDTH,
+        height: canvasHeight,
+    };
 }
 
 /**

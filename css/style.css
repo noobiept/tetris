@@ -46,21 +46,6 @@ em,
 
 /* :: Main Menu :: */
 
-#MainMenu > .button {
-    font-size: 1.2em;
-}
-
-.menuPage {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.backButton {
-    margin-top: 40px;
-}
-
 #Options-container {
     width: 600px; /* force to have 2 options per line */
 }
@@ -223,14 +208,4 @@ em,
     font-size: 22px;
     padding: 5px 15px;
     margin: 10px;
-}
-
-/* :: High-score page :: */
-
-#HighScores-tbody tr:nth-child(odd) {
-    background-color: rgba(252, 211, 161, 0.2);
-}
-
-#HighScores-table th {
-    padding: 2px 10px;
 }

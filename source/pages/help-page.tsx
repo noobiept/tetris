@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Button } from "../components/button";
 import { RoutePath } from "../core/routes";
+import { BackButton } from "../components/back-button";
 
 const Container = styled.div``;
 const Header = styled.h2``;
@@ -14,9 +15,6 @@ const ListItem = styled.li`
 `;
 const Emphasis = styled.em`
     color: antiquewhite;
-`;
-const BackButton = styled(Button)`
-    margin-top: 40px;
 `;
 
 export function HelpPage() {
@@ -43,7 +41,7 @@ export function HelpPage() {
                     ))}
                 </List>
             </Content>
-            <BackButton to={RoutePath.home}>Back</BackButton>
+            <BackButton />
         </Container>
     );
 }

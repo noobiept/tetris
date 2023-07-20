@@ -9,81 +9,10 @@
             href="images/tetris_16.png"
         />
 
-        <!-- styling -->
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-
         <!-- libraries -->
         <script type="text/javascript" src="libraries/easeljs.min.js"></script>
     </head>
     <body>
         <div id="App"></div>
-
-        <div id="CanvasContainer">
-            <canvas id="mainCanvas"></canvas>
-
-            <div id="GameMenu" class="hide">
-                <div id="GameMenu-top">
-                    <div
-                        >Current Level:
-                        <span id="GameMenu-currentLevel" class="value"></span
-                    ></div>
-                    <div
-                        >Cleared Lines:
-                        <span id="GameMenu-clearedLines" class="value"></span
-                    ></div>
-                    <div
-                        >Time: <span id="GameMenu-timer" class="value"></span
-                    ></div>
-                    <div
-                        >Score: <span id="GameMenu-score" class="value"></span
-                    ></div>
-
-                    <div id="Message">
-                        <span id="MessageCount" data-count="0"></span>
-                        <span id="MessageText"></span>
-                    </div>
-                </div>
-
-                <div id="GameMenu-bottom">
-                    <div id="GameMenu-pauseResume" class="button">Pause</div>
-                    <div id="GameMenu-quit" class="button">Quit</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="DialogMessage">Game Over!</div>
-
-        <div id="Options" class="menuPage hide">
-            <h2>Options</h2>
-
-            <div id="Options-container"></div>
-            <label id="Options-ghostPieceContainer">
-                <span>Ghost Piece:</span>
-                <input type="checkbox" id="Options-ghostPiece" />
-            </label>
-            <div class="buttonsContainer">
-                <div class="button backButton">Back</div>
-            </div>
-        </div>
-
-        <div id="HighScores" class="menuPage hide">
-            <h2>High Scores</h2>
-            <table id="HighScores-table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Score</th>
-                        <th>Lines Cleared</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody id="HighScores-tbody"></tbody>
-            </table>
-            <div id="HighScores-notYet">No scores yet.</div>
-
-            <div class="buttonsContainer">
-                <div class="button backButton">Back</div>
-            </div>
-        </div>
     </body>
 </html>

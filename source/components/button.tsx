@@ -5,12 +5,13 @@ type ButtonSize = "normal" | "large";
 
 export interface ButtonProps {
     children: React.ReactNode;
-    to: string;
+    to?: string;
+    onClick?: () => void;
     size?: ButtonSize;
     className?: string;
 }
 
-const StyledLink = styled(Link)<{ size?: ButtonSize }>`
+const StyledLink = (component: any) => styled(component)<{ size?: ButtonSize }>`
     cursor: pointer;
     display: inline-block;
     color: white;
@@ -28,10 +29,18 @@ const StyledLink = styled(Link)<{ size?: ButtonSize }>`
     }
 `;
 
-export function Button({ to, size, className, children }: ButtonProps) {
+export function Button({
+    to,
+    size,
+    className,
+    onClick,
+    children,
+}: ButtonProps) {
+    const Element = StyledLink(to ? Link : "div");
+
     return (
-        <StyledLink className={className} to={to} size={size}>
+        <Element className={className} to={to} onClick={onClick} size={size}>
             {children}
-        </StyledLink>
+        </Element>
     );
 }
