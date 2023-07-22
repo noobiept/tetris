@@ -1,5 +1,5 @@
 import * as Options from "./options";
-import * as Game from "./features/game/game";
+import * as Game from "./features/game-logic/game-logic";
 import { createSlider } from "./slider";
 import { getHighScores } from "./high_score";
 import { timeToString } from "./utilities";
@@ -28,7 +28,6 @@ export function init() {
         help: document.getElementById("Help")!,
     };
 
-    initMainMenu();
     initOptions();
     initHighScores();
     initHelp();
@@ -69,7 +68,8 @@ function initOptions() {
     // :: starting level :: //
     const level = createSlider({
         min: 1,
-        max: Game.getMaxLevel(),
+        // max: Game.getMaxLevel(),
+        max: 20, // TODO
         step: 1,
         initialValue: Options.get("startingLevel"),
         description: "Starting level: ",
@@ -126,35 +126,6 @@ function initHelp() {
     var back = PAGES.help.querySelector(".backButton") as HTMLElement;
     back.onclick = function () {
         open("main");
-    };
-}
-
-/**
- * Initialize the main menu elements.
- */
-function initMainMenu() {
-    const startGame = document.getElementById("MainMenu-startGame")!;
-    const options = document.getElementById("MainMenu-options")!;
-    const highScores = document.getElementById("MainMenu-highScores")!;
-    const help = document.getElementById("MainMenu-help")!;
-
-    // set events
-    startGame.onclick = function () {
-        hideMenu();
-        Game.start();
-    };
-
-    options.onclick = function () {
-        open("options");
-    };
-
-    highScores.onclick = function () {
-        updateHighScoreTable();
-        open("highScores");
-    };
-
-    help.onclick = function () {
-        open("help");
     };
 }
 

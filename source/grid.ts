@@ -1,4 +1,3 @@
-import * as Game from "./features/game/game";
 import Square from "./square";
 import Piece from "./piece";
 import { PieceRotation } from "./all_pieces";
@@ -11,6 +10,8 @@ export interface GridPosition {
 export interface GridArgs {
     columns: number;
     lines: number;
+    addToStage: (element: createjs.DisplayObject) => void;
+    onLineCleared: () => void;
 }
 
 /**
@@ -32,6 +33,7 @@ export default class Grid {
     private separation_length: number;
     private grid_array: (Square | null)[][];
     private piecesContainer!: createjs.Container;
+    private onLineCleared: () => void;
 
     constructor(args: GridArgs) {
         const numberOfColumns = args.columns;
@@ -62,13 +64,14 @@ export default class Grid {
             }
         }
 
-        this.draw();
+        this.onLineCleared = args.onLineCleared;
+        this.draw(args.addToStage);
     }
 
     /**
      * Draw the grid lines.
      */
-    draw() {
+    draw(addToStage: (element: createjs.DisplayObject) => void) {
         const margin = Grid.margin;
         const thickness = Grid.borderThickness;
         const separation = this.separation_length;
@@ -140,7 +143,7 @@ export default class Grid {
 
         this.piecesContainer = piecesContainer;
 
-        Game.addToStage(container);
+        addToStage(container);
     }
 
     /**
@@ -349,7 +352,7 @@ export default class Grid {
             }
         }
 
-        Game.oneMoreClearedLine();
+        this.onLineCleared();
     }
 
     /**
