@@ -3,8 +3,19 @@ import { Button } from "../../components/button";
 import { useState } from "react";
 import { RoutePath } from "../../core/routes";
 
-const Container = styled.div``;
-const Top = styled.div``;
+const Container = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 185px;
+    height: 100%;
+`;
+const Top = styled.div`
+    margin-top: 100px;
+`;
 const Bottom = styled.div``;
 const Value = styled.span`
     color: antiquewhite;

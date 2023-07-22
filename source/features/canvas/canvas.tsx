@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { init, start } from "../game";
 
 export type CanvasDimension = {
     width: number;
@@ -9,7 +10,12 @@ type CanvasProps = {
     dimension: CanvasDimension;
 };
 
-export function Canvas({ dimension }: CanvasProps) {
+export function Canvas() {
+    const [dimension, setDimension] = useState<CanvasDimension>({
+        width: 600,
+        height: 450,
+    });
+
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const stageRef = useRef<createjs.Stage>();
 
@@ -18,6 +24,14 @@ export function Canvas({ dimension }: CanvasProps) {
 
         if (canvasRef.current) {
             stageRef.current = new createjs.Stage(canvasRef.current);
+        }
+    }, [canvasRef.current]);
+
+    useEffect(() => {
+        if (canvasRef.current) {
+            init(canvasRef.current);
+            const updatedDimensions = start();
+            setDimension(updatedDimensions);
         }
     }, [canvasRef.current]);
 

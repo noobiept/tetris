@@ -38,6 +38,7 @@ module.exports = {
             patterns: [
                 { from: "./libraries/", to: "./libraries/" },
                 { from: "./css/", to: "./css/" },
+                { from: "./assets/", to: "./assets/" },
             ],
         }),
     ],

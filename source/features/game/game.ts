@@ -1,6 +1,5 @@
 import * as Options from "../../options";
 import * as Utilities from "../../utilities";
-import * as GameMenu from "../../game_menu";
 import * as HighScore from "../../high_score";
 import Score from "../../score";
 import Grid from "../../grid";
@@ -65,9 +64,10 @@ var KEYS_HELD = {
  * Initialize the game module (call only once at the start).
  */
 export function init(canvas: HTMLCanvasElement) {
-    STAGE = new createjs.Stage(canvas);
+    STAGE = new createjs.Stage(canvas); // TODO remove
     SCORE = new Score({
-        onChange: GameMenu.updateScore,
+        // onChange: GameMenu.updateScore,
+        onChange: () => {}, // TODO
     });
 
     const interval = 1000;
@@ -75,7 +75,7 @@ export function init(canvas: HTMLCanvasElement) {
     TIMER = new Timer({
         interval: interval,
         onChange: (time) => {
-            GameMenu.updateTimer(time);
+            // GameMenu.updateTimer(time); // TODO
             SCORE.timePassed(interval);
         },
     });
@@ -91,7 +91,7 @@ export function start() {
     setLevel(Options.get("startingLevel"));
 
     CLEARED_LINES = 0;
-    GameMenu.setClearedLines(CLEARED_LINES);
+    // GameMenu.setClearedLines(CLEARED_LINES); // TODO
 
     GRID = new Grid({ columns: numberOfColumns, lines: numberOfLines });
 
@@ -100,10 +100,10 @@ export function start() {
 
     // re-position the game menu
     const canvasHeight = GRID.height;
-    GameMenu.rePosition(canvasHeight);
+    // GameMenu.rePosition(canvasHeight); // TODO
 
     // get the game width
-    GAME_MENU_WIDTH = GameMenu.getWidth();
+    // GAME_MENU_WIDTH = GameMenu.getWidth(); // TODO
 
     NEXT_PIECE_ARGS = chooseRandomPiece();
     newPiece();
@@ -119,7 +119,7 @@ export function start() {
 
     // return the canvas dimension, according to the 'grid' + 'game menu' dimensions
     return {
-        width: GRID.width + GAME_MENU_WIDTH,
+        width: GRID.width + 185, // TODO
         height: canvasHeight,
     };
 }
@@ -223,7 +223,7 @@ function showNextPiece(nextPieceArgs: PieceArgs) {
 
     var piece = new Piece(nextPieceArgs);
 
-    piece.positionIn(GRID.width + GAME_MENU_WIDTH / 2 - Square.size / 2, 20);
+    piece.positionIn(GRID.width + 185 / 2 - Square.size / 2, 20); // TODO
     piece.addToContainer(STAGE);
 
     NEXT_PIECE = piece;
@@ -272,7 +272,7 @@ function clearEvents() {
 function clear() {
     clearEvents();
     setPaused(false);
-    GameMenu.hide();
+    // GameMenu.hide(); // TODO
 
     TIMER.reset();
     ACTIVE_PIECE = null;
@@ -309,7 +309,7 @@ function getActivePiece() {
  */
 export function oneMoreClearedLine() {
     CLEARED_LINES++;
-    GameMenu.setClearedLines(CLEARED_LINES);
+    // GameMenu.setClearedLines(CLEARED_LINES); // TODO
 
     SCORE.lineCleared(CURRENT_LEVEL);
 
@@ -336,7 +336,7 @@ function setLevel(level: number) {
     CURRENT_LEVEL = level;
     DELAY_LIMIT = DELAY_PER_LEVEL[CURRENT_LEVEL - 1];
 
-    GameMenu.setCurrentLevel(CURRENT_LEVEL, maxLevel);
+    // GameMenu.setCurrentLevel(CURRENT_LEVEL, maxLevel); // TODO
 }
 
 /**
@@ -351,20 +351,19 @@ export function getMaxLevel() {
  * When the same message is trying to be shown, it will show a counter of the times it was tried.
  */
 export function showMessage(text: string) {
-    const currentText = MESSAGE_TEXT.innerText;
-
-    // same message, add to the counter
-    if (text === currentText) {
-        const dataCount = MESSAGE_COUNT.getAttribute("data-count")!;
-        const count = parseInt(dataCount, 10) + 1;
-
-        MESSAGE_COUNT.setAttribute("data-count", count.toString());
-        MESSAGE_COUNT.innerText = count + "x";
-    } else {
-        MESSAGE_COUNT.setAttribute("data-count", "1");
-        MESSAGE_COUNT.innerText = "";
-        MESSAGE_TEXT.innerText = text;
-    }
+    // TODO
+    // const currentText = MESSAGE_TEXT.innerText;
+    // // same message, add to the counter
+    // if (text === currentText) {
+    //     const dataCount = MESSAGE_COUNT.getAttribute("data-count")!;
+    //     const count = parseInt(dataCount, 10) + 1;
+    //     MESSAGE_COUNT.setAttribute("data-count", count.toString());
+    //     MESSAGE_COUNT.innerText = count + "x";
+    // } else {
+    //     MESSAGE_COUNT.setAttribute("data-count", "1");
+    //     MESSAGE_COUNT.innerText = "";
+    //     MESSAGE_TEXT.innerText = text;
+    // }
 }
 
 /**
@@ -422,9 +421,10 @@ function quitGame() {
  * Clear the current message.
  */
 export function clearMessage() {
-    MESSAGE_COUNT.setAttribute("data-count", "0");
-    MESSAGE_COUNT.innerHTML = "";
-    MESSAGE_TEXT.innerHTML = "";
+    // TODO
+    // MESSAGE_COUNT.setAttribute("data-count", "0");
+    // MESSAGE_COUNT.innerHTML = "";
+    // MESSAGE_TEXT.innerHTML = "";
 }
 
 /**
@@ -454,7 +454,7 @@ function setPaused(state: boolean) {
         TIMER.start();
     }
 
-    GameMenu.updatePauseResume(state);
+    // GameMenu.updatePauseResume(state); // TODO
 }
 
 /**

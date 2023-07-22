@@ -1,5 +1,7 @@
 # [Try it out](http://nbpt.eu/games/tetris/)
 
+![Screen shot](/images/tetris_screenshot.png)
+
 # Description
 
 -   Each piece/element has 4 square blocks.
