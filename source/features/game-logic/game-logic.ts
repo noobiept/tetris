@@ -15,9 +15,9 @@ import {
     GhostPiece,
 } from "../../all_pieces";
 import Piece, { PieceArgs } from "../../piece";
-import { createDialog } from "../../dialog";
 import Timer from "../../timer";
 import { StageActions } from "../stage";
+import { ScoreData } from "../../high_score";
 
 // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;
@@ -52,6 +52,10 @@ var KEYS_HELD = {
     rightArrow: false, // move right
 };
 
+export type GameEndData = ScoreData & {
+    level: number;
+};
+
 export interface GameLogicArgs {
     stageActions: StageActions;
 }
@@ -61,6 +65,8 @@ export class GameLogic {
     private timer: Timer;
     private grid: Grid;
     private stageActions: StageActions;
+
+    private onEnd?: (score: GameEndData) => void;
     private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
     private keyUpListenerRef?: (event: KeyboardEvent) => boolean;
     private tickRef?: (e: Object) => void;
@@ -95,10 +101,11 @@ export class GameLogic {
     /**
      * Start a new game.
      */
-    start() {
+    start(onEnd: (score: GameEndData) => void) {
         var numberOfColumns = Options.get("numberOfColumns");
         var numberOfLines = Options.get("numberOfLines");
 
+        this.onEnd = onEnd;
         this.setLevel(Options.get("startingLevel"));
 
         CLEARED_LINES = 0;
@@ -146,7 +153,7 @@ export class GameLogic {
      * The previously active piece will be part of the stack now.
      * Also check for the game ending condition (see if it doesn't collide with other squares in the stack, otherwise the game is over).
      */
-    newPiece() {
+    private newPiece() {
         this.clearMessage();
 
         if (ACTIVE_PIECE) {
@@ -208,7 +215,7 @@ export class GameLogic {
     /**
      * Randomly choose the class of a piece.
      */
-    chooseRandomPiece(ignore?: PieceArgs) {
+    private chooseRandomPiece(ignore?: PieceArgs) {
         var possiblePieces = [
             IPiece,
             SPiece,
@@ -232,7 +239,7 @@ export class GameLogic {
     /**
      * Shows an image of the next piece to fall, in the game menu.
      */
-    showNextPiece(nextPieceArgs: PieceArgs) {
+    private showNextPiece(nextPieceArgs: PieceArgs) {
         if (NEXT_PIECE) {
             NEXT_PIECE.remove();
             NEXT_PIECE = null;
@@ -249,7 +256,7 @@ export class GameLogic {
     /**
      * The 'ghost piece' is always mirroring the 'active piece', but its positioned in the last possible position (close to the stack or the end of the grid).
      */
-    updateGhostPiecePosition() {
+    private updateGhostPiecePosition() {
         if (!ACTIVE_PIECE || !GHOST_PIECE) {
             return;
         }
@@ -263,7 +270,7 @@ export class GameLogic {
     /**
      * Move this piece downward continuously until it reaches either the stack, or the bottom of the grid.
      */
-    hardDrop(piece: Piece) {
+    private hardDrop(piece: Piece) {
         const position = this.grid.findLastPossiblePosition(piece);
 
         this.grid.clearPiece(piece);
@@ -276,7 +283,7 @@ export class GameLogic {
     /**
      * Remove the tick and keyboard listeners.
      */
-    clearEvents() {
+    private clearEvents() {
         createjs.Ticker.removeEventListener("tick", this.tick);
 
         if (this.keyDownListenerRef) {
@@ -306,21 +313,21 @@ export class GameLogic {
     /**
      * Increase the downward movement of the active piece.
      */
-    startSoftDrop() {
+    private startSoftDrop() {
         SOFT_DROP_ACTIVE = true;
     }
 
     /**
      * Back to the normal movement.
      */
-    stopSoftDrop() {
+    private stopSoftDrop() {
         SOFT_DROP_ACTIVE = false;
     }
 
     /**
      * Get the current active piece object.
      */
-    getActivePiece() {
+    private getActivePiece() {
         return ACTIVE_PIECE;
     }
 
@@ -328,7 +335,7 @@ export class GameLogic {
      * A line in the stack has been cleared.
      * Update the menus, and check if we reached a new level.
      */
-    oneMoreClearedLine() {
+    private oneMoreClearedLine() {
         CLEARED_LINES++;
         // GameMenu.setClearedLines(CLEARED_LINES); // TODO
 
@@ -343,7 +350,7 @@ export class GameLogic {
     /**
      * Set the current level. Will influence the difficulty of the game.
      */
-    setLevel(level: number) {
+    private setLevel(level: number) {
         if (level < 1) {
             level = 1;
         }
@@ -363,7 +370,7 @@ export class GameLogic {
     /**
      * Get the maximum achievable level of the game.
      */
-    getMaxLevel() {
+    private getMaxLevel() {
         return DELAY_PER_LEVEL.length;
     }
 
@@ -371,7 +378,7 @@ export class GameLogic {
      * Show a message in the game menu.
      * When the same message is trying to be shown, it will show a counter of the times it was tried.
      */
-    showMessage(text: string) {
+    private showMessage(text: string) {
         // TODO
         // const currentText = MESSAGE_TEXT.innerText;
         // // same message, add to the counter
@@ -390,35 +397,18 @@ export class GameLogic {
     /**
      * Game has ended. Show a message and then restart the game.
      */
-    end() {
+    private end() {
         this.clearEvents();
         this.setPaused(true);
 
         const score = this.score.getCurrentScore();
         const time = this.timer.getCount();
 
-        const added = HighScore.add({
-            score: score,
-            linesCleared: CLEARED_LINES,
-            time: time,
-        });
-
-        const endMessage = `
-        Level: ${CURRENT_LEVEL}<br />
-        Lines cleared: ${CLEARED_LINES}<br />
-        Time: ${Utilities.timeToString(time)}<br />
-        Score: ${score} ${
-            added ? `(${Utilities.cardinalToOrdinal(added)})` : ""
-        }
-    `;
-
-        createDialog({
-            title: "Game Over!",
-            body: endMessage,
-            onClose: () => {
-                this.clear();
-                this.start();
-            },
+        this.onEnd?.({
+            score,
+            linesCleared: CLEARED_LINES, // TODO
+            time,
+            level: CURRENT_LEVEL, // TODO
         });
     }
 
@@ -441,7 +431,7 @@ export class GameLogic {
     /**
      * Clear the current message.
      */
-    clearMessage() {
+    private clearMessage() {
         // TODO
         // MESSAGE_COUNT.setAttribute("data-count", "0");
         // MESSAGE_COUNT.innerHTML = "";
@@ -451,7 +441,7 @@ export class GameLogic {
     /**
      * Toggle between the pause/resume state.
      */
-    togglePaused() {
+    private togglePaused() {
         this.setPaused(!this.isPaused());
     }
 
@@ -488,7 +478,7 @@ export class GameLogic {
     /**
      * Deals with the keyboard shortcuts/controls.
      */
-    keyDownListener(event: KeyboardEvent) {
+    private keyDownListener(event: KeyboardEvent) {
         if (this.isPaused()) {
             return true;
         }
@@ -513,7 +503,7 @@ export class GameLogic {
     /**
      * Deals with the keyboard shortcuts/controls.
      */
-    keyUpListener(event: KeyboardEvent) {
+    private keyUpListener(event: KeyboardEvent) {
         if (this.isPaused()) {
             return true;
         }
@@ -582,7 +572,7 @@ export class GameLogic {
      * Checks when we need to add a new piece to the game.
      * Redraws the game.
      */
-    tick(event: createjs.TickerEvent) {
+    private tick(event: createjs.TickerEvent) {
         if (createjs.Ticker.paused) {
             return;
         }
@@ -605,7 +595,7 @@ export class GameLogic {
     /**
      * Deal with the horizontal movement of the active piece.
      */
-    tickHorizontalMovement(deltaTime: number) {
+    private tickHorizontalMovement(deltaTime: number) {
         HORIZONTAL_COUNT += deltaTime;
 
         if (HORIZONTAL_COUNT >= HORIZONTAL_LIMIT && ACTIVE_PIECE) {
@@ -629,7 +619,7 @@ export class GameLogic {
      * Move the active piece to the position below, at a given interval (based on the delay count/limit).
      * Returns a boolean that tells whether the active piece was able to move down or not.
      */
-    tickDownMovement(delta: number) {
+    private tickDownMovement(delta: number) {
         let limit = DELAY_LIMIT;
 
         // move the active piece to the bottom (if the limit has been reached)

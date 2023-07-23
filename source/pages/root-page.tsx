@@ -1,6 +1,7 @@
 import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Outlet } from "react-router-dom";
+import { DialogContextProvider } from "../features/dialog";
 
 const GlobalStyles = css`
     body {
@@ -23,9 +24,11 @@ const Container = styled.div`
 
 export function RootPage() {
     return (
-        <Container>
-            <Global styles={GlobalStyles} />
-            <Outlet />
-        </Container>
+        <DialogContextProvider>
+            <Container>
+                <Global styles={GlobalStyles} />
+                <Outlet />
+            </Container>
+        </DialogContextProvider>
     );
 }

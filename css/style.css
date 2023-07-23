@@ -115,16 +115,6 @@ em,
     color: red;
 }
 
-/* :: Dialog Message :: */
-
-#DialogMessage {
-    display: none;
-}
-
-.ui-dialog-titlebar {
-    display: none;
-}
-
 /* :: Range slider :: */
 
 .rangeInput {
@@ -158,54 +148,4 @@ em,
     border-radius: 50%;
     background: rgb(220, 10, 10);
     cursor: pointer;
-}
-
-/* :: Dialog :: */
-
-.dialogOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    filter: blur(5px);
-    z-index: 100;
-}
-
-.dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: black;
-    background-color: white;
-    padding: 5px;
-    min-width: 200px;
-    border-radius: 10px;
-    z-index: 101;
-}
-
-.dialog hr {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.dialogTitle {
-    font-weight: bold;
-    margin: 10px;
-}
-
-.dialogBody {
-    margin: 20px 0;
-}
-
-.dialogButtons {
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.dialogButton {
-    font-size: 22px;
-    padding: 5px 15px;
-    margin: 10px;
 }
