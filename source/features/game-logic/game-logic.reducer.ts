@@ -16,19 +16,26 @@ type GamePauseAction = {
     paused: boolean;
 };
 
+type GameMessageAction = {
+    type: "message";
+    message: string;
+};
+
 export type GameAction =
     | UpdateScoreAction
     | GameEndAction
     | GameQuitAction
-    | GamePauseAction;
+    | GamePauseAction
+    | GameMessageAction;
 
 export type GameState = {
     score: number;
     paused: boolean;
+    message: string;
+    messageCount: number;
 };
 
 export function gameLogicReducer(state: GameState, action: GameAction) {
-    console.log("gameLogicReducer", action);
     switch (action.type) {
         case "update-score":
             return {
@@ -40,6 +47,21 @@ export function gameLogicReducer(state: GameState, action: GameAction) {
             return {
                 ...state,
                 paused: action.paused,
+            };
+
+        case "message":
+            // if its the same message we update the count (to show how many times it triggered)
+            if (action.message && state.message === action.message) {
+                return {
+                    ...state,
+                    messageCount: state.messageCount + 1,
+                };
+            }
+
+            return {
+                ...state,
+                message: action.message,
+                messageCount: 0,
             };
     }
 

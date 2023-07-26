@@ -22,6 +22,8 @@ export function GamePage() {
     const [game, dispatch] = useReducer(gameLogicReducer, {
         score: 0,
         paused: false,
+        message: "",
+        messageCount: 0,
     });
     const gameRef = useRef(new GameLogic({ stageActions, dispatch }));
     const { openDialog } = useContext(DialogContext);
@@ -62,7 +64,6 @@ export function GamePage() {
         };
     }, [stageRef.current]);
 
-    const message = "";
     const onQuit = () => {
         gameRef.current.quitGame(); // TODO
         navigate(RoutePath.home);
@@ -77,7 +78,6 @@ export function GamePage() {
             <Canvas dimensions={dimensions} stageRef={stageRef} />
             <GameMenu
                 game={game}
-                message={message}
                 onQuit={onQuit}
                 onPauseResume={onPauseResume}
             />

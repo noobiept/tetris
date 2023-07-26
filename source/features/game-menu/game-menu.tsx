@@ -27,17 +27,11 @@ const Message = styled.div`
 
 export interface GameMenuProps {
     game: GameState;
-    message?: string;
     onQuit: () => void;
     onPauseResume: () => void;
 }
 
-export function GameMenu({
-    game,
-    message,
-    onQuit,
-    onPauseResume,
-}: GameMenuProps) {
+export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
     const topInfo = [
         { label: "Current Level", value: 0 },
         { label: "Cleared Lines", value: 0 },
@@ -53,7 +47,10 @@ export function GameMenu({
                         {info.label}: <Value>{info.value}</Value>
                     </div>
                 ))}
-                <Message>{message}</Message>
+                <Message>
+                    {game.messageCount > 0 && `${game.messageCount}x `}
+                    {game.message}
+                </Message>
             </Top>
             <Bottom>
                 <Button onClick={onPauseResume}>

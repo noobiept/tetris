@@ -57,11 +57,6 @@ export type GameEndData = ScoreData & {
     level: number;
 };
 
-export type GameMessage = {
-    text: string;
-    count: number;
-};
-
 export interface GameLogicArgs {
     stageActions: StageActions;
     dispatch: (action: GameAction) => void;
@@ -393,19 +388,10 @@ export class GameLogic {
      * When the same message is trying to be shown, it will show a counter of the times it was tried.
      */
     private showMessage(text: string) {
-        // TODO
-        // const currentText = MESSAGE_TEXT.innerText;
-        // // same message, add to the counter
-        // if (text === currentText) {
-        //     const dataCount = MESSAGE_COUNT.getAttribute("data-count")!;
-        //     const count = parseInt(dataCount, 10) + 1;
-        //     MESSAGE_COUNT.setAttribute("data-count", count.toString());
-        //     MESSAGE_COUNT.innerText = count + "x";
-        // } else {
-        //     MESSAGE_COUNT.setAttribute("data-count", "1");
-        //     MESSAGE_COUNT.innerText = "";
-        //     MESSAGE_TEXT.innerText = text;
-        // }
+        this.dispatch({
+            type: "message",
+            message: text,
+        });
     }
 
     /**
@@ -446,10 +432,10 @@ export class GameLogic {
      * Clear the current message.
      */
     private clearMessage() {
-        // TODO
-        // MESSAGE_COUNT.setAttribute("data-count", "0");
-        // MESSAGE_COUNT.innerHTML = "";
-        // MESSAGE_TEXT.innerHTML = "";
+        this.dispatch({
+            type: "message",
+            message: "",
+        });
     }
 
     /**
