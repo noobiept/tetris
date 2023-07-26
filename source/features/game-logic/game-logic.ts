@@ -18,6 +18,7 @@ import Piece, { PieceArgs } from "../../piece";
 import Timer from "../../timer";
 import { StageActions } from "../stage";
 import { ScoreData } from "../../high_score";
+import { GameAction } from "./game-logic.reducer";
 
 // number of milliseconds until the active piece moves down 1 position
 var DELAY_LIMIT = 0;
@@ -56,8 +57,14 @@ export type GameEndData = ScoreData & {
     level: number;
 };
 
+export type GameMessage = {
+    text: string;
+    count: number;
+};
+
 export interface GameLogicArgs {
     stageActions: StageActions;
+    dispatch: (action: GameAction) => void;
 }
 
 export class GameLogic {
@@ -65,6 +72,7 @@ export class GameLogic {
     private timer: Timer;
     private grid: Grid;
     private stageActions: StageActions;
+    private dispatch: (action: GameAction) => void;
 
     private onEnd?: (score: GameEndData) => void;
     private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
@@ -74,9 +82,14 @@ export class GameLogic {
     /**
      * Initialize the game logic class.
      */
-    constructor({ stageActions }: GameLogicArgs) {
+    constructor({ stageActions, dispatch }: GameLogicArgs) {
         this.score = new Score({
-            onChange: () => {}, // TODO
+            onChange: () => {
+                dispatch({
+                    type: "update-score",
+                    score: this.score.getCurrentScore(),
+                });
+            },
         });
 
         const interval = 1000;
@@ -96,6 +109,7 @@ export class GameLogic {
         });
 
         this.stageActions = stageActions;
+        this.dispatch = dispatch;
     }
 
     /**
@@ -441,7 +455,7 @@ export class GameLogic {
     /**
      * Toggle between the pause/resume state.
      */
-    private togglePaused() {
+    togglePaused() {
         this.setPaused(!this.isPaused());
     }
 

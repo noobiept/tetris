@@ -75,7 +75,9 @@ export function Dialog({ title, body, onClose }: DialogProps) {
                 <Body>
                     {typeof body === "string"
                         ? body
-                        : body.map((line) => <div>{line}</div>)}
+                        : body.map((line, index) => (
+                              <div key={index}>{line}</div>
+                          ))}
                 </Body>
                 <Rule />
                 <Buttons>

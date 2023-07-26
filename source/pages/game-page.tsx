@@ -1,18 +1,29 @@
 import styled from "@emotion/styled";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { Canvas, CanvasDimensions } from "../features/canvas";
 import { GameMenu } from "../features/game-menu";
-import { GameEndData, GameLogic } from "../features/game-logic";
+import {
+    GameEndData,
+    GameLogic,
+    gameLogicReducer,
+} from "../features/game-logic";
 import { useStage } from "../features/stage";
-import { Dialog, DialogContext, DialogProps } from "../features/dialog";
+import { DialogContext } from "../features/dialog";
 import * as HighScore from "../high_score";
 import * as Utilities from "../utilities";
+import { useNavigate } from "react-router-dom";
+import { RoutePath } from "../core/routes";
 
 const Container = styled.div``;
 
 export function GamePage() {
+    const navigate = useNavigate();
     const { stageRef, stageActions } = useStage();
-    const gameRef = useRef(new GameLogic({ stageActions }));
+    const [game, dispatch] = useReducer(gameLogicReducer, {
+        score: 0,
+        paused: false,
+    });
+    const gameRef = useRef(new GameLogic({ stageActions, dispatch }));
     const { openDialog } = useContext(DialogContext);
 
     const [dimensions, setDimensions] = useState<CanvasDimensions>({
@@ -25,7 +36,6 @@ export function GamePage() {
 
         const onEnd = (data: GameEndData) => {
             const added = HighScore.add(data);
-
             const endMessage = [
                 `Level: ${data.level}`,
                 `Lines cleared: ${data.linesCleared}`,
@@ -52,10 +62,25 @@ export function GamePage() {
         };
     }, [stageRef.current]);
 
+    const message = "";
+    const onQuit = () => {
+        gameRef.current.quitGame(); // TODO
+        navigate(RoutePath.home);
+    };
+    const onPauseResume = () => {
+        gameRef.current.togglePaused(); // TODO
+        dispatch({ type: "pause", paused: gameRef.current.isPaused() });
+    };
+
     return (
         <Container>
             <Canvas dimensions={dimensions} stageRef={stageRef} />
-            <GameMenu />
+            <GameMenu
+                game={game}
+                message={message}
+                onQuit={onQuit}
+                onPauseResume={onPauseResume}
+            />
         </Container>
     );
 }

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Button } from "../../components/button";
-import { useState } from "react";
 import { RoutePath } from "../../core/routes";
+import { GameState } from "../game-logic";
 
 const Container = styled.div`
     position: absolute;
@@ -25,33 +25,43 @@ const Message = styled.div`
     color: red;
 `;
 
-export function GameMenu() {
+export interface GameMenuProps {
+    game: GameState;
+    message?: string;
+    onQuit: () => void;
+    onPauseResume: () => void;
+}
+
+export function GameMenu({
+    game,
+    message,
+    onQuit,
+    onPauseResume,
+}: GameMenuProps) {
     const topInfo = [
-        { label: "Current Level" },
-        { label: "Cleared Lines" },
-        { label: "Time" },
-        { label: "Score" },
+        { label: "Current Level", value: 0 },
+        { label: "Cleared Lines", value: 0 },
+        { label: "Time", value: 0 },
+        { label: "Score", value: game.score },
     ];
-    const [messageCount, setMessageCount] = useState(0);
-    const [messageText, setMessageText] = useState("");
-    const [paused, setPaused] = useState(false); // TODO
 
     return (
         <Container>
             <Top>
                 {topInfo.map((info) => (
                     <div key={info.label}>
-                        {info.label}: <Value />
+                        {info.label}: <Value>{info.value}</Value>
                     </div>
                 ))}
-                <Message>
-                    <span>{messageCount}</span>
-                    <span>{messageText}</span>
-                </Message>
+                <Message>{message}</Message>
             </Top>
             <Bottom>
-                <Button>{paused ? "Resume" : "Pause"}</Button>
-                <Button to={RoutePath.home}>Quit</Button>
+                <Button onClick={onPauseResume}>
+                    {game.paused ? "Resume" : "Pause"}
+                </Button>
+                <Button onClick={onQuit} to={RoutePath.home}>
+                    Quit
+                </Button>
             </Bottom>
         </Container>
     );
