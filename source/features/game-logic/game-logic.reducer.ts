@@ -1,10 +1,18 @@
+import { type ScoreData } from "../../high_score";
+import { GameEndData } from "./game-logic";
+
 type UpdateScoreAction = {
     type: "update-score";
-    score: number;
+    score: ScoreData;
 };
 
 type GameEndAction = {
     type: "end";
+    score: GameEndData;
+};
+
+type GameRestartAction = {
+    type: "restart";
 };
 
 type GameQuitAction = {
@@ -26,13 +34,25 @@ export type GameAction =
     | GameEndAction
     | GameQuitAction
     | GamePauseAction
-    | GameMessageAction;
+    | GameMessageAction
+    | GameRestartAction;
 
 export type GameState = {
-    score: number;
+    score: ScoreData;
     paused: boolean;
     message: string;
     messageCount: number;
+};
+
+export const initialGameState: GameState = {
+    score: {
+        score: 0,
+        linesCleared: 0,
+        time: 0,
+    },
+    paused: false,
+    message: "",
+    messageCount: 0,
 };
 
 export function gameLogicReducer(state: GameState, action: GameAction) {
@@ -62,6 +82,11 @@ export function gameLogicReducer(state: GameState, action: GameAction) {
                 ...state,
                 message: action.message,
                 messageCount: 0,
+            };
+
+        case "restart":
+            return {
+                ...initialGameState,
             };
     }
 

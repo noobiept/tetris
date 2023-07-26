@@ -1,6 +1,5 @@
 import * as Options from "../../options";
 import * as Utilities from "../../utilities";
-import * as HighScore from "../../high_score";
 import Score from "../../score";
 import Grid from "../../grid";
 import Square from "../../square";
@@ -69,7 +68,6 @@ export class GameLogic {
     private stageActions: StageActions;
     private dispatch: (action: GameAction) => void;
 
-    private onEnd?: (score: GameEndData) => void;
     private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
     private keyUpListenerRef?: (event: KeyboardEvent) => boolean;
     private tickRef?: (e: Object) => void;
@@ -82,7 +80,11 @@ export class GameLogic {
             onChange: () => {
                 dispatch({
                     type: "update-score",
-                    score: this.score.getCurrentScore(),
+                    score: {
+                        score: this.score.getCurrentScore(),
+                        linesCleared: CLEARED_LINES, // TODO,
+                        time: this.timer.getCount(),
+                    },
                 });
             },
         });
@@ -90,8 +92,7 @@ export class GameLogic {
         const interval = 1000;
         this.timer = new Timer({
             interval: interval,
-            onChange: (time) => {
-                // GameMenu.updateTimer(time); // TODO
+            onChange: () => {
                 this.score.timePassed(interval);
             },
         });
@@ -110,11 +111,10 @@ export class GameLogic {
     /**
      * Start a new game.
      */
-    start(onEnd: (score: GameEndData) => void) {
+    start() {
         var numberOfColumns = Options.get("numberOfColumns");
         var numberOfLines = Options.get("numberOfLines");
 
-        this.onEnd = onEnd;
         this.setLevel(Options.get("startingLevel"));
 
         CLEARED_LINES = 0;
@@ -309,7 +309,6 @@ export class GameLogic {
     clear() {
         this.clearEvents();
         this.setPaused(false);
-        // GameMenu.hide(); // TODO
 
         this.timer.reset();
         ACTIVE_PIECE = null;
@@ -395,37 +394,24 @@ export class GameLogic {
     }
 
     /**
-     * Game has ended. Show a message and then restart the game.
+     * Game has ended, Pause the game and dispatch the appropriate actions.
      */
     private end() {
         this.clearEvents();
         this.setPaused(true);
 
-        const score = this.score.getCurrentScore();
         const time = this.timer.getCount();
-
-        this.onEnd?.({
-            score,
+        const score = {
+            score: this.score.getCurrentScore(),
             linesCleared: CLEARED_LINES, // TODO
             time,
             level: CURRENT_LEVEL, // TODO
+        };
+
+        this.dispatch({
+            type: "end",
+            score,
         });
-    }
-
-    /**
-     * Save the current score and clear the game state.
-     */
-    quitGame() {
-        const score = this.score.getCurrentScore();
-        const time = this.timer.getCount();
-
-        HighScore.add({
-            score: score,
-            linesCleared: CLEARED_LINES,
-            time: time,
-        });
-
-        this.clear();
     }
 
     /**
@@ -436,13 +422,6 @@ export class GameLogic {
             type: "message",
             message: "",
         });
-    }
-
-    /**
-     * Toggle between the pause/resume state.
-     */
-    togglePaused() {
-        this.setPaused(!this.isPaused());
     }
 
     /**
@@ -464,8 +443,6 @@ export class GameLogic {
         } else {
             this.timer.start();
         }
-
-        // GameMenu.updatePauseResume(state); // TODO
     }
 
     /**

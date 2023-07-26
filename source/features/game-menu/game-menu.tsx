@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Button } from "../../components/button";
 import { RoutePath } from "../../core/routes";
 import { GameState } from "../game-logic";
+import { timeToString } from "../../utilities";
 
 const Container = styled.div`
     position: absolute;
@@ -32,11 +33,12 @@ export interface GameMenuProps {
 }
 
 export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
+    const { score, message, messageCount, paused } = game;
     const topInfo = [
-        { label: "Current Level", value: 0 },
-        { label: "Cleared Lines", value: 0 },
-        { label: "Time", value: 0 },
-        { label: "Score", value: game.score },
+        { label: "Current Level", value: 0 }, // TODO
+        { label: "Cleared Lines", value: score.linesCleared },
+        { label: "Time", value: timeToString(score.time) },
+        { label: "Score", value: score.score },
     ];
 
     return (
@@ -48,13 +50,13 @@ export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
                     </div>
                 ))}
                 <Message>
-                    {game.messageCount > 0 && `${game.messageCount}x `}
-                    {game.message}
+                    {messageCount > 0 && `${messageCount}x `}
+                    {message}
                 </Message>
             </Top>
             <Bottom>
                 <Button onClick={onPauseResume}>
-                    {game.paused ? "Resume" : "Pause"}
+                    {paused ? "Resume" : "Pause"}
                 </Button>
                 <Button onClick={onQuit} to={RoutePath.home}>
                     Quit

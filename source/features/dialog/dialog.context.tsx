@@ -3,10 +3,12 @@ import { Dialog, DialogProps } from "./dialog";
 
 export type DialogContextValue = {
     openDialog: (props: DialogProps) => void;
+    closeDialog: () => void;
 };
 
 export const DialogContext = createContext<DialogContextValue>({
     openDialog: () => {},
+    closeDialog: () => {},
 });
 
 interface DialogContextProviderProps {
@@ -19,6 +21,7 @@ export function DialogContextProvider({
     const [dialogProps, setDialogProps] = useState<DialogProps | undefined>();
     const value = {
         openDialog: (val: DialogProps) => setDialogProps(val),
+        closeDialog: () => setDialogProps(undefined),
     };
 
     return (

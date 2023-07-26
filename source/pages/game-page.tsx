@@ -1,11 +1,14 @@
 import styled from "@emotion/styled";
-import { useContext, useEffect, useReducer, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Canvas, CanvasDimensions } from "../features/canvas";
 import { GameMenu } from "../features/game-menu";
 import {
+    GameAction,
     GameEndData,
     GameLogic,
+    GameState,
     gameLogicReducer,
+    initialGameState,
 } from "../features/game-logic";
 import { useStage } from "../features/stage";
 import { DialogContext } from "../features/dialog";
@@ -13,29 +16,14 @@ import * as HighScore from "../high_score";
 import * as Utilities from "../utilities";
 import { useNavigate } from "react-router-dom";
 import { RoutePath } from "../core/routes";
+import { useReducerWM } from "../core/use-reducer";
 
 const Container = styled.div``;
 
 export function GamePage() {
     const navigate = useNavigate();
     const { stageRef, stageActions } = useStage();
-    const [game, dispatch] = useReducer(gameLogicReducer, {
-        score: 0,
-        paused: false,
-        message: "",
-        messageCount: 0,
-    });
-    const gameRef = useRef(new GameLogic({ stageActions, dispatch }));
-    const { openDialog } = useContext(DialogContext);
-
-    const [dimensions, setDimensions] = useState<CanvasDimensions>({
-        width: 600,
-        height: 450,
-    });
-
-    useEffect(() => {
-        createjs.Ticker.timingMode = createjs.Ticker.RAF;
-
+    const middleware = useCallback((action: GameAction, state: GameState) => {
         const onEnd = (data: GameEndData) => {
             const added = HighScore.add(data);
             const endMessage = [
@@ -51,12 +39,46 @@ export function GamePage() {
                 title: "Game Over!",
                 body: endMessage,
                 onClose: () => {
-                    // TODO
+                    closeDialog();
+                    dispatch({ type: "restart" });
                 },
             });
         };
 
-        const updatedDimensions = gameRef.current.start(onEnd);
+        switch (action.type) {
+            case "end":
+                dispatch({ type: "pause", paused: true });
+                onEnd(action.score);
+                break;
+
+            case "pause":
+                gameRef.current.setPaused(action.paused);
+                break;
+
+            case "restart":
+                stageActions.clean();
+                gameRef.current.start();
+                gameRef.current.setPaused(false);
+                break;
+        }
+    }, []);
+    const [game, dispatch] = useReducerWM(
+        gameLogicReducer,
+        initialGameState,
+        middleware
+    );
+    const gameRef = useRef(new GameLogic({ stageActions, dispatch }));
+    const { openDialog, closeDialog } = useContext(DialogContext);
+
+    const [dimensions, setDimensions] = useState<CanvasDimensions>({
+        width: 600,
+        height: 450,
+    });
+
+    useEffect(() => {
+        createjs.Ticker.timingMode = createjs.Ticker.RAF;
+
+        const updatedDimensions = gameRef.current.start();
         setDimensions(updatedDimensions);
 
         return () => {
@@ -65,12 +87,13 @@ export function GamePage() {
     }, [stageRef.current]);
 
     const onQuit = () => {
-        gameRef.current.quitGame(); // TODO
+        HighScore.add(game.score);
+        gameRef.current.clear();
+
         navigate(RoutePath.home);
     };
     const onPauseResume = () => {
-        gameRef.current.togglePaused(); // TODO
-        dispatch({ type: "pause", paused: gameRef.current.isPaused() });
+        dispatch({ type: "pause", paused: !gameRef.current.isPaused() });
     };
 
     return (
