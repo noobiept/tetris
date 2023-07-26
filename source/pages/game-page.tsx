@@ -6,7 +6,6 @@ import {
     GameAction,
     GameEndData,
     GameLogic,
-    GameState,
     gameLogicReducer,
     initialGameState,
 } from "../features/game-logic";
@@ -23,7 +22,8 @@ const Container = styled.div``;
 export function GamePage() {
     const navigate = useNavigate();
     const { stageRef, stageActions } = useStage();
-    const middleware = useCallback((action: GameAction, state: GameState) => {
+
+    const middleware = useCallback((action: GameAction) => {
         const onEnd = (data: GameEndData) => {
             const added = HighScore.add(data);
             const endMessage = [

@@ -9,7 +9,7 @@ export interface OptionsData {
 }
 
 // default options
-var OPTIONS: OptionsData = {
+const OPTIONS: OptionsData = {
     numberOfColumns: 10,
     numberOfLines: 20,
     startingLevel: 1,

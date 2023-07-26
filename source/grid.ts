@@ -56,10 +56,10 @@ export default class Grid {
         // tells which squares of the grid are occupied
         this.grid_array = [];
 
-        for (var i = 0; i < numberOfColumns; i++) {
+        for (let i = 0; i < numberOfColumns; i++) {
             this.grid_array[i] = [];
 
-            for (var k = 0; k < numberOfLines; k++) {
+            for (let k = 0; k < numberOfLines; k++) {
                 this.grid_array[i][k] = null;
             }
         }
@@ -85,12 +85,12 @@ export default class Grid {
         background.x = 0;
         background.y = 0;
 
-        var g = background.graphics;
+        let g = background.graphics;
         g.beginFill("black");
         g.drawRect(0, 0, this.width, margin + extraLinesHeight);
 
         // top line
-        var top = new createjs.Shape();
+        const top = new createjs.Shape();
         top.x = separation;
         top.y = separation + extraLinesHeight;
 
@@ -99,7 +99,7 @@ export default class Grid {
         g.drawRect(0, -thickness, innerWidth, thickness);
 
         // bottom line
-        var bottom = new createjs.Shape();
+        const bottom = new createjs.Shape();
         bottom.x = separation;
         bottom.y = separation + innerHeight;
 
@@ -108,16 +108,16 @@ export default class Grid {
         g.drawRect(0, 0, innerWidth, thickness);
 
         // left line
-        var left = new createjs.Shape();
+        const left = new createjs.Shape();
         left.x = margin;
         left.y = margin + extraLinesHeight;
 
-        var g = left.graphics;
+        g = left.graphics;
         g.beginFill("white");
         g.drawRect(0, 0, thickness, sideLength);
 
         // right line
-        var right = new createjs.Shape();
+        const right = new createjs.Shape();
         right.x = this.separation_length + innerWidth;
         right.y = margin + extraLinesHeight;
 
@@ -126,7 +126,7 @@ export default class Grid {
         g.drawRect(0, 0, thickness, sideLength);
 
         // container
-        var container = new createjs.Container();
+        const container = new createjs.Container();
         container.x = 0;
         container.y = 0;
 
@@ -187,9 +187,9 @@ export default class Grid {
      * Add a piece to the grid.
      */
     addPiece(piece: Piece, position: GridPosition, addToGrid = true) {
-        var other = piece.getOtherSquares();
-        var pivot = piece.getPivotSquare();
-        var currentRotation = piece.getCurrentRotationInfo();
+        const other = piece.getOtherSquares();
+        const pivot = piece.getPivotSquare();
+        const currentRotation = piece.getCurrentRotationInfo();
 
         this.addSquare(pivot, position, addToGrid);
 
@@ -230,7 +230,7 @@ export default class Grid {
             }
 
             // check if it doesn't collide with the stacked squares
-            var nextSquare = this.grid_array[nextColumn][nextLine];
+            const nextSquare = this.grid_array[nextColumn][nextLine];
 
             if (nextSquare && nextSquare.inStack()) {
                 return false;
@@ -275,7 +275,7 @@ export default class Grid {
                 return false;
             }
 
-            var square = this.grid_array[column][line];
+            const square = this.grid_array[column][line];
 
             if (square && square.inStack()) {
                 return false;
@@ -293,8 +293,8 @@ export default class Grid {
      * Check for any completed line.
      */
     checkClearedLines() {
-        var line, column;
-        var square;
+        let line, column;
+        let square;
 
         // go through all the lines, starting from the bottom
         for (line = this.numberOfLines - 1; line >= 0; line--) {
@@ -323,8 +323,8 @@ export default class Grid {
      * We remove that line, and move what was on top of it 1 line down.
      */
     clearLine(clearedLine: number) {
-        var square;
-        var column, line;
+        let square;
+        let column, line;
 
         for (column = 0; column < this.numberOfColumns; column++) {
             square = this.grid_array[column][clearedLine];
@@ -361,7 +361,7 @@ export default class Grid {
     findLastPossiblePosition(piece: Piece) {
         const pivotPosition = piece.getPivotPosition();
         let count = 0; // how far we gone down
-        let positions = piece.getAllPositions();
+        const positions = piece.getAllPositions();
         let stop = false;
 
         while (!stop) {

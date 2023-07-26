@@ -11,6 +11,7 @@ export interface ButtonProps {
     className?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const StyledLink = (component: any) => styled(component)<{ size?: ButtonSize }>`
     cursor: pointer;
     display: inline-block;

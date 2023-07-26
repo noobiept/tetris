@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import { Button } from "../components/button";
-import { RoutePath } from "../core/routes";
 import { BackButton } from "../components/back-button";
 
 const Container = styled.div``;

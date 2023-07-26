@@ -20,16 +20,16 @@ export default class Piece {
     constructor(args: PieceArgs) {
         const color = args.color;
 
-        var pivot = new Square({
+        const pivot = new Square({
             color: args.pivotColor,
         });
-        var square1 = new Square({
+        const square1 = new Square({
             color: color,
         });
-        var square2 = new Square({
+        const square2 = new Square({
             color: color,
         });
-        var square3 = new Square({
+        const square3 = new Square({
             color: color,
         });
 
@@ -44,7 +44,7 @@ export default class Piece {
      * Add the piece squares to a container (can be the grid container element, or other element if its positioned outside of the grid).
      */
     addToContainer(container: createjs.Container) {
-        for (var a = 0; a < this.all_squares.length; a++) {
+        for (let a = 0; a < this.all_squares.length; a++) {
             const square = this.all_squares[a];
             square.addTo(container);
         }
@@ -54,15 +54,15 @@ export default class Piece {
      * Position a piece in a given x/y position (unrelated to the grid).
      */
     positionIn(x: number, y: number) {
-        var pivot = this.pivot_square;
-        var other = this.other_squares;
-        var currentRotation = this.getCurrentRotationInfo();
+        const pivot = this.pivot_square;
+        const other = this.other_squares;
+        const currentRotation = this.getCurrentRotationInfo();
 
         pivot.moveTo(x, y);
 
-        for (var a = 0; a < currentRotation.length; a++) {
-            var rotation = currentRotation[a];
-            var square = other[a];
+        for (let a = 0; a < currentRotation.length; a++) {
+            const rotation = currentRotation[a];
+            const square = other[a];
 
             square.moveTo(
                 x + rotation.column * Square.size,
@@ -96,7 +96,7 @@ export default class Piece {
      * Return the next left rotation (anti-clockwise).
      */
     getLeftRotation() {
-        var nextPosition = this.current_rotation - 1;
+        let nextPosition = this.current_rotation - 1;
 
         if (nextPosition < 0) {
             nextPosition = this.args.possibleRotations.length - 1;
@@ -112,7 +112,7 @@ export default class Piece {
      * Return the next right rotation (clockwise).
      */
     getRightRotation() {
-        var nextPosition = this.current_rotation + 1;
+        let nextPosition = this.current_rotation + 1;
 
         if (nextPosition >= this.args.possibleRotations.length) {
             nextPosition = 0;

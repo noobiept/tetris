@@ -17,10 +17,10 @@ export default class Square {
 
     constructor(args: SquareArgs) {
         // width/height
-        var size = Square.size;
-        var shape = new createjs.Shape();
+        const size = Square.size;
+        const shape = new createjs.Shape();
 
-        var g = shape.graphics;
+        const g = shape.graphics;
 
         g.beginFill(args.color);
         g.drawRoundRect(0, 0, size, size, 2);

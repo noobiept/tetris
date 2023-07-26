@@ -20,12 +20,12 @@ import { ScoreData } from "../../high_score";
 import { GameAction } from "./game-logic.reducer";
 
 // number of milliseconds until the active piece moves down 1 position
-var DELAY_LIMIT = 0;
-var DELAY_COUNT = 0;
+let DELAY_LIMIT = 0;
+let DELAY_COUNT = 0;
 
 // time between the horizontal move of a piece
-var HORIZONTAL_LIMIT = 75;
-var HORIZONTAL_COUNT = 0;
+const HORIZONTAL_LIMIT = 75;
+let HORIZONTAL_COUNT = 0;
 
 // time between the downward movement of the active piece
 // it is reduced as the current level increases
@@ -33,21 +33,21 @@ var HORIZONTAL_COUNT = 0;
 const DELAY_PER_LEVEL = [600, 480, 384, 307, 246, 197, 157, 126, 101, 81];
 const SOFT_DROP_DELAY = 40; // downward movement when the 'soft drop' is active
 
-var SOFT_DROP_ACTIVE = false;
-var CURRENT_LEVEL = 1; // starts at 1 instead of 0
+let SOFT_DROP_ACTIVE = false;
+let CURRENT_LEVEL = 1; // starts at 1 instead of 0
 
 // number of cleared lines so far (count)
-var CLEARED_LINES = 0;
+let CLEARED_LINES = 0;
 
-var ACTIVE_PIECE: Piece | null = null; // current active piece on the map (falling)
-var GHOST_PIECE: Piece | null = null; // shows where the active piece will end up at if no change is made
+let ACTIVE_PIECE: Piece | null = null; // current active piece on the map (falling)
+let GHOST_PIECE: Piece | null = null; // shows where the active piece will end up at if no change is made
 
 // has the next piece class (so, 'IPiece' or 'TPiece', etc)
-var NEXT_PIECE_ARGS: PieceArgs;
-var NEXT_PIECE: Piece | null = null; // has the next piece object
+let NEXT_PIECE_ARGS: PieceArgs;
+let NEXT_PIECE: Piece | null = null; // has the next piece object
 
 // keys being pressed/held
-var KEYS_HELD = {
+const KEYS_HELD = {
     leftArrow: false, // move left
     rightArrow: false, // move right
 };
@@ -70,7 +70,7 @@ export class GameLogic {
 
     private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
     private keyUpListenerRef?: (event: KeyboardEvent) => boolean;
-    private tickRef?: (e: Object) => void;
+    private tickRef?: (e: object) => void;
 
     /**
      * Initialize the game logic class.
@@ -112,13 +112,12 @@ export class GameLogic {
      * Start a new game.
      */
     start() {
-        var numberOfColumns = Options.get("numberOfColumns");
-        var numberOfLines = Options.get("numberOfLines");
+        const numberOfColumns = Options.get("numberOfColumns");
+        const numberOfLines = Options.get("numberOfLines");
 
         this.setLevel(Options.get("startingLevel"));
 
         CLEARED_LINES = 0;
-        // GameMenu.setClearedLines(CLEARED_LINES); // TODO
 
         this.grid = new Grid({
             columns: numberOfColumns,
@@ -129,10 +128,6 @@ export class GameLogic {
 
         // re-position the game menu
         const canvasHeight = this.grid.height;
-        // GameMenu.rePosition(canvasHeight); // TODO
-
-        // get the game width
-        // GAME_MENU_WIDTH = GameMenu.getWidth(); // TODO
 
         NEXT_PIECE_ARGS = this.chooseRandomPiece();
         this.newPiece();
@@ -174,8 +169,8 @@ export class GameLogic {
         }
 
         // the next piece is the one determined before
-        var pieceArgs = NEXT_PIECE_ARGS;
-        var rotation = pieceArgs.possibleRotations[0];
+        const pieceArgs = NEXT_PIECE_ARGS;
+        const rotation = pieceArgs.possibleRotations[0];
 
         // the start position
         const pivotPosition = {
@@ -225,7 +220,7 @@ export class GameLogic {
      * Randomly choose the class of a piece.
      */
     private chooseRandomPiece(ignore?: PieceArgs) {
-        var possiblePieces = [
+        let possiblePieces = [
             IPiece,
             SPiece,
             TPiece,
@@ -240,7 +235,7 @@ export class GameLogic {
             possiblePieces = possiblePieces.filter((piece) => piece !== ignore);
         }
 
-        var choose = Utilities.getRandomInt(0, possiblePieces.length - 1);
+        const choose = Utilities.getRandomInt(0, possiblePieces.length - 1);
 
         return possiblePieces[choose];
     }
@@ -254,7 +249,7 @@ export class GameLogic {
             NEXT_PIECE = null;
         }
 
-        var piece = new Piece(nextPieceArgs);
+        const piece = new Piece(nextPieceArgs);
 
         piece.positionIn(this.grid.width + 185 / 2 - Square.size / 2, 20); // TODO
         this.stageActions.addPiece(piece);
@@ -363,7 +358,7 @@ export class GameLogic {
             level = 1;
         }
 
-        var maxLevel = this.getMaxLevel();
+        const maxLevel = this.getMaxLevel();
 
         if (level >= maxLevel) {
             level = maxLevel;
@@ -485,7 +480,7 @@ export class GameLogic {
             return true;
         }
 
-        var activePiece = this.getActivePiece();
+        const activePiece = this.getActivePiece();
 
         switch (event.keyCode) {
             case Utilities.EVENT_KEY.leftArrow:
