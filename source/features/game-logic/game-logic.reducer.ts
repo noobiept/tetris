@@ -1,4 +1,4 @@
-import { type ScoreData } from "../../high_score";
+import { type ScoreData } from "../high-score";
 
 export type GameEndData = ScoreData & {
     level: number;

@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
 import { BackButton } from "../components/back-button";
+import { useHighScore } from "../features/high-score";
+import { timeToString } from "@drk4/utilities";
 
 const Container = styled.div``;
 const Header = styled.h2``;
 const Content = styled.div``;
 const TBody = styled.tbody`
-    & tr:nth-child(odd) {
+    & tr:nth-of-type(odd) {
         background-color: rgba(252, 211, 161, 0.2);
     }
 `;
@@ -14,7 +16,7 @@ const THeader = styled.th`
 `;
 
 export function HighScorePage() {
-    const scores = [];
+    const { scores } = useHighScore();
 
     return (
         <Container>
@@ -32,7 +34,21 @@ export function HighScorePage() {
                                 <THeader>Time</THeader>
                             </tr>
                         </thead>
-                        <TBody></TBody>
+                        <TBody>
+                            {scores.map((score, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{score.score}</td>
+                                    <td>{score.linesCleared}</td>
+                                    <td>
+                                        {timeToString({
+                                            time: score.time,
+                                            format: "short_string",
+                                        })}
+                                    </td>
+                                </tr>
+                            ))}
+                        </TBody>
                     </table>
                 )}
             </Content>

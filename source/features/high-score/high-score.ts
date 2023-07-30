@@ -1,4 +1,4 @@
-import { setData } from "./core/data";
+import { getData, setData } from "../../core/data";
 
 export interface ScoreData {
     score: number;
@@ -12,10 +12,14 @@ const MAX_SCORES = 10;
 /**
  * Load the given high-scores.
  */
-export function load(scores?: ScoreData[]) {
+export function load() {
+    const scores = getData("tetris_high_score");
+
     if (scores) {
         SCORES = scores;
     }
+
+    return SCORES;
 }
 
 /**

@@ -1,5 +1,5 @@
 import { saveObject, getObject } from "@drk4/utilities";
-import { ScoreData } from "../high_score";
+import { ScoreData } from "../features/high-score";
 import { OptionsData } from "../options";
 
 export interface StorageData {
@@ -11,7 +11,9 @@ export interface StorageData {
 /**
  * Get the value of the given key from `localStorage`.
  */
-export function getData(key: keyof StorageData) {
+export function getData<T extends keyof StorageData>(
+    key: T
+): StorageData[T] | null {
     return getObject(key);
 }
 

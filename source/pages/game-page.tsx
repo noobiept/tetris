@@ -1,5 +1,8 @@
-import styled from "@emotion/styled";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { timeToString } from "@drk4/utilities";
+
 import { Canvas, CanvasDimensions } from "../features/canvas";
 import { GameMenu } from "../features/game-menu";
 import {
@@ -11,12 +14,10 @@ import {
 } from "../features/game-logic";
 import { useStage } from "../features/stage";
 import { DialogContext } from "../features/dialog";
-import * as HighScore from "../high_score";
+import * as HighScore from "../features/high-score";
 import * as Utilities from "../utilities";
-import { useNavigate } from "react-router-dom";
 import { RoutePath } from "../core/routes";
 import { useReducerWM } from "../core/use-reducer";
-import { timeToString } from "@drk4/utilities";
 
 const Container = styled.div``;
 
