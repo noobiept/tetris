@@ -283,8 +283,9 @@ export class GameLogic {
      * Remove the tick and keyboard listeners.
      */
     private clearEvents() {
-        createjs.Ticker.removeEventListener("tick", this.tick);
-
+        if (this.tickRef) {
+            createjs.Ticker.removeEventListener("tick", this.tickRef);
+        }
         if (this.keyDownListenerRef) {
             document.removeEventListener("keydown", this.keyDownListenerRef);
         }

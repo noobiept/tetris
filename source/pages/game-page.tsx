@@ -25,6 +25,10 @@ export function GamePage() {
     const { stageRef, stageActions } = useStage();
 
     const middleware = useCallback((action: GameAction) => {
+        if (!gameRef.current) {
+            return;
+        }
+
         const onEnd = (data: GameEndData) => {
             const added = HighScore.add(data);
             const endMessage = [
@@ -68,7 +72,7 @@ export function GamePage() {
         initialGameState,
         middleware
     );
-    const gameRef = useRef(new GameLogic({ stageActions, dispatch }));
+    const gameRef = useRef<GameLogic | undefined>();
     const { openDialog, closeDialog } = useContext(DialogContext);
 
     const [dimensions, setDimensions] = useState<CanvasDimensions>({
@@ -79,22 +83,24 @@ export function GamePage() {
     useEffect(() => {
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
+        gameRef.current = new GameLogic({ stageActions, dispatch });
+
         const updatedDimensions = gameRef.current.start();
         setDimensions(updatedDimensions);
 
         return () => {
-            gameRef.current.clear();
+            gameRef.current?.clear();
         };
     }, [stageRef.current]);
 
     const onQuit = () => {
         HighScore.add(game.score);
-        gameRef.current.clear();
+        gameRef.current?.clear();
 
         navigate(RoutePath.home);
     };
     const onPauseResume = () => {
-        dispatch({ type: "pause", paused: !gameRef.current.isPaused() });
+        dispatch({ type: "pause", paused: !gameRef.current?.isPaused() });
     };
 
     return (
