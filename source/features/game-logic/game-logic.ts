@@ -1,5 +1,5 @@
+import { Timer, getRandomInt } from "@drk4/utilities";
 import * as Options from "../../options";
-import * as Utilities from "../../utilities";
 import Score from "../../score";
 import Grid from "../../grid";
 import Square from "../../square";
@@ -14,9 +14,7 @@ import {
     GhostPiece,
 } from "../../all_pieces";
 import Piece, { PieceArgs } from "../../piece";
-import Timer from "../../timer";
 import { StageActions } from "../stage";
-import { ScoreData } from "../../high_score";
 import { GameAction } from "./game-logic.reducer";
 
 // number of milliseconds until the active piece moves down 1 position
@@ -52,10 +50,6 @@ const KEYS_HELD = {
     rightArrow: false, // move right
 };
 
-export type GameEndData = ScoreData & {
-    level: number;
-};
-
 export interface GameLogicArgs {
     stageActions: StageActions;
     dispatch: (action: GameAction) => void;
@@ -83,19 +77,13 @@ export class GameLogic {
                     score: {
                         score: this.score.getCurrentScore(),
                         linesCleared: CLEARED_LINES, // TODO,
-                        time: this.timer.getCount(),
+                        time: this.timer.getTimeMilliseconds(),
                     },
                 });
             },
         });
 
-        const interval = 1000;
-        this.timer = new Timer({
-            interval: interval,
-            onChange: () => {
-                this.score.timePassed(interval);
-            },
-        });
+        this.timer = new Timer();
         // for initialization purposes
         this.grid = new Grid({
             columns: 1,
@@ -132,8 +120,15 @@ export class GameLogic {
         NEXT_PIECE_ARGS = this.chooseRandomPiece();
         this.newPiece();
 
+        const interval = 1000; // 1 second
+
         this.timer.reset();
-        this.timer.start();
+        this.timer.start({
+            interval,
+            onTick: () => {
+                this.score.timePassed(interval);
+            },
+        });
         this.score.updateMultiplier(Options.get("ghostPiece"));
         this.score.reset();
 
@@ -235,7 +230,7 @@ export class GameLogic {
             possiblePieces = possiblePieces.filter((piece) => piece !== ignore);
         }
 
-        const choose = Utilities.getRandomInt(0, possiblePieces.length - 1);
+        const choose = getRandomInt(0, possiblePieces.length - 1);
 
         return possiblePieces[choose];
     }
@@ -395,7 +390,7 @@ export class GameLogic {
         this.clearEvents();
         this.setPaused(true);
 
-        const time = this.timer.getCount();
+        const time = this.timer.getTimeMilliseconds();
         const score = {
             score: this.score.getCurrentScore(),
             linesCleared: CLEARED_LINES, // TODO
@@ -436,7 +431,7 @@ export class GameLogic {
         if (state === true) {
             this.timer.stop();
         } else {
-            this.timer.start();
+            this.timer.resume();
         }
     }
 
@@ -455,16 +450,16 @@ export class GameLogic {
             return true;
         }
 
-        switch (event.keyCode) {
-            case Utilities.EVENT_KEY.leftArrow:
+        switch (event.code) {
+            case "ArrowLeft":
                 KEYS_HELD.leftArrow = true;
                 return false;
 
-            case Utilities.EVENT_KEY.rightArrow:
+            case "ArrowRight":
                 KEYS_HELD.rightArrow = true;
                 return false;
 
-            case Utilities.EVENT_KEY.downArrow:
+            case "ArrowDown":
                 this.startSoftDrop();
                 return false;
         }
@@ -482,26 +477,26 @@ export class GameLogic {
 
         const activePiece = this.getActivePiece();
 
-        switch (event.keyCode) {
-            case Utilities.EVENT_KEY.leftArrow:
+        switch (event.code) {
+            case "ArrowLeft":
                 KEYS_HELD.leftArrow = false;
                 return false;
 
-            case Utilities.EVENT_KEY.rightArrow:
+            case "ArrowRight":
                 KEYS_HELD.rightArrow = false;
                 return false;
 
-            case Utilities.EVENT_KEY.downArrow:
+            case "ArrowDown":
                 this.stopSoftDrop();
                 return false;
 
-            case Utilities.EVENT_KEY.space:
+            case "Space":
                 if (activePiece) {
                     this.hardDrop(activePiece);
                 }
                 return false;
 
-            case Utilities.EVENT_KEY.a:
+            case "KeyA":
                 if (activePiece) {
                     const rotation = activePiece.getLeftRotation();
                     const rotated = this.grid.rotatePiece(
@@ -518,7 +513,7 @@ export class GameLogic {
                 }
                 return false;
 
-            case Utilities.EVENT_KEY.d:
+            case "KeyD":
                 if (activePiece) {
                     const rotation = activePiece.getRightRotation();
                     const rotated = this.grid.rotatePiece(

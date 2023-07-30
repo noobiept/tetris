@@ -1,5 +1,8 @@
 import { type ScoreData } from "../../high_score";
-import { GameEndData } from "./game-logic";
+
+export type GameEndData = ScoreData & {
+    level: number;
+};
 
 type UpdateScoreAction = {
     type: "update-score";

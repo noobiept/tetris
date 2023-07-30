@@ -1,4 +1,4 @@
-import * as AppStorage from "./app_storage";
+import { setData } from "./core/data";
 
 export interface ScoreData {
     score: number;
@@ -68,7 +68,5 @@ export function getHighScores() {
  * Save the current high-scores to the storage.
  */
 function save() {
-    AppStorage.setData({
-        tetris_high_score: SCORES,
-    });
+    setData("tetris_high_score", SCORES);
 }

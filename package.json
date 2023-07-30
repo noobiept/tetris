@@ -3,6 +3,7 @@
     "description": "A tetris game, where you can specify the number of columns/lines of the grid.",
     "version": "2.2.0",
     "dependencies": {
+        "@drk4/utilities": "^6.1.2",
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
         "easeljs": "~1.0.2",

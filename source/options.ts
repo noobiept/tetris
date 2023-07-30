@@ -1,4 +1,4 @@
-import * as AppStorage from "./app_storage";
+import { setData } from "./core/data";
 
 export interface OptionsData {
     numberOfColumns: number;
@@ -21,7 +21,7 @@ const OPTIONS: OptionsData = {
  * Save the current options to the local storage.
  */
 export function save() {
-    AppStorage.setData({ tetris_options: OPTIONS });
+    setData("tetris_options", OPTIONS);
 }
 
 /**

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Button } from "../../components/button";
 import { RoutePath } from "../../core/routes";
 import { GameState } from "../game-logic";
-import { timeToString } from "../../utilities";
+import { timeToString } from "@drk4/utilities";
 
 const Container = styled.div`
     position: absolute;
@@ -37,7 +37,13 @@ export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
     const topInfo = [
         { label: "Current Level", value: 0 }, // TODO
         { label: "Cleared Lines", value: score.linesCleared },
-        { label: "Time", value: timeToString(score.time) },
+        {
+            label: "Time",
+            value: timeToString({
+                time: score.time,
+                format: "short_string",
+            }),
+        },
         { label: "Score", value: score.score },
     ];
 

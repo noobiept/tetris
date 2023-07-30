@@ -16,6 +16,7 @@ import * as Utilities from "../utilities";
 import { useNavigate } from "react-router-dom";
 import { RoutePath } from "../core/routes";
 import { useReducerWM } from "../core/use-reducer";
+import { timeToString } from "@drk4/utilities";
 
 const Container = styled.div``;
 
@@ -29,7 +30,7 @@ export function GamePage() {
             const endMessage = [
                 `Level: ${data.level}`,
                 `Lines cleared: ${data.linesCleared}`,
-                `Time: ${Utilities.timeToString(data.time)}`,
+                `Time: ${timeToString({ time: data.time })}`,
                 `Score: ${data.score} ${
                     added ? `(${Utilities.cardinalToOrdinal(added)})` : ""
                 }`,
