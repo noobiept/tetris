@@ -1,29 +1,31 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { timeToString } from "@drk4/utilities";
-
-import { Canvas, CanvasDimensions } from "../features/canvas";
-import { GameMenu } from "../features/game-menu";
+import { DialogContext } from "../../features/dialog";
 import {
     GameAction,
     GameEndData,
     GameLogic,
     gameLogicReducer,
     initialGameState,
-} from "../features/game-logic";
-import { useStage } from "../features/stage";
-import { DialogContext } from "../features/dialog";
-import * as HighScore from "../features/high-score";
-import * as Utilities from "../utilities";
-import { RoutePath } from "../core/routes";
-import { useReducerWM } from "../core/use-reducer";
+} from "../../features/game-logic";
+import { timeToString } from "@drk4/utilities";
+import { cardinalToOrdinal } from "../../utilities";
+import { useNavigate } from "react-router-dom";
+import { useStage } from "../../features/stage";
+import * as HighScore from "../../features/high-score";
+import { useReducerWM } from "../../core/use-reducer";
+import { RoutePath } from "../../core/routes";
+import { CanvasDimensions } from "../../features/canvas";
 
-const Container = styled.div``;
-
-export function GamePage() {
+export function useGameLogic() {
     const navigate = useNavigate();
     const { stageRef, stageActions } = useStage();
+    const gameRef = useRef<GameLogic | undefined>();
+
+    const [dimensions, setDimensions] = useState<CanvasDimensions>({
+        width: 600,
+        height: 450,
+    });
+    const { openDialog, closeDialog } = useContext(DialogContext);
 
     const middleware = useCallback((action: GameAction) => {
         if (!gameRef.current) {
@@ -37,7 +39,7 @@ export function GamePage() {
                 `Lines cleared: ${data.linesCleared}`,
                 `Time: ${timeToString({ time: data.time })}`,
                 `Score: ${data.score} ${
-                    added ? `(${Utilities.cardinalToOrdinal(added)})` : ""
+                    added ? `(${cardinalToOrdinal(added)})` : ""
                 }`,
             ];
 
@@ -73,13 +75,6 @@ export function GamePage() {
         initialGameState,
         middleware
     );
-    const gameRef = useRef<GameLogic | undefined>();
-    const { openDialog, closeDialog } = useContext(DialogContext);
-
-    const [dimensions, setDimensions] = useState<CanvasDimensions>({
-        width: 600,
-        height: 450,
-    });
 
     useEffect(() => {
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -104,14 +99,5 @@ export function GamePage() {
         dispatch({ type: "pause", paused: !gameRef.current?.isPaused() });
     };
 
-    return (
-        <Container>
-            <Canvas dimensions={dimensions} stageRef={stageRef} />
-            <GameMenu
-                game={game}
-                onQuit={onQuit}
-                onPauseResume={onPauseResume}
-            />
-        </Container>
-    );
+    return { dimensions, game, onQuit, onPauseResume, stageRef };
 }
