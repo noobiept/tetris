@@ -33,9 +33,11 @@ export interface GameMenuProps {
 }
 
 export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
-    const { score, message, messageCount, paused } = game;
+    const { score, message, messageCount, paused, level, maxLevel } = game;
+
+    const levelValue = level >= maxLevel ? "max" : level;
     const topInfo = [
-        { label: "Current Level", value: 0 }, // TODO
+        { label: "Current Level", value: levelValue },
         { label: "Cleared Lines", value: score.linesCleared },
         {
             label: "Time",

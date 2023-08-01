@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { BackButton } from "../components/back-button";
 import { Slider } from "../components/slider";
 import * as Options from "../options";
+import { getMaxLevel } from "../features/game-logic";
 
 const Container = styled.div``;
 const Header = styled.h2``;
@@ -43,7 +44,7 @@ export function OptionsPage() {
                 />
                 <Slider
                     min={1}
-                    max={20} // TODO Game.getMaxLevel()
+                    max={getMaxLevel()}
                     step={1}
                     initialValue={Options.get("startingLevel")}
                     description="Starting Level: "

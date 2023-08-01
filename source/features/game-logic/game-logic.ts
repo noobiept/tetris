@@ -50,6 +50,13 @@ const KEYS_HELD = {
     rightArrow: false, // move right
 };
 
+/**
+ * Get the maximum achievable level of the game.
+ */
+export function getMaxLevel() {
+    return DELAY_PER_LEVEL.length;
+}
+
 export interface GameLogicArgs {
     stageActions: StageActions;
     dispatch: (action: GameAction) => void;
@@ -336,7 +343,6 @@ export class GameLogic {
      */
     private oneMoreClearedLine() {
         CLEARED_LINES++;
-        // GameMenu.setClearedLines(CLEARED_LINES); // TODO
 
         this.score.lineCleared(CURRENT_LEVEL);
 
@@ -354,7 +360,7 @@ export class GameLogic {
             level = 1;
         }
 
-        const maxLevel = this.getMaxLevel();
+        const maxLevel = getMaxLevel();
 
         if (level >= maxLevel) {
             level = maxLevel;
@@ -363,14 +369,11 @@ export class GameLogic {
         CURRENT_LEVEL = level;
         DELAY_LIMIT = DELAY_PER_LEVEL[CURRENT_LEVEL - 1];
 
-        // GameMenu.setCurrentLevel(CURRENT_LEVEL, maxLevel); // TODO
-    }
-
-    /**
-     * Get the maximum achievable level of the game.
-     */
-    private getMaxLevel() {
-        return DELAY_PER_LEVEL.length;
+        this.dispatch({
+            type: "update-level",
+            level: CURRENT_LEVEL,
+            maxLevel: maxLevel,
+        });
     }
 
     /**

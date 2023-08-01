@@ -1,4 +1,5 @@
 import { type ScoreData } from "../high-score";
+import { getMaxLevel } from "./game-logic";
 
 export type GameEndData = ScoreData & {
     level: number;
@@ -32,19 +33,28 @@ type GameMessageAction = {
     message: string;
 };
 
+type UpdateLevelAction = {
+    type: "update-level";
+    level: number;
+    maxLevel: number;
+};
+
 export type GameAction =
     | UpdateScoreAction
     | GameEndAction
     | GameQuitAction
     | GamePauseAction
     | GameMessageAction
-    | GameRestartAction;
+    | GameRestartAction
+    | UpdateLevelAction;
 
 export type GameState = {
     score: ScoreData;
     paused: boolean;
     message: string;
     messageCount: number;
+    level: number;
+    maxLevel: number;
 };
 
 export const initialGameState: GameState = {
@@ -56,6 +66,8 @@ export const initialGameState: GameState = {
     paused: false,
     message: "",
     messageCount: 0,
+    level: 1,
+    maxLevel: getMaxLevel(),
 };
 
 export function gameLogicReducer(state: GameState, action: GameAction) {
@@ -90,6 +102,13 @@ export function gameLogicReducer(state: GameState, action: GameAction) {
         case "restart":
             return {
                 ...initialGameState,
+            };
+
+        case "update-level":
+            return {
+                ...state,
+                level: action.level,
+                maxLevel: action.maxLevel,
             };
     }
 
