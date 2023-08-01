@@ -1,4 +1,4 @@
-import { setData } from "./core/data";
+import { getData, setData } from "./core/data";
 
 export interface OptionsData {
     numberOfColumns: number;
@@ -27,7 +27,9 @@ export function save() {
 /**
  * Load the options from the local storage.
  */
-export function load(options?: OptionsData) {
+export function load() {
+    const options = getData("tetris_options");
+
     if (options) {
         if (Number.isInteger(options.numberOfColumns)) {
             OPTIONS.numberOfColumns = options.numberOfColumns;

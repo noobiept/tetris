@@ -3,6 +3,7 @@ import { BackButton } from "../components/back-button";
 import { Slider } from "../components/slider";
 import * as Options from "../options";
 import { getMaxLevel } from "../features/game-logic";
+import { CheckBox } from "../components/check-box";
 
 const Container = styled.div``;
 const Header = styled.h2``;
@@ -17,7 +18,6 @@ const OptionsList = styled.div`
 `;
 
 export function OptionsPage() {
-    // TODO create sliders
     return (
         <Container>
             <Header>Options</Header>
@@ -62,13 +62,15 @@ export function OptionsPage() {
                         Options.set("linesToLevelUp", value)
                     }
                 />
-
-                <label id="Options-ghostPieceContainer">
-                    <span>Ghost Piece:</span>
-                    <input type="checkbox" id="Options-ghostPiece" />
-                </label>
+                <CheckBox
+                    label="Ghost Piece:"
+                    initialValue={Options.get("ghostPiece")}
+                    onChange={(value: boolean) =>
+                        Options.set("ghostPiece", value)
+                    }
+                />
             </OptionsList>
-            <BackButton />
+            <BackButton onClick={Options.save} />
         </Container>
     );
 }

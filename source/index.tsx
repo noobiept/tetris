@@ -9,6 +9,7 @@ import { RoutePath } from "./core/routes";
 import { OptionsPage } from "./pages/options-page";
 import { GamePage } from "./pages/game-page";
 import { HighScorePage } from "./pages/high-score-page";
+import * as Options from "./options";
 
 const router = createBrowserRouter([
     {
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
         ],
     },
 ]);
+
+Options.load();
 
 const root = createRoot(document.getElementById("App")!);
 root.render(

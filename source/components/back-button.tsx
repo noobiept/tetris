@@ -6,6 +6,14 @@ const StyledButton = styled(Button)`
     margin-top: 40px;
 `;
 
-export function BackButton() {
-    return <StyledButton to={RoutePath.home}>Back</StyledButton>;
+type BackButtonProps = {
+    onClick?: () => void;
+};
+
+export function BackButton({ onClick }: BackButtonProps) {
+    return (
+        <StyledButton to={RoutePath.home} onClick={onClick}>
+            Back
+        </StyledButton>
+    );
 }
