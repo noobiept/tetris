@@ -1,11 +1,6 @@
-import styled from "@emotion/styled";
-import { RoutePath } from "../core/routes";
-import { Button } from "../components/button";
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
+import { RoutePath } from "../../core/routes";
+import { Button } from "../../components/button";
+import { Container } from "./home-page.styles";
 
 export function HomePage() {
     return (

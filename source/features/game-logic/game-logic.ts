@@ -15,7 +15,7 @@ import {
 } from "../../all_pieces";
 import Piece, { PieceArgs } from "../../piece";
 import { StageActions } from "../stage";
-import { GameAction } from "./game-logic.reducer";
+import { type GameAction } from "./game-logic.reducer";
 
 // number of milliseconds until the active piece moves down 1 position
 let DELAY_LIMIT = 0;

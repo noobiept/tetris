@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { StrictMode } from "react";
 import { RootPage } from "./pages/root-page";
 import { ErrorPage } from "./pages/error-page";
-import { HomePage } from "./pages/home-page";
+import { HomePage, homePageLoader } from "./pages/home-page";
 import { HelpPage } from "./pages/help-page";
 import { RoutePath } from "./core/routes";
 import { OptionsPage } from "./pages/options-page";
@@ -20,6 +20,7 @@ const router = createBrowserRouter([
             {
                 path: RoutePath.home,
                 element: <HomePage />,
+                loader: homePageLoader,
             },
             {
                 path: RoutePath.game,
