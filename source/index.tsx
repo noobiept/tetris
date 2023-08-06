@@ -10,12 +10,22 @@ import { OptionsPage } from "./pages/options-page";
 import { GamePage } from "./pages/game-page";
 import { HighScorePage } from "./pages/high-score-page";
 import * as Options from "./options";
+import * as HighScore from "./features/high-score";
+
+function loadData() {
+    Options.load();
+    HighScore.load();
+}
 
 const router = createBrowserRouter([
     {
         path: RoutePath.root,
         element: <RootPage />,
         errorElement: <ErrorPage />,
+        loader: () => {
+            loadData();
+            return null;
+        },
         children: [
             {
                 path: RoutePath.home,
@@ -41,8 +51,6 @@ const router = createBrowserRouter([
         ],
     },
 ]);
-
-Options.load();
 
 const root = createRoot(document.getElementById("App")!);
 root.render(

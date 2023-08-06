@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ScoreData, load } from "./high-score";
+import { ScoreData, getHighScores } from "./high-score";
 
 export function useHighScore() {
     const [scores, setScores] = useState<ScoreData[]>([]);
 
     useEffect(() => {
-        const initialScores = load();
+        const initialScores = getHighScores();
         setScores(initialScores);
     }, []);
 
