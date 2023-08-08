@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { FormEvent, useState } from "react";
+import { Value } from "./value";
 
 const Container = styled.div``;
 const RangeInput = styled.input`
@@ -35,7 +36,6 @@ const RangeInput = styled.input`
     }
 `;
 const Description = styled.div``;
-const Value = styled.span``;
 
 export interface SliderProps {
     min: number;

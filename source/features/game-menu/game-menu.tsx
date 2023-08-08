@@ -3,6 +3,7 @@ import { Button } from "../../components/button";
 import { RoutePath } from "../../core/routes";
 import { GameState } from "../game-logic";
 import { timeToString } from "@drk4/utilities";
+import { Value } from "../../components/value";
 
 const Container = styled.div`
     position: absolute;
@@ -18,9 +19,7 @@ const Top = styled.div`
     margin-top: 100px;
 `;
 const Bottom = styled.div``;
-const Value = styled.span`
-    color: antiquewhite;
-`;
+
 const Message = styled.div`
     margin-top: 30px;
     color: red;

@@ -18,50 +18,57 @@ const OptionsList = styled.div`
 `;
 
 export function OptionsPage() {
+    const sliders = [
+        {
+            min: 10,
+            max: 20,
+            step: 1,
+            initialValue: Options.get("numberOfColumns"),
+            description: "Columns: ",
+            onSlide: (value: number) => Options.set("numberOfColumns", value),
+        },
+        {
+            min: 15,
+            max: 25,
+            step: 1,
+            initialValue: Options.get("numberOfLines"),
+            description: "Lines: ",
+            onSlide: (value: number) => Options.set("numberOfLines", value),
+        },
+        {
+            min: 1,
+            max: getMaxLevel(),
+            step: 1,
+            initialValue: Options.get("startingLevel"),
+            description: "Starting Level: ",
+            onSlide: (value: number) => Options.set("startingLevel", value),
+        },
+        {
+            min: 1,
+            max: 15,
+            step: 1,
+            initialValue: Options.get("linesToLevelUp"),
+            description: "Lines to level up: ",
+            onSlide: (value: number) => Options.set("linesToLevelUp", value),
+        },
+    ];
+
     return (
         <Container>
             <Header>Options</Header>
             <OptionsList>
-                <Slider
-                    min={10}
-                    max={20}
-                    step={1}
-                    initialValue={Options.get("numberOfColumns")}
-                    description="Columns: "
-                    onSlide={(value: number) =>
-                        Options.set("numberOfColumns", value)
-                    }
-                />
-                <Slider
-                    min={15}
-                    max={25}
-                    step={1}
-                    initialValue={Options.get("numberOfLines")}
-                    description="Lines: "
-                    onSlide={(value: number) =>
-                        Options.set("numberOfLines", value)
-                    }
-                />
-                <Slider
-                    min={1}
-                    max={getMaxLevel()}
-                    step={1}
-                    initialValue={Options.get("startingLevel")}
-                    description="Starting Level: "
-                    onSlide={(value: number) =>
-                        Options.set("startingLevel", value)
-                    }
-                />
-                <Slider
-                    min={1}
-                    max={15}
-                    step={1}
-                    initialValue={Options.get("linesToLevelUp")}
-                    description="Lines to Level Up: "
-                    onSlide={(value: number) =>
-                        Options.set("linesToLevelUp", value)
-                    }
-                />
+                {sliders.map((slider) => (
+                    <Slider
+                        key={slider.description}
+                        min={slider.min}
+                        max={slider.max}
+                        step={slider.step}
+                        initialValue={slider.initialValue}
+                        description={slider.description}
+                        onSlide={slider.onSlide}
+                    />
+                ))}
+
                 <CheckBox
                     label="Ghost Piece:"
                     initialValue={Options.get("ghostPiece")}
