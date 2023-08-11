@@ -1,6 +1,6 @@
 import { saveObject, getObject } from "@drk4/utilities";
 import { ScoreData } from "../features/high-score";
-import { OptionsData } from "../options";
+import { OptionsData } from "../features/options";
 
 export interface StorageData {
     tetris_options?: OptionsData;

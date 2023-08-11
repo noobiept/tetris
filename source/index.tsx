@@ -9,11 +9,9 @@ import { RoutePath } from "./core/routes";
 import { OptionsPage } from "./pages/options-page";
 import { GamePage } from "./pages/game-page";
 import { HighScorePage } from "./pages/high-score-page";
-import * as Options from "./options";
 import * as HighScore from "./features/high-score";
 
 function loadData() {
-    Options.load();
     HighScore.load();
 }
 

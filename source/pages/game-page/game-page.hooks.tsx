@@ -15,6 +15,7 @@ import * as HighScore from "../../features/high-score";
 import { useReducerWM } from "../../core/use-reducer";
 import { RoutePath } from "../../core/routes";
 import { CanvasDimensions } from "../../features/canvas";
+import { OptionsContext } from "../../features/options";
 
 export function useGameLogic() {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ export function useGameLogic() {
         height: 450,
     });
     const { openDialog, closeDialog } = useContext(DialogContext);
+    const { getOption } = useContext(OptionsContext);
 
     const middleware = useCallback((action: GameAction) => {
         if (!gameRef.current) {
@@ -79,7 +81,7 @@ export function useGameLogic() {
     useEffect(() => {
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
-        gameRef.current = new GameLogic({ stageActions, dispatch });
+        gameRef.current = new GameLogic({ stageActions, dispatch, getOption });
 
         const updatedDimensions = gameRef.current.start();
         setDimensions(updatedDimensions);

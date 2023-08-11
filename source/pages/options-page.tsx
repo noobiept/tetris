@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import styled from "@emotion/styled";
 import { BackButton } from "../components/back-button";
 import { Slider } from "../components/slider";
-import * as Options from "../options";
 import { getMaxLevel } from "../features/game-logic";
 import { CheckBox } from "../components/check-box";
+import { OptionsContext } from "../features/options";
 
 const Container = styled.div``;
 const Header = styled.h2``;
@@ -18,38 +19,40 @@ const OptionsList = styled.div`
 `;
 
 export function OptionsPage() {
+    const { getOption, setOption, saveOptions } = useContext(OptionsContext);
+
     const sliders = [
         {
             min: 10,
             max: 20,
             step: 1,
-            initialValue: Options.get("numberOfColumns"),
+            initialValue: getOption("numberOfColumns"),
             description: "Columns: ",
-            onSlide: (value: number) => Options.set("numberOfColumns", value),
+            onSlide: (value: number) => setOption("numberOfColumns", value),
         },
         {
             min: 15,
             max: 25,
             step: 1,
-            initialValue: Options.get("numberOfLines"),
+            initialValue: getOption("numberOfLines"),
             description: "Lines: ",
-            onSlide: (value: number) => Options.set("numberOfLines", value),
+            onSlide: (value: number) => setOption("numberOfLines", value),
         },
         {
             min: 1,
             max: getMaxLevel(),
             step: 1,
-            initialValue: Options.get("startingLevel"),
+            initialValue: getOption("startingLevel"),
             description: "Starting Level: ",
-            onSlide: (value: number) => Options.set("startingLevel", value),
+            onSlide: (value: number) => setOption("startingLevel", value),
         },
         {
             min: 1,
             max: 15,
             step: 1,
-            initialValue: Options.get("linesToLevelUp"),
+            initialValue: getOption("linesToLevelUp"),
             description: "Lines to level up: ",
-            onSlide: (value: number) => Options.set("linesToLevelUp", value),
+            onSlide: (value: number) => setOption("linesToLevelUp", value),
         },
     ];
 
@@ -71,13 +74,13 @@ export function OptionsPage() {
 
                 <CheckBox
                     label="Ghost Piece:"
-                    initialValue={Options.get("ghostPiece")}
+                    initialValue={getOption("ghostPiece")}
                     onChange={(value: boolean) =>
-                        Options.set("ghostPiece", value)
+                        setOption("ghostPiece", value)
                     }
                 />
             </OptionsList>
-            <BackButton onClick={Options.save} />
+            <BackButton onClick={saveOptions} />
         </Container>
     );
 }

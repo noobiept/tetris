@@ -1,5 +1,4 @@
 import { Timer, getRandomInt } from "@drk4/utilities";
-import * as Options from "../../options";
 import Score from "../../score";
 import Grid from "../../grid";
 import Square from "../../square";
@@ -16,6 +15,7 @@ import {
 import Piece, { PieceArgs } from "../../piece";
 import { StageActions } from "../stage";
 import { type GameAction } from "./game-logic.reducer";
+import { GetOption } from "../options";
 
 // number of milliseconds until the active piece moves down 1 position
 let DELAY_LIMIT = 0;
@@ -60,6 +60,7 @@ export function getMaxLevel() {
 export interface GameLogicArgs {
     stageActions: StageActions;
     dispatch: (action: GameAction) => void;
+    getOption: GetOption;
 }
 
 export class GameLogic {
@@ -68,6 +69,7 @@ export class GameLogic {
     private grid: Grid;
     private stageActions: StageActions;
     private dispatch: (action: GameAction) => void;
+    private getOption: GetOption;
 
     private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
     private keyUpListenerRef?: (event: KeyboardEvent) => boolean;
@@ -76,7 +78,7 @@ export class GameLogic {
     /**
      * Initialize the game logic class.
      */
-    constructor({ stageActions, dispatch }: GameLogicArgs) {
+    constructor({ stageActions, dispatch, getOption }: GameLogicArgs) {
         this.score = new Score({
             onChange: () => {
                 dispatch({
@@ -101,16 +103,17 @@ export class GameLogic {
 
         this.stageActions = stageActions;
         this.dispatch = dispatch;
+        this.getOption = getOption;
     }
 
     /**
      * Start a new game.
      */
     start() {
-        const numberOfColumns = Options.get("numberOfColumns");
-        const numberOfLines = Options.get("numberOfLines");
+        const numberOfColumns = this.getOption("numberOfColumns");
+        const numberOfLines = this.getOption("numberOfLines");
 
-        this.setLevel(Options.get("startingLevel"));
+        this.setLevel(this.getOption("startingLevel"));
 
         CLEARED_LINES = 0;
 
@@ -136,7 +139,7 @@ export class GameLogic {
                 this.score.timePassed(interval);
             },
         });
-        this.score.updateMultiplier(Options.get("ghostPiece"));
+        this.score.updateMultiplier(this.getOption("ghostPiece"));
         this.score.reset();
 
         this.tickRef = (e) => this.tick(e as createjs.TickerEvent);
@@ -198,7 +201,7 @@ export class GameLogic {
         }
 
         // add the ghost piece
-        if (Options.get("ghostPiece")) {
+        if (this.getOption("ghostPiece")) {
             GHOST_PIECE = new Piece({
                 ...pieceArgs,
                 ...GhostPiece,
@@ -347,7 +350,7 @@ export class GameLogic {
         this.score.lineCleared(CURRENT_LEVEL);
 
         // move up one level, once the number of cleared lines is reached
-        if (CLEARED_LINES % Options.get("linesToLevelUp") === 0) {
+        if (CLEARED_LINES % this.getOption("linesToLevelUp") === 0) {
             this.setLevel(CURRENT_LEVEL + 1);
         }
     }
