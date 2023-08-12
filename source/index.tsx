@@ -1,14 +1,15 @@
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { StrictMode } from "react";
-import { RootPage } from "./pages/root-page";
-import { ErrorPage } from "./pages/error-page";
-import { HomePage, homePageLoader } from "./pages/home-page";
-import { HelpPage } from "./pages/help-page";
+
 import { RoutePath } from "./core/routes";
-import { OptionsPage } from "./pages/options-page";
+import { ErrorPage } from "./pages/error-page";
 import { GamePage } from "./pages/game-page";
+import { HelpPage } from "./pages/help-page";
 import { HighScorePage } from "./pages/high-score-page";
+import { HomePage, homePageLoader } from "./pages/home-page";
+import { OptionsPage } from "./pages/options-page";
+import { RootPage } from "./pages/root-page";
 
 const router = createBrowserRouter([
     {

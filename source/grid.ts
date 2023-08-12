@@ -1,6 +1,6 @@
-import Square from "./square";
-import Piece from "./piece";
 import { PieceRotation } from "./all_pieces";
+import Piece from "./piece";
+import Square from "./square";
 
 export interface GridPosition {
     column: number;

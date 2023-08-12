@@ -1,6 +1,7 @@
 import { createContext, useRef } from "react";
-import { Options } from "./options";
+
 import { getData, setData } from "../../core/data";
+import { Options } from "./options";
 import { OptionsData } from "./options.types";
 
 export type GetOption = <Key extends keyof OptionsData>(

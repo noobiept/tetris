@@ -1,7 +1,8 @@
-import { createContext, useRef } from "react";
-import { HighScore } from "./high-score";
 import { saveObject } from "@drk4/utilities";
+import { createContext, useRef } from "react";
+
 import { getData } from "../../core/data";
+import { HighScore } from "./high-score";
 import { ScoreData } from "./high-score.types";
 
 export type HighScoreContextValue = {

@@ -7,7 +7,11 @@ module.exports = {
         "plugin:react-hooks/recommended",
     ],
     parser: "@typescript-eslint/parser",
-    plugins: ["@typescript-eslint"],
+    plugins: ["@typescript-eslint", "simple-import-sort"],
     root: true,
     ignorePatterns: ["node_modules", "release", "build"],
+    rules: {
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+    },
 };

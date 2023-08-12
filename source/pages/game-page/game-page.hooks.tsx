@@ -1,4 +1,10 @@
+import { timeToString } from "@drk4/utilities";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { RoutePath } from "../../core/routes";
+import { useReducerWM } from "../../core/use-reducer";
+import { CanvasDimensions } from "../../features/canvas";
 import { DialogContext } from "../../features/dialog";
 import {
     GameAction,
@@ -7,15 +13,10 @@ import {
     gameLogicReducer,
     initialGameState,
 } from "../../features/game-logic";
-import { timeToString } from "@drk4/utilities";
-import { cardinalToOrdinal } from "../../utilities";
-import { useNavigate } from "react-router-dom";
-import { useStage } from "../../features/stage";
-import { useReducerWM } from "../../core/use-reducer";
-import { RoutePath } from "../../core/routes";
-import { CanvasDimensions } from "../../features/canvas";
-import { OptionsContext } from "../../features/options";
 import { HighScoreContext } from "../../features/high-score";
+import { OptionsContext } from "../../features/options";
+import { useStage } from "../../features/stage";
+import { cardinalToOrdinal } from "../../utilities";
 
 export function useGameLogic() {
     const navigate = useNavigate();

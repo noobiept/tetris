@@ -1,9 +1,10 @@
-import { useContext } from "react";
 import styled from "@emotion/styled";
+import { useContext } from "react";
+
 import { BackButton } from "../components/back-button";
+import { CheckBox } from "../components/check-box";
 import { Slider } from "../components/slider";
 import { getMaxLevel } from "../features/game-logic";
-import { CheckBox } from "../components/check-box";
 import { OptionsContext } from "../features/options";
 
 const Container = styled.div``;

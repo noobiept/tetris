@@ -1,21 +1,22 @@
-import { Timer, getRandomInt } from "@drk4/utilities";
-import Score from "../../score";
-import Grid from "../../grid";
-import Square from "../../square";
+import { getRandomInt, Timer } from "@drk4/utilities";
+
 import {
+    GhostPiece,
     IPiece,
+    JPiece,
+    LPiece,
+    OPiece,
     SPiece,
     TPiece,
     ZPiece,
-    OPiece,
-    JPiece,
-    LPiece,
-    GhostPiece,
 } from "../../all_pieces";
+import Grid from "../../grid";
 import Piece, { PieceArgs } from "../../piece";
+import Score from "../../score";
+import Square from "../../square";
+import { GetOption } from "../options";
 import { StageActions } from "../stage";
 import { type GameAction } from "./game-logic.reducer";
-import { GetOption } from "../options";
 
 // number of milliseconds until the active piece moves down 1 position
 let DELAY_LIMIT = 0;

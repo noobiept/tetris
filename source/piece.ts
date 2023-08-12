@@ -1,5 +1,5 @@
-import Square from "./square";
 import { PieceRotation } from "./all_pieces";
+import Square from "./square";
 
 export interface PieceArgs {
     color: string;

@@ -1,9 +1,10 @@
+import { timeToString } from "@drk4/utilities";
 import styled from "@emotion/styled";
+
 import { Button } from "../../components/button";
+import { Value } from "../../components/value";
 import { RoutePath } from "../../core/routes";
 import { GameState } from "../game-logic";
-import { timeToString } from "@drk4/utilities";
-import { Value } from "../../components/value";
 
 const Container = styled.div`
     position: absolute;

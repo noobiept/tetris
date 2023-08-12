@@ -1,5 +1,5 @@
-import { RoutePath } from "../../core/routes";
 import { Button } from "../../components/button";
+import { RoutePath } from "../../core/routes";
 import { Container } from "./home-page.styles";
 
 export function HomePage() {

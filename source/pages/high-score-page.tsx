@@ -1,7 +1,8 @@
-import styled from "@emotion/styled";
 import { timeToString } from "@drk4/utilities";
-import { BackButton } from "../components/back-button";
+import styled from "@emotion/styled";
 import { useContext } from "react";
+
+import { BackButton } from "../components/back-button";
 import { HighScoreContext } from "../features/high-score";
 
 const Container = styled.div``;

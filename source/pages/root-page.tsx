@@ -1,9 +1,10 @@
-import { Global, css } from "@emotion/react";
+import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Outlet } from "react-router-dom";
+
 import { DialogContextProvider } from "../features/dialog";
-import { OptionsContextProvider } from "../features/options";
 import { HighScoreContextProvider } from "../features/high-score";
+import { OptionsContextProvider } from "../features/options";
 
 const GlobalStyles = css`
     body {
