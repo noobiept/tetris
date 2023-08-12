@@ -1,4 +1,4 @@
-import { createContext, useEffect, useRef } from "react";
+import { createContext, useRef } from "react";
 import { Options } from "./options";
 import { getData, setData } from "../../core/data";
 import { OptionsData } from "./options.types";
@@ -35,7 +35,7 @@ export const OptionsContext = createContext<OptionsContextValue>({
 export function OptionsContextProvider({
     children,
 }: OptionsContextProviderProps) {
-    const options = useRef<Options>(new Options());
+    const options = useRef<Options>(new Options(getData(STORAGE_KEY)));
     const getOption: GetOption = (key) => {
         return options.current.get(key);
     };
@@ -46,11 +46,6 @@ export function OptionsContextProvider({
     const saveOptions = () => {
         setData(STORAGE_KEY, options.current.getData());
     };
-
-    useEffect(() => {
-        const data = getData(STORAGE_KEY);
-        options.current.load(data);
-    }, []);
 
     const value = {
         getOption,

@@ -9,21 +9,12 @@ import { RoutePath } from "./core/routes";
 import { OptionsPage } from "./pages/options-page";
 import { GamePage } from "./pages/game-page";
 import { HighScorePage } from "./pages/high-score-page";
-import * as HighScore from "./features/high-score";
-
-function loadData() {
-    HighScore.load();
-}
 
 const router = createBrowserRouter([
     {
         path: RoutePath.root,
         element: <RootPage />,
         errorElement: <ErrorPage />,
-        loader: () => {
-            loadData();
-            return null;
-        },
         children: [
             {
                 path: RoutePath.home,

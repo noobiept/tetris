@@ -9,11 +9,7 @@ export class Options {
         ghostPiece: true,
     };
 
-    getData() {
-        return this.data;
-    }
-
-    load(options: OptionsData | undefined | null) {
+    constructor(options: OptionsData | undefined | null) {
         if (options) {
             if (Number.isInteger(options.numberOfColumns)) {
                 this.data.numberOfColumns = options.numberOfColumns;
@@ -35,6 +31,10 @@ export class Options {
                 this.data.ghostPiece = options.ghostPiece;
             }
         }
+    }
+
+    getData() {
+        return this.data;
     }
 
     get<Key extends keyof OptionsData>(option: Key): OptionsData[Key] {

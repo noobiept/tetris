@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { BackButton } from "../components/back-button";
-import { useHighScore } from "../features/high-score";
 import { timeToString } from "@drk4/utilities";
+import { BackButton } from "../components/back-button";
+import { useContext } from "react";
+import { HighScoreContext } from "../features/high-score";
 
 const Container = styled.div``;
 const Header = styled.h2``;
@@ -16,7 +17,8 @@ const THeader = styled.th`
 `;
 
 export function HighScorePage() {
-    const { scores } = useHighScore();
+    const { getScores } = useContext(HighScoreContext);
+    const scores = getScores();
 
     return (
         <Container>

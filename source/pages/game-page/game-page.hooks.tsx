@@ -11,11 +11,11 @@ import { timeToString } from "@drk4/utilities";
 import { cardinalToOrdinal } from "../../utilities";
 import { useNavigate } from "react-router-dom";
 import { useStage } from "../../features/stage";
-import * as HighScore from "../../features/high-score";
 import { useReducerWM } from "../../core/use-reducer";
 import { RoutePath } from "../../core/routes";
 import { CanvasDimensions } from "../../features/canvas";
 import { OptionsContext } from "../../features/options";
+import { HighScoreContext } from "../../features/high-score";
 
 export function useGameLogic() {
     const navigate = useNavigate();
@@ -28,6 +28,7 @@ export function useGameLogic() {
     });
     const { openDialog, closeDialog } = useContext(DialogContext);
     const { getOption } = useContext(OptionsContext);
+    const { addScore } = useContext(HighScoreContext);
 
     const middleware = useCallback((action: GameAction) => {
         if (!gameRef.current) {
@@ -35,7 +36,7 @@ export function useGameLogic() {
         }
 
         const onEnd = (data: GameEndData) => {
-            const added = HighScore.add(data);
+            const added = addScore(data);
             const endMessage = [
                 `Level: ${data.level}`,
                 `Lines cleared: ${data.linesCleared}`,
@@ -92,7 +93,7 @@ export function useGameLogic() {
     }, [stageRef.current]);
 
     const onQuit = () => {
-        HighScore.add(game.score);
+        addScore(game.score);
         gameRef.current?.clear();
 
         navigate(RoutePath.home);
