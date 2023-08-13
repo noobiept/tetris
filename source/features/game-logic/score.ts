@@ -2,18 +2,22 @@ export interface ScoreArgs {
     onChange: (score: number) => void;
 }
 
-export default class Score {
+export class Score {
     private score = 0;
     private multiplier = 1;
     private args: ScoreArgs;
+    private linesCleared = 0; // number of cleared lines so far (count)
 
     constructor(args: ScoreArgs) {
         this.args = args;
     }
 
     lineCleared(level: number) {
+        this.linesCleared++;
         this.score += 50 * level * this.multiplier;
         this.args.onChange(this.score);
+
+        return this.linesCleared;
     }
 
     timePassed(milliseconds: number) {
@@ -37,10 +41,15 @@ export default class Score {
 
     reset() {
         this.score = 0;
+        this.linesCleared = 0;
         this.args.onChange(0);
     }
 
     getCurrentScore() {
         return this.score;
+    }
+
+    getLinesCleared() {
+        return this.linesCleared;
     }
 }

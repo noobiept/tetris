@@ -12,11 +12,12 @@ import {
 } from "../../all_pieces";
 import Grid from "../../grid";
 import Piece, { PieceArgs } from "../../piece";
-import Score from "../../score";
 import Square from "../../square";
 import { GetOption } from "../options";
 import { StageActions } from "../stage";
 import { type GameAction } from "./game-logic.reducer";
+import { Level } from "./level";
+import { Score } from "./score";
 
 // number of milliseconds until the active piece moves down 1 position
 let DELAY_LIMIT = 0;
@@ -26,17 +27,9 @@ let DELAY_COUNT = 0;
 const HORIZONTAL_LIMIT = 75;
 let HORIZONTAL_COUNT = 0;
 
-// time between the downward movement of the active piece
-// it is reduced as the current level increases
-// value is in milliseconds (drops 20% per level)
-const DELAY_PER_LEVEL = [600, 480, 384, 307, 246, 197, 157, 126, 101, 81];
 const SOFT_DROP_DELAY = 40; // downward movement when the 'soft drop' is active
 
 let SOFT_DROP_ACTIVE = false;
-let CURRENT_LEVEL = 1; // starts at 1 instead of 0
-
-// number of cleared lines so far (count)
-let CLEARED_LINES = 0;
 
 let ACTIVE_PIECE: Piece | null = null; // current active piece on the map (falling)
 let GHOST_PIECE: Piece | null = null; // shows where the active piece will end up at if no change is made
@@ -51,13 +44,6 @@ const KEYS_HELD = {
     rightArrow: false, // move right
 };
 
-/**
- * Get the maximum achievable level of the game.
- */
-export function getMaxLevel() {
-    return DELAY_PER_LEVEL.length;
-}
-
 export interface GameLogicArgs {
     stageActions: StageActions;
     dispatch: (action: GameAction) => void;
@@ -66,6 +52,7 @@ export interface GameLogicArgs {
 
 export class GameLogic {
     private score: Score;
+    private level: Level;
     private timer: Timer;
     private grid: Grid;
     private stageActions: StageActions;
@@ -86,13 +73,25 @@ export class GameLogic {
                     type: "update-score",
                     score: {
                         score: this.score.getCurrentScore(),
-                        linesCleared: CLEARED_LINES, // TODO,
+                        linesCleared: this.score.getLinesCleared(),
                         time: this.timer.getTimeMilliseconds(),
                     },
                 });
             },
         });
 
+        this.level = new Level({
+            onLevelChange: (state) => {
+                const { pieceMovementDelay, ...levelState } = state;
+
+                dispatch({
+                    type: "update-level",
+                    ...levelState,
+                });
+
+                DELAY_LIMIT = pieceMovementDelay;
+            },
+        });
         this.timer = new Timer();
         // for initialization purposes
         this.grid = new Grid({
@@ -114,9 +113,7 @@ export class GameLogic {
         const numberOfColumns = this.getOption("numberOfColumns");
         const numberOfLines = this.getOption("numberOfLines");
 
-        this.setLevel(this.getOption("startingLevel"));
-
-        CLEARED_LINES = 0;
+        this.level.setLevel(this.getOption("startingLevel"));
 
         this.grid = new Grid({
             columns: numberOfColumns,
@@ -346,38 +343,13 @@ export class GameLogic {
      * Update the menus, and check if we reached a new level.
      */
     private oneMoreClearedLine() {
-        CLEARED_LINES++;
-
-        this.score.lineCleared(CURRENT_LEVEL);
+        const currentLevel = this.level.getLevel();
+        const totalLinesCleared = this.score.lineCleared(currentLevel);
 
         // move up one level, once the number of cleared lines is reached
-        if (CLEARED_LINES % this.getOption("linesToLevelUp") === 0) {
-            this.setLevel(CURRENT_LEVEL + 1);
+        if (totalLinesCleared % this.getOption("linesToLevelUp") === 0) {
+            this.level.setLevel(currentLevel + 1);
         }
-    }
-
-    /**
-     * Set the current level. Will influence the difficulty of the game.
-     */
-    private setLevel(level: number) {
-        if (level < 1) {
-            level = 1;
-        }
-
-        const maxLevel = getMaxLevel();
-
-        if (level >= maxLevel) {
-            level = maxLevel;
-        }
-
-        CURRENT_LEVEL = level;
-        DELAY_LIMIT = DELAY_PER_LEVEL[CURRENT_LEVEL - 1];
-
-        this.dispatch({
-            type: "update-level",
-            level: CURRENT_LEVEL,
-            maxLevel: maxLevel,
-        });
     }
 
     /**
@@ -399,11 +371,12 @@ export class GameLogic {
         this.setPaused(true);
 
         const time = this.timer.getTimeMilliseconds();
+        const level = this.level.getLevel();
         const score = {
             score: this.score.getCurrentScore(),
-            linesCleared: CLEARED_LINES, // TODO
+            linesCleared: this.score.getLinesCleared(),
             time,
-            level: CURRENT_LEVEL, // TODO
+            level,
         };
 
         this.dispatch({

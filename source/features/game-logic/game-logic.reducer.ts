@@ -1,5 +1,5 @@
 import { type ScoreData } from "../high-score";
-import { getMaxLevel } from "./game-logic";
+import { getMaxLevel } from "./level";
 
 export type GameEndData = ScoreData & {
     level: number;
