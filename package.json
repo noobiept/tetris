@@ -17,6 +17,8 @@
         "@types/react-dom": "^18",
         "@typescript-eslint/eslint-plugin": "^6.2.0",
         "@typescript-eslint/parser": "^6.2.0",
+        "@vitest/coverage-v8": "^0.34.1",
+        "@vitest/ui": "^0.34.1",
         "circular-dependency-plugin": "^5.2.2",
         "copy-webpack-plugin": "^11.0.0",
         "eslint": "^8.45.0",
@@ -27,6 +29,7 @@
         "prettier": "^3",
         "ts-loader": "^9.4.4",
         "typescript": "^5.1.6",
+        "vitest": "^0.34.1",
         "webpack": "^5.88.1",
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^4.15.1"
@@ -48,6 +51,9 @@
         "build": "webpack --mode=production",
         "formatting:check": "prettier --check \"**/*.{html,css,json,js,ts,md}\"",
         "formatting:run": "prettier --write \"**/*.{html,css,json,js,ts,md}\"",
-        "lint": "eslint --ext .js,.ts,.tsx source"
+        "lint": "eslint --ext .js,.ts,.tsx source",
+        "test": "vitest run --coverage",
+        "test:watch": "vitest",
+        "test:ui": "vitest --ui"
     }
 }

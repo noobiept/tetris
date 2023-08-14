@@ -1,5 +1,6 @@
 node_modules/
 release/
 build/
+coverage/
 info.txt
 .DS_Store

@@ -2,6 +2,10 @@ export interface ScoreArgs {
     onChange: (score: number) => void;
 }
 
+export interface ScoreMultipliers {
+    ghostPiece: boolean;
+}
+
 export class Score {
     private score = 0;
     private multiplier = 1;
@@ -29,9 +33,10 @@ export class Score {
     }
 
     /**
-     * The score multiplier reduces the normal score gain in the game, based on the options that are currently set.
+     * Change the normal score gain based on game modifiers.
+     * For example showing the ghost-piece reduces the score gained per line cleared.
      */
-    updateMultiplier(ghostPiece: boolean) {
+    applyMultipliers({ ghostPiece }: ScoreMultipliers) {
         if (ghostPiece) {
             this.multiplier = 0.8;
         } else {

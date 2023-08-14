@@ -137,7 +137,9 @@ export class GameLogic {
                 this.score.timePassed(interval);
             },
         });
-        this.score.updateMultiplier(this.getOption("ghostPiece"));
+        this.score.applyMultipliers({
+            ghostPiece: this.getOption("ghostPiece"),
+        });
         this.score.reset();
 
         this.tickRef = (e) => this.tick(e as createjs.TickerEvent);
