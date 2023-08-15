@@ -8,7 +8,7 @@ export interface SquareArgs {
  * Represents a square of the grid.
  * A piece will be composed of several squares.
  */
-export default class Square {
+export class Square {
     static size = 20;
 
     private isInStack: boolean;

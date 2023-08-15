@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import Piece from "../../piece";
+import { Piece } from "../grid";
 
 export interface StageActions {
     clean: () => void;

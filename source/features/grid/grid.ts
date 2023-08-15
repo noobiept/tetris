@@ -1,6 +1,6 @@
-import { PieceRotation } from "./all_pieces";
-import Piece from "./piece";
-import Square from "./square";
+import { Piece } from "./piece/piece";
+import { PieceRotation } from "./piece/piece.types";
+import { Square } from "./square";
 
 export interface GridPosition {
     column: number;
@@ -18,7 +18,7 @@ export interface GridArgs {
  * Create the grid where the game will be played.
  * Also add a border around the playable area, and have some margin around it.
  */
-export default class Grid {
+export class Grid {
     static margin = 20;
     static borderThickness = 5;
     static extraLines = 2; // we add some extra lines above the grid's specified dimensions to make it possible to rotate the pieces as they are spawned

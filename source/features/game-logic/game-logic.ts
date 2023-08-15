@@ -2,17 +2,18 @@ import { getRandomInt, Timer } from "@drk4/utilities";
 
 import {
     GhostPiece,
+    Grid,
     IPiece,
     JPiece,
     LPiece,
     OPiece,
+    Piece,
+    PieceArgs,
     SPiece,
+    Square,
     TPiece,
     ZPiece,
-} from "../../all_pieces";
-import Grid from "../../grid";
-import Piece, { PieceArgs } from "../../piece";
-import Square from "../../square";
+} from "../grid";
 import { GetOption } from "../options";
 import { StageActions } from "../stage";
 import { type GameAction } from "./game-logic.reducer";

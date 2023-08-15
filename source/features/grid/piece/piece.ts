@@ -1,5 +1,5 @@
-import { PieceRotation } from "./all_pieces";
-import Square from "./square";
+import { Square } from "../square";
+import { PieceRotation } from "./piece.types";
 
 export interface PieceArgs {
     color: string;
@@ -10,7 +10,7 @@ export interface PieceArgs {
 /**
  * Base class for all the pieces.
  */
-export default class Piece {
+export class Piece {
     private args: PieceArgs;
     private current_rotation: number;
     private all_squares: Square[];
