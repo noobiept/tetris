@@ -65,7 +65,7 @@ export function Dialog({ title, body, onClose }: DialogProps) {
         return () => {
             window.removeEventListener("keyup", keyUp);
         };
-    }, []);
+    }, [onClose]);
 
     return (
         <>

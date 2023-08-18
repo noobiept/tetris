@@ -5,20 +5,17 @@ import { Button } from "../../components/button";
 import { Value } from "../../components/value";
 import { RoutePath } from "../../core/routes";
 import { GameState } from "../game-logic";
+import { NextPiece } from "../next-piece";
 
 const Container = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     width: 185px;
-    height: 100%;
+    margin: 20px;
 `;
-const Top = styled.div`
-    margin-top: 100px;
-`;
+const Top = styled.div``;
 const Bottom = styled.div``;
 
 const Message = styled.div`
@@ -51,6 +48,7 @@ export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
 
     return (
         <Container>
+            <NextPiece piece={game.nextPiece} />
             <Top>
                 {topInfo.map((info) => (
                     <div key={info.label}>

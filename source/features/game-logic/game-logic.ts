@@ -10,7 +10,6 @@ import {
     Piece,
     PieceArgs,
     SPiece,
-    Square,
     TPiece,
     ZPiece,
 } from "../grid";
@@ -35,10 +34,6 @@ let SOFT_DROP_ACTIVE = false;
 let ACTIVE_PIECE: Piece | null = null; // current active piece on the map (falling)
 let GHOST_PIECE: Piece | null = null; // shows where the active piece will end up at if no change is made
 
-// has the next piece class (so, 'IPiece' or 'TPiece', etc)
-let NEXT_PIECE_ARGS: PieceArgs;
-let NEXT_PIECE: Piece | null = null; // has the next piece object
-
 // keys being pressed/held
 const KEYS_HELD = {
     leftArrow: false, // move left
@@ -59,6 +54,7 @@ export class GameLogic {
     private stageActions: StageActions;
     private dispatch: (action: GameAction) => void;
     private getOption: GetOption;
+    private nextPieceArgs: PieceArgs = IPiece;
 
     private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
     private keyUpListenerRef?: (event: KeyboardEvent) => boolean;
@@ -123,10 +119,11 @@ export class GameLogic {
             onLineCleared: this.oneMoreClearedLine.bind(this),
         });
 
-        // re-position the game menu
-        const canvasHeight = this.grid.height;
-
-        NEXT_PIECE_ARGS = this.chooseRandomPiece();
+        this.nextPieceArgs = this.chooseRandomPiece();
+        this.dispatch({
+            type: "next-piece",
+            piece: this.nextPieceArgs,
+        });
         this.newPiece();
 
         const interval = 1000; // 1 second
@@ -151,10 +148,10 @@ export class GameLogic {
         document.addEventListener("keydown", this.keyDownListenerRef);
         document.addEventListener("keyup", this.keyUpListenerRef);
 
-        // return the canvas dimension, according to the 'grid' + 'game menu' dimensions
+        // return the grid dimensions (it differs based on the current options)
         return {
-            width: this.grid.width + 185, // TODO
-            height: canvasHeight,
+            width: this.grid.width,
+            height: this.grid.height,
         };
     }
 
@@ -175,7 +172,7 @@ export class GameLogic {
         }
 
         // the next piece is the one determined before
-        const pieceArgs = NEXT_PIECE_ARGS;
+        const pieceArgs = this.nextPieceArgs;
         const rotation = pieceArgs.possibleRotations[0];
 
         // the start position
@@ -191,10 +188,13 @@ export class GameLogic {
         }
 
         // we randomly get a new piece, for next time
-        NEXT_PIECE_ARGS = this.chooseRandomPiece(pieceArgs);
+        this.nextPieceArgs = this.chooseRandomPiece(pieceArgs);
 
         // and show it in the game menu
-        this.showNextPiece(NEXT_PIECE_ARGS);
+        this.dispatch({
+            type: "next-piece",
+            piece: this.nextPieceArgs,
+        });
 
         // only one ghost piece in the game
         if (GHOST_PIECE) {
@@ -244,23 +244,6 @@ export class GameLogic {
         const choose = getRandomInt(0, possiblePieces.length - 1);
 
         return possiblePieces[choose];
-    }
-
-    /**
-     * Shows an image of the next piece to fall, in the game menu.
-     */
-    private showNextPiece(nextPieceArgs: PieceArgs) {
-        if (NEXT_PIECE) {
-            NEXT_PIECE.remove();
-            NEXT_PIECE = null;
-        }
-
-        const piece = new Piece(nextPieceArgs);
-
-        piece.positionIn(this.grid.width + 185 / 2 - Square.size / 2, 20); // TODO
-        this.stageActions.addPiece(piece);
-
-        NEXT_PIECE = piece;
     }
 
     /**

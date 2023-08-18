@@ -73,6 +73,7 @@ export function useGameLogic() {
                 gameRef.current.setPaused(false);
                 break;
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const [game, dispatch] = useReducerWM(
         gameLogicReducer,
@@ -85,13 +86,14 @@ export function useGameLogic() {
 
         gameRef.current = new GameLogic({ stageActions, dispatch, getOption });
 
-        const updatedDimensions = gameRef.current.start();
-        setDimensions(updatedDimensions);
+        const gridDimensions = gameRef.current.start();
+        setDimensions(gridDimensions);
 
         return () => {
             gameRef.current?.clear();
         };
-    }, [stageRef.current]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onQuit = () => {
         addScore(game.score);

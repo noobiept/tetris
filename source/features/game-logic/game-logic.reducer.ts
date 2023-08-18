@@ -1,3 +1,4 @@
+import { IPiece, PieceArgs } from "../grid";
 import { type ScoreData } from "../high-score";
 import { getMaxLevel } from "./level";
 
@@ -39,6 +40,11 @@ type UpdateLevelAction = {
     maxLevel: number;
 };
 
+type NextPieceAction = {
+    type: "next-piece";
+    piece: PieceArgs;
+};
+
 export type GameAction =
     | UpdateScoreAction
     | GameEndAction
@@ -46,7 +52,8 @@ export type GameAction =
     | GamePauseAction
     | GameMessageAction
     | GameRestartAction
-    | UpdateLevelAction;
+    | UpdateLevelAction
+    | NextPieceAction;
 
 export type GameState = {
     score: ScoreData;
@@ -55,6 +62,7 @@ export type GameState = {
     messageCount: number;
     level: number;
     maxLevel: number;
+    nextPiece: PieceArgs;
 };
 
 export const initialGameState: GameState = {
@@ -68,6 +76,7 @@ export const initialGameState: GameState = {
     messageCount: 0,
     level: 1,
     maxLevel: getMaxLevel(),
+    nextPiece: IPiece, // doesn't matter, it will be updated on game start
 };
 
 export function gameLogicReducer(state: GameState, action: GameAction) {
@@ -109,6 +118,12 @@ export function gameLogicReducer(state: GameState, action: GameAction) {
                 ...state,
                 level: action.level,
                 maxLevel: action.maxLevel,
+            };
+
+        case "next-piece":
+            return {
+                ...state,
+                nextPiece: action.piece,
             };
     }
 

@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
 
 export type CanvasDimensions = {
@@ -10,6 +11,11 @@ type CanvasProps = {
     stageRef: React.MutableRefObject<createjs.Stage | undefined>;
 };
 
+const CanvasElement = styled.canvas<CanvasDimensions>`
+    width: ${(props) => props.width}px;
+    height: ${(props) => props.height}px;
+`;
+
 export function Canvas({ dimensions, stageRef }: CanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -17,14 +23,13 @@ export function Canvas({ dimensions, stageRef }: CanvasProps) {
         if (canvasRef.current) {
             stageRef.current = new createjs.Stage(canvasRef.current);
         }
-    }, [canvasRef.current]);
+    }, [stageRef]);
 
-    useEffect(() => {
-        if (canvasRef.current) {
-            canvasRef.current.width = dimensions.width;
-            canvasRef.current.height = dimensions.height;
-        }
-    }, [dimensions]);
-
-    return <canvas ref={canvasRef}></canvas>;
+    return (
+        <CanvasElement
+            ref={canvasRef}
+            width={dimensions.width}
+            height={dimensions.height}
+        ></CanvasElement>
+    );
 }
