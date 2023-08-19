@@ -19,27 +19,6 @@ import { type GameAction } from "./game-logic.reducer";
 import { Level } from "./level";
 import { Score } from "./score";
 
-// number of milliseconds until the active piece moves down 1 position
-let DELAY_LIMIT = 0;
-let DELAY_COUNT = 0;
-
-// time between the horizontal move of a piece
-const HORIZONTAL_LIMIT = 75;
-let HORIZONTAL_COUNT = 0;
-
-const SOFT_DROP_DELAY = 40; // downward movement when the 'soft drop' is active
-
-let SOFT_DROP_ACTIVE = false;
-
-let ACTIVE_PIECE: Piece | null = null; // current active piece on the map (falling)
-let GHOST_PIECE: Piece | null = null; // shows where the active piece will end up at if no change is made
-
-// keys being pressed/held
-const KEYS_HELD = {
-    leftArrow: false, // move left
-    rightArrow: false, // move right
-};
-
 export interface GameLogicArgs {
     stageActions: StageActions;
     dispatch: (action: GameAction) => void;
@@ -55,6 +34,27 @@ export class GameLogic {
     private dispatch: (action: GameAction) => void;
     private getOption: GetOption;
     private nextPieceArgs: PieceArgs = IPiece;
+
+    // number of milliseconds until the active piece moves down 1 position
+    private delayLimit = 0;
+    private delayCount = 0;
+
+    // time between the horizontal move of a piece
+    private horizontalLimit = 75;
+    private horizontalCount = 0;
+
+    private softDropDelay = 40; // downward movement when the 'soft drop' is active
+
+    private softDropActive = false;
+
+    private activePiece: Piece | null = null; // current active piece on the map (falling)
+    private ghostPiece: Piece | null = null; // shows where the active piece will end up at if no change is made
+
+    // keys being pressed/held
+    private keysHeld = {
+        leftArrow: false, // move left
+        rightArrow: false, // move right
+    };
 
     private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
     private keyUpListenerRef?: (event: KeyboardEvent) => boolean;
@@ -86,7 +86,7 @@ export class GameLogic {
                     ...levelState,
                 });
 
-                DELAY_LIMIT = pieceMovementDelay;
+                this.delayLimit = pieceMovementDelay;
             },
         });
         this.timer = new Timer();
@@ -163,9 +163,9 @@ export class GameLogic {
     private newPiece() {
         this.clearMessage();
 
-        if (ACTIVE_PIECE) {
+        if (this.activePiece) {
             // the previous active piece now is part of the stack
-            ACTIVE_PIECE.markInStack();
+            this.activePiece.markInStack();
 
             // check if any line is cleared (since we're adding a new piece, means the previous one is part of the stack, so the right moment to clear the lines)
             this.grid.checkClearedLines();
@@ -197,29 +197,29 @@ export class GameLogic {
         });
 
         // only one ghost piece in the game
-        if (GHOST_PIECE) {
-            GHOST_PIECE.remove();
+        if (this.ghostPiece) {
+            this.ghostPiece.remove();
         }
 
         // add the ghost piece
         if (this.getOption("ghostPiece")) {
-            GHOST_PIECE = new Piece({
+            this.ghostPiece = new Piece({
                 ...pieceArgs,
                 ...GhostPiece,
             });
-            this.grid.addToContainer(GHOST_PIECE);
+            this.grid.addToContainer(this.ghostPiece);
         }
 
         // add the active piece (added after the ghost piece so it is drawn on top of it (if matching the same space)
-        ACTIVE_PIECE = new Piece(pieceArgs);
-        this.grid.addToContainer(ACTIVE_PIECE);
-        this.grid.addPiece(ACTIVE_PIECE, pivotPosition);
+        this.activePiece = new Piece(pieceArgs);
+        this.grid.addToContainer(this.activePiece);
+        this.grid.addPiece(this.activePiece, pivotPosition);
 
         // needs to be updated after we add the active piece
         this.updateGhostPiecePosition();
 
         // reset the counter that deals with the movement of the active piece (since we added a new one)
-        DELAY_COUNT = 0;
+        this.delayCount = 0;
     }
 
     /**
@@ -250,14 +250,14 @@ export class GameLogic {
      * The 'ghost piece' is always mirroring the 'active piece', but its positioned in the last possible position (close to the stack or the end of the grid).
      */
     private updateGhostPiecePosition() {
-        if (!ACTIVE_PIECE || !GHOST_PIECE) {
+        if (!this.activePiece || !this.ghostPiece) {
             return;
         }
 
-        const position = this.grid.findLastPossiblePosition(ACTIVE_PIECE);
+        const position = this.grid.findLastPossiblePosition(this.activePiece);
 
-        GHOST_PIECE.setRotation(ACTIVE_PIECE.getRotation());
-        this.grid.addPiece(GHOST_PIECE, position, false);
+        this.ghostPiece.setRotation(this.activePiece.getRotation());
+        this.grid.addPiece(this.ghostPiece, position, false);
     }
 
     /**
@@ -270,7 +270,7 @@ export class GameLogic {
         this.grid.addPiece(piece, position);
 
         // force the count to the limit so a new piece is added immediately after
-        DELAY_COUNT = DELAY_LIMIT;
+        this.delayCount = this.delayLimit;
     }
 
     /**
@@ -296,9 +296,9 @@ export class GameLogic {
         this.setPaused(false);
 
         this.timer.reset();
-        ACTIVE_PIECE = null;
-        GHOST_PIECE = null;
-        SOFT_DROP_ACTIVE = false;
+        this.activePiece = null;
+        this.ghostPiece = null;
+        this.softDropActive = false;
 
         this.stageActions.clean();
     }
@@ -307,21 +307,21 @@ export class GameLogic {
      * Increase the downward movement of the active piece.
      */
     private startSoftDrop() {
-        SOFT_DROP_ACTIVE = true;
+        this.softDropActive = true;
     }
 
     /**
      * Back to the normal movement.
      */
     private stopSoftDrop() {
-        SOFT_DROP_ACTIVE = false;
+        this.softDropActive = false;
     }
 
     /**
      * Get the current active piece object.
      */
     private getActivePiece() {
-        return ACTIVE_PIECE;
+        return this.activePiece;
     }
 
     /**
@@ -387,10 +387,10 @@ export class GameLogic {
     setPaused(state: boolean) {
         createjs.Ticker.paused = state;
 
-        KEYS_HELD.leftArrow = false;
-        KEYS_HELD.rightArrow = false;
+        this.keysHeld.leftArrow = false;
+        this.keysHeld.rightArrow = false;
 
-        if (ACTIVE_PIECE) {
+        if (this.activePiece) {
             this.stopSoftDrop();
         }
 
@@ -419,11 +419,11 @@ export class GameLogic {
 
         switch (event.code) {
             case "ArrowLeft":
-                KEYS_HELD.leftArrow = true;
+                this.keysHeld.leftArrow = true;
                 return false;
 
             case "ArrowRight":
-                KEYS_HELD.rightArrow = true;
+                this.keysHeld.rightArrow = true;
                 return false;
 
             case "ArrowDown":
@@ -446,11 +446,11 @@ export class GameLogic {
 
         switch (event.code) {
             case "ArrowLeft":
-                KEYS_HELD.leftArrow = false;
+                this.keysHeld.leftArrow = false;
                 return false;
 
             case "ArrowRight":
-                KEYS_HELD.rightArrow = false;
+                this.keysHeld.rightArrow = false;
                 return false;
 
             case "ArrowDown":
@@ -530,20 +530,20 @@ export class GameLogic {
      * Deal with the horizontal movement of the active piece.
      */
     private tickHorizontalMovement(deltaTime: number) {
-        HORIZONTAL_COUNT += deltaTime;
+        this.horizontalCount += deltaTime;
 
-        if (HORIZONTAL_COUNT >= HORIZONTAL_LIMIT && ACTIVE_PIECE) {
+        if (this.horizontalCount >= this.horizontalLimit && this.activePiece) {
             // move left
-            if (KEYS_HELD.leftArrow) {
-                HORIZONTAL_COUNT = 0;
-                this.grid.movePiece(ACTIVE_PIECE, -1, 0);
+            if (this.keysHeld.leftArrow) {
+                this.horizontalCount = 0;
+                this.grid.movePiece(this.activePiece, -1, 0);
                 this.updateGhostPiecePosition();
             }
 
             // move right
-            else if (KEYS_HELD.rightArrow) {
-                HORIZONTAL_COUNT = 0;
-                this.grid.movePiece(ACTIVE_PIECE, 1, 0);
+            else if (this.keysHeld.rightArrow) {
+                this.horizontalCount = 0;
+                this.grid.movePiece(this.activePiece, 1, 0);
                 this.updateGhostPiecePosition();
             }
         }
@@ -554,21 +554,21 @@ export class GameLogic {
      * Returns a boolean that tells whether the active piece was able to move down or not.
      */
     private tickDownMovement(delta: number) {
-        let limit = DELAY_LIMIT;
+        let limit = this.delayLimit;
 
         // move the active piece to the bottom (if the limit has been reached)
-        DELAY_COUNT += delta;
+        this.delayCount += delta;
 
         // move faster if the soft drop is active
-        if (SOFT_DROP_ACTIVE) {
-            limit = SOFT_DROP_DELAY;
+        if (this.softDropActive) {
+            limit = this.softDropDelay;
         }
 
-        if (DELAY_COUNT >= limit && ACTIVE_PIECE) {
-            DELAY_COUNT = 0;
+        if (this.delayCount >= limit && this.activePiece) {
+            this.delayCount = 0;
 
             // move bottom
-            return this.grid.movePiece(ACTIVE_PIECE, 0, 1);
+            return this.grid.movePiece(this.activePiece, 0, 1);
         }
 
         return true;
