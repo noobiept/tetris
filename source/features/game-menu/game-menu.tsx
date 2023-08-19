@@ -12,14 +12,15 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 185px;
+    width: 200px;
     margin: 20px;
 `;
 const Top = styled.div``;
 const Bottom = styled.div``;
 
 const Message = styled.div`
-    margin-top: 30px;
+    margin: 20px 0;
+    height: 2em;
     color: red;
 `;
 

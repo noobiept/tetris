@@ -411,7 +411,7 @@ export class GameLogic {
                         this.clearMessage();
                         this.updateGhostPiecePosition();
                     } else {
-                        this.showMessage("Couldn't rotate left!");
+                        this.showMessage("Rotation blocked");
                     }
                 }
                 return false;
@@ -428,7 +428,7 @@ export class GameLogic {
                         this.clearMessage();
                         this.updateGhostPiecePosition();
                     } else {
-                        this.showMessage("Couldn't rotate right!");
+                        this.showMessage("Rotation blocked");
                     }
                 }
                 return false;
