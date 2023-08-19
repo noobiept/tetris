@@ -89,7 +89,21 @@ export function useGameLogic() {
         const gridDimensions = gameRef.current.start();
         setDimensions(gridDimensions);
 
+        const onKeyDown = (e: KeyboardEvent) =>
+            gameRef.current?.keyDownListener(e);
+        const onKeyUp = (e: KeyboardEvent) => gameRef.current?.keyUpListener(e);
+        const onTick = (e: object) =>
+            gameRef.current?.tick(e as createjs.TickerEvent);
+
+        window.addEventListener("keydown", onKeyDown);
+        window.addEventListener("keyup", onKeyUp);
+        createjs.Ticker.addEventListener("tick", onTick);
+
         return () => {
+            window.removeEventListener("keydown", onKeyDown);
+            window.removeEventListener("keyup", onKeyUp);
+            createjs.Ticker.removeEventListener("tick", onTick);
+
             gameRef.current?.clear();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps

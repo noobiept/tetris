@@ -56,10 +56,6 @@ export class GameLogic {
         rightArrow: false, // move right
     };
 
-    private keyDownListenerRef?: (event: KeyboardEvent) => boolean;
-    private keyUpListenerRef?: (event: KeyboardEvent) => boolean;
-    private tickRef?: (e: object) => void;
-
     /**
      * Initialize the game logic class.
      */
@@ -139,14 +135,6 @@ export class GameLogic {
             ghostPiece: this.getOption("ghostPiece"),
         });
         this.score.reset();
-
-        this.tickRef = (e) => this.tick(e as createjs.TickerEvent);
-        this.keyDownListenerRef = this.keyDownListener.bind(this);
-        this.keyUpListenerRef = this.keyUpListener.bind(this);
-
-        createjs.Ticker.addEventListener("tick", this.tickRef);
-        document.addEventListener("keydown", this.keyDownListenerRef);
-        document.addEventListener("keyup", this.keyUpListenerRef);
 
         // return the grid dimensions (it differs based on the current options)
         return {
@@ -274,25 +262,9 @@ export class GameLogic {
     }
 
     /**
-     * Remove the tick and keyboard listeners.
-     */
-    private clearEvents() {
-        if (this.tickRef) {
-            createjs.Ticker.removeEventListener("tick", this.tickRef);
-        }
-        if (this.keyDownListenerRef) {
-            document.removeEventListener("keydown", this.keyDownListenerRef);
-        }
-        if (this.keyUpListenerRef) {
-            document.removeEventListener("keyup", this.keyUpListenerRef);
-        }
-    }
-
-    /**
      * Clear the game state, remove all the elements, etc.
      */
     clear() {
-        this.clearEvents();
         this.setPaused(false);
 
         this.timer.reset();
@@ -353,7 +325,6 @@ export class GameLogic {
      * Game has ended, Pause the game and dispatch the appropriate actions.
      */
     private end() {
-        this.clearEvents();
         this.setPaused(true);
 
         const time = this.timer.getTimeMilliseconds();
@@ -412,7 +383,7 @@ export class GameLogic {
     /**
      * Deals with the keyboard shortcuts/controls.
      */
-    private keyDownListener(event: KeyboardEvent) {
+    keyDownListener(event: KeyboardEvent) {
         if (this.isPaused()) {
             return true;
         }
@@ -437,7 +408,7 @@ export class GameLogic {
     /**
      * Deals with the keyboard shortcuts/controls.
      */
-    private keyUpListener(event: KeyboardEvent) {
+    keyUpListener(event: KeyboardEvent) {
         if (this.isPaused()) {
             return true;
         }
@@ -506,7 +477,7 @@ export class GameLogic {
      * Checks when we need to add a new piece to the game.
      * Redraws the game.
      */
-    private tick(event: createjs.TickerEvent) {
+    tick(event: createjs.TickerEvent) {
         if (createjs.Ticker.paused) {
             return;
         }
