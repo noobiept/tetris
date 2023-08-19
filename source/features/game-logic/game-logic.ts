@@ -1,21 +1,10 @@
-import { getRandomInt, Timer } from "@drk4/utilities";
+import { Timer } from "@drk4/utilities";
 
-import {
-    GhostPiece,
-    Grid,
-    IPiece,
-    JPiece,
-    LPiece,
-    OPiece,
-    Piece,
-    PieceArgs,
-    SPiece,
-    TPiece,
-    ZPiece,
-} from "../grid";
+import { GhostPiece, Grid, IPiece, Piece, PieceArgs } from "../grid";
 import { GetOption } from "../options";
 import { StageActions } from "../stage";
 import { type GameAction } from "./game-logic.reducer";
+import { chooseRandomPiece } from "./game-logic.utils";
 import { Level } from "./level";
 import { Score } from "./score";
 
@@ -115,7 +104,7 @@ export class GameLogic {
             onLineCleared: this.oneMoreClearedLine.bind(this),
         });
 
-        this.nextPieceArgs = this.chooseRandomPiece();
+        this.nextPieceArgs = chooseRandomPiece();
         this.dispatch({
             type: "next-piece",
             piece: this.nextPieceArgs,
@@ -176,7 +165,7 @@ export class GameLogic {
         }
 
         // we randomly get a new piece, for next time
-        this.nextPieceArgs = this.chooseRandomPiece(pieceArgs);
+        this.nextPieceArgs = chooseRandomPiece(pieceArgs);
 
         // and show it in the game menu
         this.dispatch({
@@ -208,30 +197,6 @@ export class GameLogic {
 
         // reset the counter that deals with the movement of the active piece (since we added a new one)
         this.delayCount = 0;
-    }
-
-    /**
-     * Randomly choose the class of a piece.
-     */
-    private chooseRandomPiece(ignore?: PieceArgs) {
-        let possiblePieces = [
-            IPiece,
-            SPiece,
-            TPiece,
-            ZPiece,
-            OPiece,
-            JPiece,
-            LPiece,
-        ];
-
-        // remove the given ignore piece (so it doesn't appear again)
-        if (ignore) {
-            possiblePieces = possiblePieces.filter((piece) => piece !== ignore);
-        }
-
-        const choose = getRandomInt(0, possiblePieces.length - 1);
-
-        return possiblePieces[choose];
     }
 
     /**
