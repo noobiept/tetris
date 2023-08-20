@@ -1,0 +1,21 @@
+{
+    "back": "Back",
+    "game.cleared-lines": "Cleared Lines",
+    "game.current-level": "Current Level",
+    "game.max-level": "max",
+    "game.pause": "Pause",
+    "game.quit": "Quit",
+    "game.resume": "Resume",
+    "game.score": "Score",
+    "game.time": "Time",
+    "home.help": "Help",
+    "home.high-score": "High Scores",
+    "home.options": "Options",
+    "home.start": "Start Game",
+    "options.columns": "Columns",
+    "options.ghost-piece": "Ghost Piece",
+    "options.header": "Options",
+    "options.lines": "Lines",
+    "options.lines-to-level-up": "Lines to level up",
+    "options.starting-level": "Starting Level"
+}

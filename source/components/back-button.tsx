@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useTranslation } from "react-i18next";
 
 import { RoutePath } from "../core/routes";
 import { Button } from "./button";
@@ -12,9 +13,11 @@ type BackButtonProps = {
 };
 
 export function BackButton({ onClick }: BackButtonProps) {
+    const { t } = useTranslation();
+
     return (
         <StyledButton to={RoutePath.home} onClick={onClick}>
-            Back
+            {t("back")}
         </StyledButton>
     );
 }

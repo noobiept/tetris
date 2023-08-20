@@ -1,5 +1,6 @@
 import { timeToString } from "@drk4/utilities";
 import styled from "@emotion/styled";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "../../components/button";
 import { Value } from "../../components/value";
@@ -31,20 +32,21 @@ export interface GameMenuProps {
 }
 
 export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
+    const { t } = useTranslation();
     const { score, message, messageCount, paused, level, maxLevel } = game;
 
-    const levelValue = level >= maxLevel ? "max" : level;
+    const levelValue = level >= maxLevel ? t("game.max-level") : level;
     const topInfo = [
-        { label: "Current Level", value: levelValue },
-        { label: "Cleared Lines", value: score.linesCleared },
+        { label: t("game.current-level"), value: levelValue },
+        { label: t("game.cleared-lines"), value: score.linesCleared },
         {
-            label: "Time",
+            label: t("game.time"),
             value: timeToString({
                 time: score.time,
                 format: "short_string",
             }),
         },
-        { label: "Score", value: score.score },
+        { label: t("game.score"), value: score.score },
     ];
 
     return (
@@ -63,10 +65,10 @@ export function GameMenu({ game, onQuit, onPauseResume }: GameMenuProps) {
             </Top>
             <Bottom>
                 <Button onClick={onPauseResume}>
-                    {paused ? "Resume" : "Pause"}
+                    {paused ? t("game.resume") : t("game.pause")}
                 </Button>
                 <Button onClick={onQuit} to={RoutePath.home}>
-                    Quit
+                    {t("game.quit")}
                 </Button>
             </Bottom>
         </Container>

@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 
 import { DialogContextProvider } from "../features/dialog";
 import { HighScoreContextProvider } from "../features/high-score";
+import { LanguageSelector } from "../features/language-selector";
 import { OptionsContextProvider } from "../features/options";
 
 const GlobalStyles = css`
@@ -25,11 +26,20 @@ const Container = styled.div`
     transform: translate(-50%, -50%);
 `;
 
+const TopMenu = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+`;
+
 export function RootPage() {
     return (
         <DialogContextProvider>
             <OptionsContextProvider>
                 <HighScoreContextProvider>
+                    <TopMenu>
+                        <LanguageSelector />
+                    </TopMenu>
                     <Container>
                         <Global styles={GlobalStyles} />
                         <Outlet />
