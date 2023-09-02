@@ -18,7 +18,8 @@ const Option = styled.div<{ selected?: boolean }>`
 
 export function LanguageSelector() {
     const { i18n } = useTranslation();
-    const currentLanguage = i18n.language;
+    const currentLanguage = i18n.resolvedLanguage;
+
     const changeLanguage = (lang: Language) => {
         i18n.changeLanguage(lang);
     };
