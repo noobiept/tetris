@@ -1,9 +1,8 @@
-import "./core/i18n";
-
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { initI18n } from "./core/i18n";
 import { RoutePath } from "./core/routes";
 import { ErrorPage } from "./pages/error-page";
 import { GamePage } from "./pages/game-page";
@@ -12,6 +11,8 @@ import { HighScorePage } from "./pages/high-score-page";
 import { HomePage, homePageLoader } from "./pages/home-page";
 import { OptionsPage } from "./pages/options-page";
 import { RootPage } from "./pages/root-page";
+
+initI18n();
 
 const router = createBrowserRouter([
     {

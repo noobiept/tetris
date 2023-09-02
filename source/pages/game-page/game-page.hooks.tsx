@@ -1,7 +1,9 @@
 import { timeToString } from "@drk4/utilities";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+import { parseNewLines } from "../../core/i18n";
 import { RoutePath } from "../../core/routes";
 import { useReducerWM } from "../../core/use-reducer";
 import { CanvasDimensions } from "../../features/canvas";
@@ -22,6 +24,7 @@ export function useGameLogic() {
     const navigate = useNavigate();
     const { stageRef, stageActions } = useStage();
     const gameRef = useRef<GameLogic | undefined>();
+    const { t } = useTranslation();
 
     const [dimensions, setDimensions] = useState<CanvasDimensions>({
         width: 600,
@@ -38,18 +41,19 @@ export function useGameLogic() {
 
         const onEnd = (data: GameEndData) => {
             const added = addScore(data);
-            const endMessage = [
-                `Level: ${data.level}`,
-                `Lines cleared: ${data.linesCleared}`,
-                `Time: ${timeToString({ time: data.time })}`,
-                `Score: ${data.score} ${
-                    added ? `(${cardinalToOrdinal(added)})` : ""
-                }`,
-            ];
+            const addedText = added ? ` (${cardinalToOrdinal(added)})` : ""; // TODO i18n ordinals
+            const endBody =
+                t("end.body", {
+                    level: data.level,
+                    lines: data.linesCleared,
+                    time: timeToString({ time: data.time }),
+                    score: data.score,
+                }) + addedText;
+            const body = parseNewLines(endBody);
 
             openDialog({
-                title: "Game Over!",
-                body: endMessage,
+                title: t("end.title"),
+                body,
                 onClose: () => {
                     closeDialog();
                     dispatch({ type: "restart" });

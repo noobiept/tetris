@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 
-import { Language } from "../../core/i18n";
+import { type Language } from "../../core/i18n";
 
 const supportedLanguages: Language[] = ["en", "de"];
 

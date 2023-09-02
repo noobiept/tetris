@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useTranslation } from "react-i18next";
 
 import { BackButton } from "../components/back-button";
 
@@ -17,20 +18,21 @@ const Emphasis = styled.em`
 `;
 
 export function HelpPage() {
+    const { t } = useTranslation();
     const shortcuts = [
-        { action: "move left", key: "left arrow" },
-        { action: "move right", key: "right arrow" },
-        { action: "soft drop", key: "down arrow" },
-        { action: "hard drop", key: "space" },
-        { action: "rotate left", key: "a" },
-        { action: "rotate right", key: "d" },
+        { action: t("help.move-left"), key: t("help.move-left.key") },
+        { action: t("help.move-right"), key: t("help.move-right.key") },
+        { action: t("help.soft-drop"), key: t("help.soft-drop.key") },
+        { action: t("help.hard-drop"), key: t("help.hard-drop.key") },
+        { action: t("help.rotate-left"), key: t("help.rotate-left.key") },
+        { action: t("help.rotate-right"), key: t("help.rotate-right.key") },
     ];
 
     return (
         <Container>
-            <Header>Help</Header>
+            <Header>{t("home.help")}</Header>
             <Content>
-                <SubHeader>Keyboard</SubHeader>
+                <SubHeader>{t("help.keyboard")}</SubHeader>
                 <List>
                     {shortcuts.map((shortcut) => (
                         <ListItem key={shortcut.action}>

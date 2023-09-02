@@ -1,6 +1,7 @@
 import { timeToString } from "@drk4/utilities";
 import styled from "@emotion/styled";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 
 import { BackButton } from "../components/back-button";
 import { HighScoreContext } from "../features/high-score";
@@ -18,23 +19,44 @@ const THeader = styled.th`
 `;
 
 export function HighScorePage() {
+    const { t } = useTranslation();
     const { getScores } = useContext(HighScoreContext);
     const scores = getScores();
+    const internationalization = {
+        day: {
+            single: t("time.day.single"),
+            plural: t("time.day.plural"),
+        },
+        hour: {
+            single: t("time.hour.single"),
+            plural: t("time.hour.plural"),
+        },
+        minute: {
+            single: t("time.minute.single"),
+            plural: t("time.minute.plural"),
+        },
+        second: {
+            single: t("time.second.single"),
+            plural: t("time.second.plural"),
+        },
+    };
 
     return (
         <Container>
-            <Header>High Scores</Header>
+            <Header>{t("high-score.header")}</Header>
             <Content>
                 {scores.length === 0 ? (
-                    <div>No scores yet.</div>
+                    <div>{t("high-score.no-scores")}</div>
                 ) : (
                     <table>
                         <thead>
                             <tr>
                                 <THeader></THeader>
-                                <THeader>Score</THeader>
-                                <THeader>Lines Cleared</THeader>
-                                <THeader>Time</THeader>
+                                <THeader>{t("high-score.table-score")}</THeader>
+                                <THeader>
+                                    {t("high-score.table-lines-cleared")}
+                                </THeader>
+                                <THeader>{t("high-score.table-time")}</THeader>
                             </tr>
                         </thead>
                         <TBody>
@@ -47,6 +69,7 @@ export function HighScorePage() {
                                         {timeToString({
                                             time: score.time,
                                             format: "short_string",
+                                            internationalization,
                                         })}
                                     </td>
                                 </tr>
