@@ -107,6 +107,7 @@ export function useGameLogic() {
             window.removeEventListener("keydown", onKeyDown);
             window.removeEventListener("keyup", onKeyUp);
             createjs.Ticker.removeEventListener("tick", onTick);
+            createjs.Ticker.reset();
 
             gameRef.current?.clear();
         };
