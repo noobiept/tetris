@@ -1,5 +1,12 @@
 import { timeToString } from "@drk4/utilities";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+    Dispatch,
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +20,7 @@ import {
     GameEndData,
     GameLogic,
     gameLogicReducer,
+    GameState,
     initialGameState,
 } from "../../features/game-logic";
 import { HighScoreContext } from "../../features/high-score";
@@ -34,57 +42,63 @@ export function useGameLogic() {
     const { getOption } = useContext(OptionsContext);
     const { addScore } = useContext(HighScoreContext);
 
-    const middleware = useCallback((action: GameAction) => {
-        if (!gameRef.current) {
-            return;
-        }
+    const middleware = useCallback(
+        (
+            action: GameAction,
+            state: GameState,
+            dispatch: Dispatch<GameAction>
+        ) => {
+            if (!gameRef.current) {
+                return;
+            }
 
-        const onEnd = (data: GameEndData) => {
-            const added = addScore(data);
-            const addedText = added ? ` (${cardinalToOrdinal(added)})` : ""; // TODO i18n ordinals
-            const endBody =
-                t("end.body", {
-                    level: data.level,
-                    lines: data.linesCleared,
-                    time: timeToString({ time: data.time }),
-                    score: data.score,
-                }) + addedText;
-            const body = parseNewLines(endBody);
+            const onEnd = (data: GameEndData) => {
+                const added = addScore(data);
+                const addedText = added ? ` (${cardinalToOrdinal(added)})` : ""; // TODO i18n ordinals
+                const endBody =
+                    t("end.body", {
+                        level: data.level,
+                        lines: data.linesCleared,
+                        time: timeToString({ time: data.time }),
+                        score: data.score,
+                    }) + addedText;
+                const body = parseNewLines(endBody);
 
-            openDialog({
-                title: t("end.title"),
-                body,
-                onClose: () => {
-                    closeDialog();
-                    dispatch({ type: "restart" });
-                },
-            });
-        };
+                openDialog({
+                    title: t("end.title"),
+                    body,
+                    onClose: () => {
+                        closeDialog();
+                        dispatch({ type: "restart" });
+                    },
+                });
+            };
 
-        switch (action.type) {
-            case "end":
-                dispatch({ type: "pause", paused: true });
-                onEnd(action.score);
-                break;
+            switch (action.type) {
+                case "end":
+                    dispatch({ type: "pause", paused: true });
+                    onEnd(action.score);
+                    break;
 
-            case "pause":
-                gameRef.current.setPaused(action.paused);
-                break;
+                case "pause":
+                    gameRef.current.setPaused(action.paused);
+                    break;
 
-            case "restart":
-                stageActions.clean();
-                gameRef.current.start();
-                gameRef.current.setPaused(false);
-                break;
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+                case "restart":
+                    stageActions.clean();
+                    gameRef.current.start();
+                    gameRef.current.setPaused(false);
+                    break;
+            }
+        },
+        [t, openDialog, closeDialog, stageActions, addScore]
+    );
+    const reducer = useCallback(gameLogicReducer, []);
     const [game, dispatch] = useReducerWM(
-        gameLogicReducer,
+        reducer,
         initialGameState,
         middleware
     );
-
     useEffect(() => {
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -111,8 +125,7 @@ export function useGameLogic() {
 
             gameRef.current?.clear();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [getOption, stageActions, dispatch]);
 
     const onQuit = () => {
         addScore(game.score);
