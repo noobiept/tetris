@@ -1,4 +1,5 @@
 import { timeToString } from "@drk4/utilities";
+import { useSetAtom } from "jotai";
 import {
     Dispatch,
     useCallback,
@@ -12,16 +13,13 @@ import { useNavigate } from "react-router-dom";
 
 import { parseNewLines } from "../../core/i18n";
 import { RoutePath } from "../../core/routes";
-import { useReducerWM } from "../../core/use-reducer";
 import { CanvasDimensions } from "../../features/canvas";
 import { DialogContext } from "../../features/dialog";
 import {
     GameAction,
     GameEndData,
     GameLogic,
-    gameLogicReducer,
-    GameState,
-    initialGameState,
+    gameReducerAtom,
 } from "../../features/game-logic";
 import { HighScoreContext } from "../../features/high-score";
 import { OptionsContext } from "../../features/options";
@@ -42,12 +40,9 @@ export function useGameLogic() {
     const { getOption } = useContext(OptionsContext);
     const { addScore } = useContext(HighScoreContext);
 
+    const pureDispatch = useSetAtom(gameReducerAtom);
     const middleware = useCallback(
-        (
-            action: GameAction,
-            state: GameState,
-            dispatch: Dispatch<GameAction>
-        ) => {
+        (action: GameAction, dispatch: Dispatch<GameAction>) => {
             if (!gameRef.current) {
                 return;
             }
@@ -93,12 +88,15 @@ export function useGameLogic() {
         },
         [t, openDialog, closeDialog, stageActions, addScore]
     );
-    const reducer = useCallback(gameLogicReducer, []);
-    const [game, dispatch] = useReducerWM(
-        reducer,
-        initialGameState,
-        middleware
+
+    const dispatch = useCallback(
+        (action: GameAction) => {
+            middleware(action, dispatch);
+            pureDispatch(action);
+        },
+        [pureDispatch, middleware]
     );
+
     useEffect(() => {
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -127,15 +125,13 @@ export function useGameLogic() {
         };
     }, [getOption, stageActions, dispatch]);
 
-    const onQuit = () => {
-        addScore(game.score);
+    const onQuit = useCallback(() => {
         gameRef.current?.clear();
-
         navigate(RoutePath.home);
-    };
-    const onPauseResume = () => {
+    }, [navigate]);
+    const onPauseResume = useCallback(() => {
         dispatch({ type: "pause", paused: !gameRef.current?.isPaused() });
-    };
+    }, [dispatch]);
 
-    return { dimensions, game, onQuit, onPauseResume, stageRef };
+    return { dimensions, onQuit, onPauseResume, stageRef };
 }

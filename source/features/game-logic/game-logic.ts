@@ -290,8 +290,6 @@ export class GameLogic {
      * Game has ended, Pause the game and dispatch the appropriate actions.
      */
     private end() {
-        this.setPaused(true);
-
         const time = this.timer.getTimeMilliseconds();
         const level = this.level.getLevel();
         const score = {

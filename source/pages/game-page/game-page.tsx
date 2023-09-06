@@ -10,17 +10,12 @@ const Container = styled.div`
 `;
 
 export function GamePage() {
-    const { game, dimensions, onQuit, onPauseResume, stageRef } =
-        useGameLogic();
+    const { dimensions, onQuit, onPauseResume, stageRef } = useGameLogic();
 
     return (
         <Container>
             <Canvas dimensions={dimensions} stageRef={stageRef} />
-            <GameMenu
-                game={game}
-                onQuit={onQuit}
-                onPauseResume={onPauseResume}
-            />
+            <GameMenu onQuit={onQuit} onPauseResume={onPauseResume} />
         </Container>
     );
 }

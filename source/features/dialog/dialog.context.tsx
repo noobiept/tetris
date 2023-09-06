@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 
 import { Dialog, DialogProps } from "./dialog";
 
@@ -20,10 +20,13 @@ export function DialogContextProvider({
     children,
 }: DialogContextProviderProps) {
     const [dialogProps, setDialogProps] = useState<DialogProps | undefined>();
-    const value = {
-        openDialog: (val: DialogProps) => setDialogProps(val),
-        closeDialog: () => setDialogProps(undefined),
-    };
+    const value = useMemo(
+        () => ({
+            openDialog: (val: DialogProps) => setDialogProps(val),
+            closeDialog: () => setDialogProps(undefined),
+        }),
+        []
+    );
 
     return (
         <DialogContext.Provider value={value}>

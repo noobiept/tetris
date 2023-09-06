@@ -1,5 +1,5 @@
 import { saveObject } from "@drk4/utilities";
-import { createContext, useRef } from "react";
+import { createContext, useMemo, useRef } from "react";
 
 import { getData } from "../../core/data";
 import { HighScore } from "./high-score";
@@ -28,15 +28,18 @@ export function HighScoreContextProvider({
 }: HighScoreContextProviderProps) {
     const highScore = useRef<HighScore>(new HighScore(getData(STORAGE_KEY)));
 
-    const value = {
-        addScore: (score: ScoreData) => {
-            const position = highScore.current.add(score);
-            saveObject(STORAGE_KEY, highScore.current.getHighScores());
+    const value = useMemo(
+        () => ({
+            addScore: (score: ScoreData) => {
+                const position = highScore.current.add(score);
+                saveObject(STORAGE_KEY, highScore.current.getHighScores());
 
-            return position;
-        },
-        getScores: () => highScore.current.getHighScores(),
-    };
+                return position;
+            },
+            getScores: () => highScore.current.getHighScores(),
+        }),
+        []
+    );
 
     return (
         <HighScoreContext.Provider value={value}>

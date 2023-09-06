@@ -1,14 +1,13 @@
+import { useAtom } from "jotai";
 import { useEffect } from "react";
 
 import { Canvas } from "../canvas";
-import { Piece, PieceArgs, Square } from "../grid";
+import { nextPieceAtom } from "../game-logic";
+import { Piece, Square } from "../grid";
 import { useStage } from "../stage";
 
-interface NextPieceProps {
-    piece: PieceArgs;
-}
-
-export function NextPiece({ piece }: NextPieceProps) {
+export function NextPiece() {
+    const [piece] = useAtom(nextPieceAtom);
     const { stageRef, stageActions } = useStage();
     const dimensions = {
         width: 100,
