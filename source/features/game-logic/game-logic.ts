@@ -50,16 +50,11 @@ export class GameLogic {
      */
     constructor({ stageActions, dispatch, getOption }: GameLogicArgs) {
         this.score = new Score({
-            onChange: () => {
+            onChange: () =>
                 dispatch({
                     type: "update-score",
-                    score: {
-                        score: this.score.getCurrentScore(),
-                        linesCleared: this.score.getLinesCleared(),
-                        time: this.timer.getTimeMilliseconds(),
-                    },
-                });
-            },
+                    score: this.getCurrentScore(),
+                }),
         });
 
         this.level = new Level({
@@ -334,6 +329,17 @@ export class GameLogic {
         } else {
             this.timer.resume();
         }
+    }
+
+    /**
+     * Get the the current score.
+     */
+    getCurrentScore() {
+        return {
+            score: this.score.getCurrentScore(),
+            linesCleared: this.score.getLinesCleared(),
+            time: this.timer.getTimeMilliseconds(),
+        };
     }
 
     /**

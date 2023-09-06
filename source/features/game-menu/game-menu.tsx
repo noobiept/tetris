@@ -1,12 +1,10 @@
 import styled from "@emotion/styled";
 import { useAtom } from "jotai";
-import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "../../components/button";
 import { RoutePath } from "../../core/routes";
-import { gamePausedAtom, gameScoreAtom } from "../game-logic";
-import { HighScoreContext } from "../high-score";
+import { gamePausedAtom } from "../game-logic";
 import { NextPiece } from "../next-piece";
 import { GameMenuMessage } from "./components/game-menu-message";
 import { GameMenuScore } from "./components/game-menu-score";
@@ -29,13 +27,7 @@ export interface GameMenuProps {
 
 export function GameMenu({ onQuit, onPauseResume }: GameMenuProps) {
     const { t } = useTranslation();
-    // const [score] = useAtom(gameScoreAtom);
     const [paused] = useAtom(gamePausedAtom);
-    // const { addScore } = useContext(HighScoreContext);
-    const onQuitWithScore = () => {
-        // addScore(score); // TODO
-        onQuit();
-    };
 
     return (
         <Container>
@@ -48,7 +40,7 @@ export function GameMenu({ onQuit, onPauseResume }: GameMenuProps) {
                 <Button onClick={onPauseResume}>
                     {paused ? t("game.resume") : t("game.pause")}
                 </Button>
-                <Button onClick={onQuitWithScore} to={RoutePath.home}>
+                <Button onClick={onQuit} to={RoutePath.home}>
                     {t("game.quit")}
                 </Button>
             </Bottom>

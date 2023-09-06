@@ -9,10 +9,8 @@ import {
     useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 import { parseNewLines } from "../../core/i18n";
-import { RoutePath } from "../../core/routes";
 import { CanvasDimensions } from "../../features/canvas";
 import { DialogContext } from "../../features/dialog";
 import {
@@ -27,7 +25,6 @@ import { useStage } from "../../features/stage";
 import { cardinalToOrdinal } from "../../utilities";
 
 export function useGameLogic() {
-    const navigate = useNavigate();
     const { stageRef, stageActions } = useStage();
     const gameRef = useRef<GameLogic | undefined>();
     const { t } = useTranslation();
@@ -126,9 +123,13 @@ export function useGameLogic() {
     }, [getOption, stageActions, dispatch]);
 
     const onQuit = useCallback(() => {
-        gameRef.current?.clear();
-        navigate(RoutePath.home);
-    }, [navigate]);
+        if (!gameRef.current) {
+            return;
+        }
+
+        addScore(gameRef.current.getCurrentScore());
+    }, [addScore]);
+
     const onPauseResume = useCallback(() => {
         dispatch({ type: "pause", paused: !gameRef.current?.isPaused() });
     }, [dispatch]);

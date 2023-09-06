@@ -20,10 +20,6 @@ type GameRestartAction = {
     type: "restart";
 };
 
-type GameQuitAction = {
-    type: "quit";
-};
-
 type GamePauseAction = {
     type: "pause";
     paused: boolean;
@@ -48,7 +44,6 @@ type NextPieceAction = {
 export type GameAction =
     | UpdateScoreAction
     | GameEndAction
-    | GameQuitAction
     | GamePauseAction
     | GameMessageAction
     | GameRestartAction
