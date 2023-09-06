@@ -1,4 +1,4 @@
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 
 import { Canvas } from "../canvas";
@@ -7,7 +7,7 @@ import { Piece, Square } from "../grid";
 import { useStage } from "../stage";
 
 export function NextPiece() {
-    const [piece] = useAtom(nextPieceAtom);
+    const piece = useAtomValue(nextPieceAtom);
     const { stageRef, stageActions } = useStage();
     const dimensions = {
         width: 100,

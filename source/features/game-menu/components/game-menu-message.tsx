@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
 import { gameMessageAtom, gameMessageCountAtom } from "../../game-logic";
 
@@ -10,8 +10,8 @@ const Message = styled.div`
 `;
 
 export function GameMenuMessage() {
-    const [message] = useAtom(gameMessageAtom);
-    const [messageCount] = useAtom(gameMessageCountAtom);
+    const message = useAtomValue(gameMessageAtom);
+    const messageCount = useAtomValue(gameMessageCountAtom);
 
     return (
         <Message>

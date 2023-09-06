@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
-import { useAtom } from "jotai";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "../../components/button";
 import { RoutePath } from "../../core/routes";
-import { gamePausedAtom } from "../game-logic";
 import { NextPiece } from "../next-piece";
 import { GameMenuMessage } from "./components/game-menu-message";
+import { GameMenuPauseButton } from "./components/game-menu-pause-button";
 import { GameMenuScore } from "./components/game-menu-score";
 
 const Container = styled.div`
@@ -27,7 +26,6 @@ export interface GameMenuProps {
 
 export function GameMenu({ onQuit, onPauseResume }: GameMenuProps) {
     const { t } = useTranslation();
-    const [paused] = useAtom(gamePausedAtom);
 
     return (
         <Container>
@@ -37,9 +35,7 @@ export function GameMenu({ onQuit, onPauseResume }: GameMenuProps) {
                 <GameMenuMessage />
             </Top>
             <Bottom>
-                <Button onClick={onPauseResume}>
-                    {paused ? t("game.resume") : t("game.pause")}
-                </Button>
+                <GameMenuPauseButton onPauseResume={onPauseResume} />
                 <Button onClick={onQuit} to={RoutePath.home}>
                     {t("game.quit")}
                 </Button>

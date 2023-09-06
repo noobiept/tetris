@@ -1,5 +1,5 @@
 import { timeToString } from "@drk4/utilities";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 
 import { Value } from "../../../components/value";
@@ -11,9 +11,9 @@ import {
 
 export function GameMenuScore() {
     const { t } = useTranslation();
-    const [level] = useAtom(gameLevelAtom);
-    const [maxLevel] = useAtom(gameMaxLevelAtom);
-    const [score] = useAtom(gameScoreAtom);
+    const level = useAtomValue(gameLevelAtom);
+    const maxLevel = useAtomValue(gameMaxLevelAtom);
+    const score = useAtomValue(gameScoreAtom);
 
     const levelValue = level >= maxLevel ? t("game.max-level") : level;
     const topInfo = [
