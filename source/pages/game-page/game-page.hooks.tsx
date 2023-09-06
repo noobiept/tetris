@@ -4,7 +4,7 @@ import {
     Dispatch,
     useCallback,
     useContext,
-    useEffect,
+    useLayoutEffect,
     useRef,
     useState,
 } from "react";
@@ -94,7 +94,7 @@ export function useGameLogic() {
         [pureDispatch, middleware]
     );
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
         gameRef.current = new GameLogic({ stageActions, dispatch, getOption });
