@@ -22,7 +22,6 @@ import {
 import { HighScoreContext } from "../../features/high-score";
 import { OptionsContext } from "../../features/options";
 import { useStage } from "../../features/stage";
-import { cardinalToOrdinal } from "../../utilities";
 
 export function useGameLogic() {
     const { stageRef, stageActions } = useStage();
@@ -46,7 +45,9 @@ export function useGameLogic() {
 
             const onEnd = (data: GameEndData) => {
                 const added = addScore(data);
-                const addedText = added ? ` (${cardinalToOrdinal(added)})` : ""; // TODO i18n ordinals
+                const addedText = added
+                    ? ` (${t("order", { count: added, ordinal: true })})`
+                    : "";
                 const endBody =
                     t("end.body", {
                         level: data.level,
