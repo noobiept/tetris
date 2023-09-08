@@ -15,6 +15,10 @@ export function NextPiece() {
     };
 
     useEffect(() => {
+        if (!piece) {
+            return;
+        }
+
         const centerX = dimensions.width / 2 - Square.size / 2;
         const centerY = dimensions.height / 2 - Square.size / 2;
         const element = new Piece(piece);

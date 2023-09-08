@@ -1,4 +1,4 @@
-import { IPiece, PieceArgs } from "../grid";
+import { type PieceArgs } from "../grid";
 import { type ScoreData } from "../high-score";
 import { getMaxLevel } from "./level";
 
@@ -57,7 +57,7 @@ export type GameState = {
     messageCount: number;
     level: number;
     maxLevel: number;
-    nextPiece: PieceArgs;
+    nextPiece: PieceArgs | null;
 };
 
 export const initialGameState: GameState = {
@@ -71,7 +71,7 @@ export const initialGameState: GameState = {
     messageCount: 0,
     level: 1,
     maxLevel: getMaxLevel(),
-    nextPiece: IPiece, // doesn't matter, it will be updated on game start
+    nextPiece: null,
 };
 
 export function gameLogicReducer(state: GameState, action: GameAction) {
