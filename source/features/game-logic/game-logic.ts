@@ -274,10 +274,10 @@ export class GameLogic {
      * Show a message in the game menu.
      * When the same message is trying to be shown, it will show a counter of the times it was tried.
      */
-    private showMessage(text: string) {
+    private showMessage(translationKey: string) {
         this.dispatch({
             type: "message",
-            message: text,
+            message: translationKey,
         });
     }
 
@@ -415,7 +415,7 @@ export class GameLogic {
                         this.clearMessage();
                         this.updateGhostPiecePosition();
                     } else {
-                        this.showMessage("Rotation blocked");
+                        this.showMessage("game.rotation-blocked");
                     }
                 }
                 return false;
@@ -432,7 +432,7 @@ export class GameLogic {
                         this.clearMessage();
                         this.updateGhostPiecePosition();
                     } else {
-                        this.showMessage("Rotation blocked");
+                        this.showMessage("game.rotation-blocked");
                     }
                 }
                 return false;
