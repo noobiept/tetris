@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -5,19 +6,32 @@ import { useTranslation } from "react-i18next";
 import { BackButton } from "../components/back-button";
 import { CheckBox } from "../components/check-box";
 import { Slider } from "../components/slider";
+import { mobileMq } from "../core/media-queries";
 import { getMaxLevel } from "../features/game-logic";
 import { OptionsContext } from "../features/options";
 
 const Container = styled.div``;
 const Header = styled.h2``;
-const OptionsList = styled.div`
-    width: 600px; /* force to have 2 options per line */
-    & > * {
-        display: inline-block;
-        width: 200px;
-        padding: 0;
-        margin: 20px;
+const OptionsGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+`;
+const gridItemCss = css`
+    display: inline-block;
+    padding: 0;
+    margin: 16px;
+
+    ${mobileMq} {
+        margin: 16px 0;
     }
+`;
+
+const StyledSlider = styled(Slider)`
+    ${gridItemCss}
+`;
+const StyledCheckBox = styled(CheckBox)`
+    ${gridItemCss}
+    grid-column: 1 / span 2;
 `;
 
 export function OptionsPage() {
@@ -62,9 +76,9 @@ export function OptionsPage() {
     return (
         <Container>
             <Header>{t("options.header")}</Header>
-            <OptionsList>
+            <OptionsGrid>
                 {sliders.map((slider) => (
-                    <Slider
+                    <StyledSlider
                         key={slider.description}
                         min={slider.min}
                         max={slider.max}
@@ -75,14 +89,14 @@ export function OptionsPage() {
                     />
                 ))}
 
-                <CheckBox
+                <StyledCheckBox
                     label={`${t("options.ghost-piece")}:`}
                     initialValue={getOption("ghostPiece")}
                     onChange={(value: boolean) =>
                         setOption("ghostPiece", value)
                     }
                 />
-            </OptionsList>
+            </OptionsGrid>
             <BackButton onClick={saveOptions} />
         </Container>
     );

@@ -20,10 +20,10 @@ const GlobalStyles = css`
 `;
 
 const Container = styled.div`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 `;
 
 const TopMenu = styled.div`
@@ -37,13 +37,13 @@ export function RootPage() {
         <DialogContextProvider>
             <OptionsContextProvider>
                 <HighScoreContextProvider>
-                    <TopMenu>
-                        <LanguageSelector />
-                    </TopMenu>
                     <Container>
                         <Global styles={GlobalStyles} />
                         <Outlet />
                     </Container>
+                    <TopMenu>
+                        <LanguageSelector />
+                    </TopMenu>
                 </HighScoreContextProvider>
             </OptionsContextProvider>
         </DialogContextProvider>

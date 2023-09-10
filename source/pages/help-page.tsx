@@ -9,9 +9,13 @@ const Content = styled.div``;
 const SubHeader = styled.h4``;
 const List = styled.ul`
     list-style-type: none;
+    padding: 0;
 `;
 const ListItem = styled.li`
     text-align: left;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
 `;
 const Emphasis = styled.em`
     color: antiquewhite;
@@ -36,7 +40,7 @@ export function HelpPage() {
                 <List>
                     {shortcuts.map((shortcut) => (
                         <ListItem key={shortcut.action}>
-                            {shortcut.action} :{" "}
+                            {shortcut.action}:
                             <Emphasis>{shortcut.key}</Emphasis>
                         </ListItem>
                     ))}

@@ -45,6 +45,7 @@ export interface SliderProps {
     initialValue: number;
     description: string;
     onSlide: (value: number) => void;
+    className?: string;
 }
 
 export function Slider(args: SliderProps) {
@@ -59,7 +60,7 @@ export function Slider(args: SliderProps) {
     };
 
     return (
-        <Container>
+        <Container className={args.className}>
             <Description>
                 {args.description} <Value>{value}</Value>
             </Description>
