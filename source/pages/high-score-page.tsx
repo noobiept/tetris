@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 import { BackButton } from "../components/back-button";
+import { color } from "../core/theme";
 import { HighScoreContext } from "../features/high-score";
 
 const Container = styled.div``;
@@ -11,7 +12,7 @@ const Header = styled.h2``;
 const Content = styled.div``;
 const TBody = styled.tbody`
     & tr:nth-of-type(odd) {
-        background-color: rgba(252, 211, 161, 0.2);
+        background-color: ${color.orange20_20};
     }
 `;
 const THeader = styled.th`

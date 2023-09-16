@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 
 import { BackButton } from "../components/back-button";
+import { Value } from "../components/value";
+import { gap } from "../core/theme";
 
 const Container = styled.div``;
 const Header = styled.h2``;
@@ -15,10 +17,7 @@ const ListItem = styled.li`
     text-align: left;
     display: flex;
     justify-content: space-between;
-    gap: 8px;
-`;
-const Emphasis = styled.em`
-    color: antiquewhite;
+    gap: ${gap.base};
 `;
 
 export function HelpPage() {
@@ -40,8 +39,7 @@ export function HelpPage() {
                 <List>
                     {shortcuts.map((shortcut) => (
                         <ListItem key={shortcut.action}>
-                            {shortcut.action}:
-                            <Emphasis>{shortcut.key}</Emphasis>
+                            {shortcut.action}:<Value>{shortcut.key}</Value>
                         </ListItem>
                     ))}
                 </List>

@@ -7,6 +7,7 @@ import { BackButton } from "../components/back-button";
 import { CheckBox } from "../components/check-box";
 import { Slider } from "../components/slider";
 import { mobileMq } from "../core/media-queries";
+import { margin } from "../core/theme";
 import { getMaxLevel } from "../features/game-logic";
 import { OptionsContext } from "../features/options";
 
@@ -19,10 +20,10 @@ const OptionsGrid = styled.div`
 const gridItemCss = css`
     display: inline-block;
     padding: 0;
-    margin: 16px;
+    margin: ${margin.x2};
 
     ${mobileMq} {
-        margin: 16px 0;
+        margin: ${margin.x2} 0;
     }
 `;
 

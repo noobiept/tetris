@@ -2,10 +2,11 @@ import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 
 import { RoutePath } from "../core/routes";
+import { margin } from "../core/theme";
 import { Button } from "./button";
 
 const StyledButton = styled(Button)`
-    margin-top: 40px;
+    margin-top: ${margin.x4};
 `;
 
 type BackButtonProps = {

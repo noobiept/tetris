@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "../../components/button";
 import { RoutePath } from "../../core/routes";
+import { margin } from "../../core/theme";
 import { NextPiece } from "../next-piece";
 import { GameMenuMessage } from "./components/game-menu-message";
 import { GameMenuPauseButton } from "./components/game-menu-pause-button";
@@ -14,7 +15,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 200px;
-    margin: 20px;
+    margin: ${margin.x2};
 `;
 const Top = styled.div``;
 const Bottom = styled.div``;

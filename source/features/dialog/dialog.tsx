@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 
+import { fontWeight, margin } from "../../core/theme";
+
 export interface DialogProps {
     title: string;
     body: string | string[];
@@ -30,11 +32,11 @@ const Container = styled.div`
     z-index: 101;
 `;
 const Title = styled.div`
-    font-weight: bold;
-    margin: 10px;
+    font-weight: ${fontWeight.bold};
+    margin: ${margin.base};
 `;
 const Body = styled.div`
-    margin: 20px 0;
+    margin: ${margin.x2} 0;
 `;
 const Rule = styled.hr`
     border-color: rgba(255, 255, 255, 0.3);

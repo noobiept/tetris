@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
+import { color, fontSize, padding } from "../core/theme";
+
 type ButtonSize = "normal" | "large";
 
 export interface ButtonProps {
@@ -15,18 +17,19 @@ export interface ButtonProps {
 const StyledLink = (component: any) => styled(component)<{ size?: ButtonSize }>`
     cursor: pointer;
     display: inline-block;
-    color: white;
+    color: ${color.white};
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: transparent;
     width: 200px;
-    padding: 10px;
+    padding: ${padding.base};
     text-decoration: none;
-    font-size: ${({ size }) => (size === "large" ? "1.2em" : "1em")};
+    font-size: ${({ size }) =>
+        size === "large" ? fontSize.large : fontSize.medium};
 
     &:hover {
-        color: #fcd3a1;
-        border-bottom-color: #fcd3a1;
+        color: ${color.orange20};
+        border-bottom-color: ${color.orange20};
     }
 `;
 

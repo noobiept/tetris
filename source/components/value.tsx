@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
-export const Value = styled.span`
-    color: antiquewhite;
+import { color } from "../core/theme";
+
+export const Value = styled.em`
+    color: ${color.orange10};
 `;

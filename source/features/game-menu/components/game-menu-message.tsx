@@ -2,12 +2,13 @@ import styled from "@emotion/styled";
 import { useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 
+import { color, margin } from "../../../core/theme";
 import { gameMessageAtom, gameMessageCountAtom } from "../../game-logic";
 
 const Message = styled.div`
-    margin: 20px 0;
+    margin: ${margin.x2} 0;
     height: 2em;
-    color: red;
+    color: ${color.red};
 `;
 
 export function GameMenuMessage() {

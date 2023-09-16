@@ -2,13 +2,14 @@ import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 
 import { type Language } from "../../core/i18n";
+import { gap, margin } from "../../core/theme";
 
 const supportedLanguages: Language[] = ["en", "de"];
 
 const Container = styled.div`
     display: flex;
-    gap: 10px;
-    margin: 10px;
+    gap: ${gap.base};
+    margin: ${margin.base};
 `;
 
 const Option = styled.div<{ selected?: boolean }>`
