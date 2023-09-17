@@ -41,6 +41,10 @@ type NextPieceAction = {
     piece: PieceArgs;
 };
 
+type ResetAction = {
+    type: "reset";
+};
+
 export type GameAction =
     | UpdateScoreAction
     | GameEndAction
@@ -48,7 +52,8 @@ export type GameAction =
     | GameMessageAction
     | GameRestartAction
     | UpdateLevelAction
-    | NextPieceAction;
+    | NextPieceAction
+    | ResetAction;
 
 export type GameState = {
     score: ScoreData;
@@ -120,6 +125,9 @@ export function gameLogicReducer(state: GameState, action: GameAction) {
                 ...state,
                 nextPiece: action.piece,
             };
+
+        case "reset":
+            return { ...initialGameState };
     }
 
     return state;

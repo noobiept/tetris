@@ -1,5 +1,4 @@
-import { atom } from "jotai";
-import { atomWithReducer } from "jotai/utils";
+import { atomWithReducer, selectAtom } from "jotai/utils";
 
 import {
     GameAction,
@@ -13,20 +12,36 @@ export const gameReducerAtom = atomWithReducer<GameState, GameAction>(
     gameLogicReducer
 );
 
-export const gameTimeAtom = atom((get) => get(gameReducerAtom).score.time);
-
-export const gameScoreAtom = atom((get) => get(gameReducerAtom).score);
-
-export const gameLevelAtom = atom((get) => get(gameReducerAtom).level);
-
-export const gameMaxLevelAtom = atom((get) => get(gameReducerAtom).maxLevel);
-
-export const gameMessageAtom = atom((get) => get(gameReducerAtom).message);
-
-export const gameMessageCountAtom = atom(
-    (get) => get(gameReducerAtom).messageCount
+export const gameTimeAtom = selectAtom(
+    gameReducerAtom,
+    (game) => game.score.time
 );
 
-export const gamePausedAtom = atom((get) => get(gameReducerAtom).paused);
+export const gameScoreAtom = selectAtom(gameReducerAtom, (game) => game.score);
 
-export const nextPieceAtom = atom((get) => get(gameReducerAtom).nextPiece);
+export const gameLevelAtom = selectAtom(gameReducerAtom, (game) => game.level);
+
+export const gameMaxLevelAtom = selectAtom(
+    gameReducerAtom,
+    (game) => game.maxLevel
+);
+
+export const gameMessageAtom = selectAtom(
+    gameReducerAtom,
+    (game) => game.message
+);
+
+export const gameMessageCountAtom = selectAtom(
+    gameReducerAtom,
+    (game) => game.messageCount
+);
+
+export const gamePausedAtom = selectAtom(
+    gameReducerAtom,
+    (game) => game.paused
+);
+
+export const nextPieceAtom = selectAtom(
+    gameReducerAtom,
+    (game) => game.nextPiece
+);

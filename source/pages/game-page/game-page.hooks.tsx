@@ -120,6 +120,7 @@ export function useGameLogic() {
             createjs.Ticker.reset();
 
             gameRef.current?.clear();
+            dispatch({ type: "reset" });
         };
     }, [getOption, stageActions, dispatch]);
 
