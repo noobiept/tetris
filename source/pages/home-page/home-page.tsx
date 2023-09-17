@@ -1,26 +1,23 @@
-import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
-import { Button } from "../../components/button";
-import { RoutePath } from "../../core/routes";
+import { HomePageButtonList } from "./components/home-page-button-list";
+import { useHomeNavigation } from "./home-page.hooks";
 import { Container } from "./home-page.styles";
 
 export function HomePage() {
-    const { t } = useTranslation();
+    const { handleKeyPress } = useHomeNavigation();
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyPress);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [handleKeyPress]);
 
     return (
         <Container>
-            <Button size="large" to={RoutePath.game}>
-                {t("home.start")}
-            </Button>
-            <Button size="large" to={RoutePath.options}>
-                {t("home.options")}
-            </Button>
-            <Button size="large" to={RoutePath.highScore}>
-                {t("home.high-score")}
-            </Button>
-            <Button size="large" to={RoutePath.help}>
-                {t("home.help")}
-            </Button>
+            <HomePageButtonList />
         </Container>
     );
 }

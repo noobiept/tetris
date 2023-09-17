@@ -10,11 +10,15 @@ export interface ButtonProps {
     to?: string;
     onClick?: () => void;
     size?: ButtonSize;
+    selected?: boolean;
     className?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const StyledLink = (component: any) => styled(component)<{ size?: ButtonSize }>`
+const StyledLink = (component: any) => styled(component)<{
+    size?: ButtonSize;
+    selected?: boolean;
+}>`
     cursor: pointer;
     display: inline-block;
     color: ${color.white};
@@ -31,6 +35,13 @@ const StyledLink = (component: any) => styled(component)<{ size?: ButtonSize }>`
         color: ${color.orange20};
         border-bottom-color: ${color.orange20};
     }
+
+    ${({ selected }) =>
+        selected &&
+        `
+        color: ${color.orange20};
+        border-bottom-color: ${color.orange20};
+    `}
 `;
 
 export function Button({
@@ -38,12 +49,19 @@ export function Button({
     size,
     className,
     onClick,
+    selected,
     children,
 }: ButtonProps) {
     const Element = StyledLink(to ? Link : "div");
 
     return (
-        <Element className={className} to={to} onClick={onClick} size={size}>
+        <Element
+            className={className}
+            to={to}
+            onClick={onClick}
+            size={size}
+            selected={selected}
+        >
             {children}
         </Element>
     );
