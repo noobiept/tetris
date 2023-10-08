@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 
 import { BackButton } from "../components/back-button";
@@ -46,11 +47,11 @@ export function HelpPage() {
                             {Array.isArray(shortcut.key) ? (
                                 <>
                                     {shortcut.key.map((key, index) => (
-                                        <>
-                                            <Value key={key}>{key}</Value>
+                                        <Fragment key={key}>
+                                            <Value>{key}</Value>
                                             {index < shortcut.key.length - 1 &&
                                                 "/"}
-                                        </>
+                                        </Fragment>
                                     ))}
                                 </>
                             ) : (
