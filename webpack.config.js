@@ -45,6 +45,7 @@ module.exports = (env, argv) => {
                 patterns: [
                     { from: "./libraries/", to: "./libraries/" },
                     { from: "./assets/", to: "./assets/" },
+                    { from: "./public/", to: "./" },
                 ],
             }),
             new CircularDependencyPlugin({

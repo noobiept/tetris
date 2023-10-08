@@ -122,7 +122,8 @@ export function useGameLogic() {
             gameRef.current?.clear();
             dispatch({ type: "reset" });
         };
-    }, [getOption, stageActions, dispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getOption, stageActions, dispatch, stageRef.current]);
 
     const onQuit = useCallback(() => {
         if (!gameRef.current) {

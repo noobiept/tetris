@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import { initI18n } from "./core/i18n";
 import { RoutePath } from "./core/routes";
@@ -14,7 +14,7 @@ import { RootPage } from "./pages/root-page";
 
 initI18n();
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         path: RoutePath.root,
         element: <RootPage />,
