@@ -22,6 +22,7 @@
     "help.rotate-left.key": "a",
     "help.rotate-right": "Rotate right",
     "help.rotate-right.key": "d",
+    "help.rotate-right.key2": "up arrow",
     "help.soft-drop": "Soft drop",
     "help.soft-drop.key": "down arrow",
     "high-score.header": "High Scores",

@@ -3,21 +3,19 @@ import { useTranslation } from "react-i18next";
 
 import { RoutePath } from "../core/routes";
 import { margin } from "../core/theme";
-import { Button } from "./button";
+import { Button, ButtonProps } from "./button";
 
 const StyledButton = styled(Button)`
     margin-top: ${margin.x4};
 `;
 
-type BackButtonProps = {
-    onClick?: () => void;
-};
+type BackButtonProps = Omit<ButtonProps, "children" | "to">;
 
-export function BackButton({ onClick }: BackButtonProps) {
+export function BackButton(args: BackButtonProps) {
     const { t } = useTranslation();
 
     return (
-        <StyledButton to={RoutePath.home} onClick={onClick}>
+        <StyledButton to={RoutePath.home} {...args}>
             {t("back")}
         </StyledButton>
     );

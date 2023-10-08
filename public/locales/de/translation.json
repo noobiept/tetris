@@ -22,6 +22,7 @@
     "help.rotate-left.key": "a",
     "help.rotate-right": "Nach rechts drehen",
     "help.rotate-right.key": "d",
+    "help.rotate-right.key2": "Aufwärtspfeil",
     "help.soft-drop": "Sanfter Tropfen",
     "help.soft-drop.key": "Pfeil nach unten",
     "high-score.header": "Highscores",

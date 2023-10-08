@@ -403,6 +403,7 @@ export class GameLogic {
                 }
                 return false;
 
+            // rotate left
             case "KeyA":
                 if (activePiece) {
                     const rotation = activePiece.getLeftRotation();
@@ -420,6 +421,8 @@ export class GameLogic {
                 }
                 return false;
 
+            // rotate right
+            case "ArrowUp":
             case "KeyD":
                 if (activePiece) {
                     const rotation = activePiece.getRightRotation();

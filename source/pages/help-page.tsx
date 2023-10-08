@@ -28,7 +28,10 @@ export function HelpPage() {
         { action: t("help.soft-drop"), key: t("help.soft-drop.key") },
         { action: t("help.hard-drop"), key: t("help.hard-drop.key") },
         { action: t("help.rotate-left"), key: t("help.rotate-left.key") },
-        { action: t("help.rotate-right"), key: t("help.rotate-right.key") },
+        {
+            action: t("help.rotate-right"),
+            key: [t("help.rotate-right.key"), t("help.rotate-right.key2")],
+        },
     ];
 
     return (
@@ -39,7 +42,20 @@ export function HelpPage() {
                 <List>
                     {shortcuts.map((shortcut) => (
                         <ListItem key={shortcut.action}>
-                            {shortcut.action}:<Value>{shortcut.key}</Value>
+                            {shortcut.action}:
+                            {Array.isArray(shortcut.key) ? (
+                                <>
+                                    {shortcut.key.map((key, index) => (
+                                        <>
+                                            <Value key={key}>{key}</Value>
+                                            {index < shortcut.key.length - 1 &&
+                                                "/"}
+                                        </>
+                                    ))}
+                                </>
+                            ) : (
+                                <Value>{shortcut.key}</Value>
+                            )}
                         </ListItem>
                     ))}
                 </List>

@@ -13,12 +13,12 @@
 
 # Movement
 
--   left arrow : move left
--   right arrow : move right
--   down arrow : soft drop
--   space : hard drop
--   a : rotate left
--   d : rotate right
+-   move left : `left arrow`
+-   move right : `right arrow`
+-   soft drop : `down arrow`
+-   hard drop : `space`
+-   rotate left : `a`
+-   rotate right : `d` or `up arrow`
 
 # Reference
 
