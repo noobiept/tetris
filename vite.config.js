@@ -4,7 +4,10 @@ const COVERAGE_TARGET = 75;
 
 export default defineConfig({
     root: "./source",
+
     test: {
+        environment: "jsdom",
+        setupFiles: ["./setup-tests.ts"],
         coverage: {
             enabled: true,
             skipFull: true,

@@ -30,6 +30,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-simple-import-sort": "^10.0.0",
         "html-webpack-plugin": "^5.5.3",
+        "jsdom": "^22.1.0",
         "prettier": "^3",
         "ts-loader": "^9.4.4",
         "typescript": "^5.1.6",
