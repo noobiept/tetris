@@ -1,12 +1,13 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const path = require("path");
-const package = require("./package.json");
-const CircularDependencyPlugin = require("circular-dependency-plugin");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import path from "path";
+import CircularDependencyPlugin from "circular-dependency-plugin";
 
-module.exports = (env, argv) => {
+import packageInfo from "./package.json" with { type: "json" };
+
+const __dirname = import.meta.dirname;
+
+export default (env, argv) => {
     const isProduction = argv.mode === "production";
 
     return {
@@ -29,7 +30,7 @@ module.exports = (env, argv) => {
             path: path.resolve(
                 __dirname,
                 "release",
-                `${package.name}_${package.version}`
+                `${packageInfo.name}_${packageInfo.version}`
             ),
             clean: true,
         },
