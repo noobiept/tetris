@@ -1,8 +1,8 @@
 {
     "name": "tetris",
     "description": "A tetris game, where you can specify the number of columns/lines of the grid.",
-    "version": "2.2.2",
-    "packageManager": "npm@10.7.0",
+    "version": "2.3.0",
+    "packageManager": "pnpm@10.2.1",
     "type": "module",
     "dependencies": {
         "@drk4/utilities": "^6.1.3",
