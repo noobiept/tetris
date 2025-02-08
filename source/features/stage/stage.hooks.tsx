@@ -10,7 +10,7 @@ export interface StageActions {
 }
 
 export const useStage = () => {
-    const stageRef = useRef<createjs.Stage>();
+    const stageRef = useRef<createjs.Stage>(undefined);
 
     const stageActions: StageActions = useMemo(() => {
         return {

@@ -25,7 +25,7 @@ import { useStage } from "../../features/stage";
 
 export function useGameLogic() {
     const { stageRef, stageActions } = useStage();
-    const gameRef = useRef<GameLogic | undefined>();
+    const gameRef = useRef<GameLogic | undefined>(undefined);
     const { t } = useTranslation();
 
     const [dimensions, setDimensions] = useState<CanvasDimensions>({
